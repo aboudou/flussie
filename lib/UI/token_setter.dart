@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class TokenSetter extends StatelessWidget {
@@ -63,7 +64,7 @@ class _TokenSetterSfwState extends State<TokenSetterSfw> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     saveToken();
-                    Navigator.pop(context);
+                    Get.back();
                   }
                 },
                 child: const Text('Submit'),

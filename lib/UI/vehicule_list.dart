@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:flussie/UI/token_setter.dart';
@@ -77,12 +78,7 @@ class _VehiculeListSfwState extends State<VehiculeListSfw> {
                 ElevatedButton(
                   child: const Text('Set API token'),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (context) => const TokenSetter(),
-                      ),
-                    );
+                    Get.to(() => const TokenSetter());
                   },
                 ),
               ],
