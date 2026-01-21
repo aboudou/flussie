@@ -6,27 +6,14 @@ import 'package:flussie/models/vehicles.dart';
 import 'package:flussie/network/api.dart';
 import 'package:flussie/ui/token_setter.dart';
 
-class VehiculeList extends StatelessWidget {
+class VehiculeList extends StatefulWidget {
   const VehiculeList({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: const VehiculeListSfw(),
-      )
-    );
-  }
+  State<VehiculeList> createState() => _VehiculeListState();
 }
 
-class VehiculeListSfw extends StatefulWidget {
-  const VehiculeListSfw({super.key});
-
-  @override
-  State<VehiculeListSfw> createState() => _VehiculeListSfwState();
-}
-
-class _VehiculeListSfwState extends State<VehiculeListSfw> {
+class _VehiculeListState extends State<VehiculeList> {
   String _token = '';
   final GetStorage box = GetStorage();
   Function? disposeListen;
