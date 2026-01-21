@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'package:flussie/UI/token_setter.dart';
+import 'package:flussie/ui/token_setter.dart';
 
 class VehiculeList extends StatelessWidget {
   const VehiculeList({super.key});
