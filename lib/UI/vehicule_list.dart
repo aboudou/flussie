@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:flussie/models/vehicles.dart';
+import 'package:flussie/network/api.dart';
 import 'package:flussie/ui/token_setter.dart';
 
 class VehiculeList extends StatelessWidget {
@@ -29,6 +31,8 @@ class _VehiculeListSfwState extends State<VehiculeListSfw> {
   final GetStorage box = GetStorage();
   Function? disposeListen;
 
+  late Future<List<VehicleResult>?> _vehicles;
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -39,6 +43,10 @@ class _VehiculeListSfwState extends State<VehiculeListSfw> {
   void _checkForToken() {
     setState(() {
       _token = box.read('token') ?? '';
+
+      if (_token.isNotEmpty) {
+        _vehicles = Api().getVehicles();
+      }
     });
   }
 
@@ -147,11 +155,25 @@ class _VehiculeListSfwState extends State<VehiculeListSfw> {
 
   // Vehicule list
   Widget _vehiculeList(BuildContext context) {
+
     return Column(
       children: [
         Text('Tessie API Token: $_token'),
         const SizedBox(height: 20),
-        const Text('Vehicule list would be shown here'),
+        //const Text('Vehicule list would be shown here'),
+        FutureBuilder<List<VehicleResult>?>(
+          future: _vehicles,
+          builder: (BuildContext context, AsyncSnapshot<List<VehicleResult>?> snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data!.first.vehicle?.displayName ?? 'No vehicle name');
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        ),
       ],
     );
   }
