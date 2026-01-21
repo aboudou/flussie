@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:flussie/UI/token_setter.dart';
 
@@ -25,17 +25,24 @@ class VehiculeListSfw extends StatefulWidget {
 
 class _VehiculeListSfwState extends State<VehiculeListSfw> {
   String _token = '';
+  final GetStorage box = GetStorage();
+  Function? disposeListen;
 
-  Future<void> _checkForToken() async {
-    final prefs = await SharedPreferences.getInstance();
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    disposeListen?.call();
+    super.dispose();
+  }
+
+  void _checkForToken() {
     setState(() {
-      _token = prefs.getString('token') ?? '';
+      _token = box.read('token') ?? '';
     });
   }
 
   Future<void> _deleteToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
+    await box.remove('token');
     setState(() {
       _token = '';
     });
@@ -44,7 +51,13 @@ class _VehiculeListSfwState extends State<VehiculeListSfw> {
   @override
   Widget build(BuildContext context) {
 
-    _checkForToken(); 
+    // Token listener
+    disposeListen = box.listen((){ });
+    box.listenKey('token', (value){
+      _checkForToken(); 
+    });
+
+    _checkForToken();
 
     if (_token.isEmpty) {
 

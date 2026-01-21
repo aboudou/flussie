@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class TokenSetter extends StatelessWidget {
   const TokenSetter({super.key});
@@ -25,10 +25,10 @@ class TokenSetterSfw extends StatefulWidget {
 class _TokenSetterSfwState extends State<TokenSetterSfw> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final tokenEditingCtrl = TextEditingController();
+  final GetStorage box = GetStorage();
 
-  Future<void> saveToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', tokenEditingCtrl.text);
+  void saveToken() {
+    box.write('token', tokenEditingCtrl.text);
   }
 
   @override
@@ -37,6 +37,7 @@ class _TokenSetterSfwState extends State<TokenSetterSfw> {
     tokenEditingCtrl.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
