@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:flussie/misc/constants.dart';
+
 class NetworkProvider extends GetConnect {
   static final NetworkProvider _instance = NetworkProvider._internal();
 
@@ -13,10 +15,10 @@ class NetworkProvider extends GetConnect {
   }
 
   void _clientSetup() {
-    httpClient.baseUrl = 'https://api.tessie.com';
+    httpClient.baseUrl = Constants.apiBaseUrl;
 
     httpClient.addRequestModifier<Object?>((request) {
-      final token = GetStorage().read('token') ?? '';
+      final token = GetStorage().read(Constants.tokenStorageKey) ?? '';
       request.headers['Authorization'] = "Bearer $token";
       return request;
     });
@@ -26,4 +28,7 @@ class NetworkProvider extends GetConnect {
     return get('/vehicles');
   }
 
+  Future<Response> fetchLocation(String vin) {
+    return get('/$vin/location');
+  }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'package:flussie/misc/constants.dart';
+
 class TokenSetter extends StatelessWidget {
   const TokenSetter({super.key});
 
@@ -29,7 +31,7 @@ class _TokenSetterSfwState extends State<TokenSetterSfw> {
   final GetStorage box = GetStorage();
 
   void saveToken() {
-    box.write('token', tokenEditingCtrl.text);
+    box.write(Constants.tokenStorageKey, tokenEditingCtrl.text);
   }
 
   @override

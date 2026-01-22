@@ -191,7 +191,7 @@ class ChargeState {
   final bool? userChargeEnableRequest;
   final String? managedChargingStartTime;
   final bool? chargePortColdWeatherMode;
-  final String? scheduledChargingStartTime;
+  final int? scheduledChargingStartTime;
   final bool? managedChargingUserCanceled;
   final int? scheduledDepartureTimeMinutes;
   final int? scheduledChargingStartTimeApp;
@@ -319,7 +319,7 @@ class ChargeState {
       userChargeEnableRequest: json['user_charge_enable_request'] as bool?,
       managedChargingStartTime: json['managed_charging_start_time'] as String?,
       chargePortColdWeatherMode: json['charge_port_cold_weather_mode'] as bool?,
-      scheduledChargingStartTime: json['scheduled_charging_start_time'] as String?,
+      scheduledChargingStartTime: (json['scheduled_charging_start_time'] as num?)?.toInt(),
       managedChargingUserCanceled: json['managed_charging_user_canceled'] as bool?,
       scheduledDepartureTimeMinutes: (json['scheduled_departure_time_minutes'] as num?)?.toInt(),
       scheduledChargingStartTimeApp: (json['scheduled_charging_start_time_app'] as num?)?.toInt(),
