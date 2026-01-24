@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -220,11 +222,23 @@ class _VehiculeListState extends State<VehiculeList> {
                                 ),
 
                                 // Battery level
-                                Container(
-                                  width: 25,
-                                  height: 25,
-                                  color: Colors.transparent,
-                                  child: _batteryIcon(vehicle?.chargeState?.batteryLevel),
+                                Column(
+                                  children: [
+                                    Container(
+                                      width: 25,
+                                      height: 25,
+                                      color: Colors.transparent,
+                                      transformAlignment: Alignment.center,
+                                      transform: Matrix4.rotationZ(
+                                        90 * pi / 180,
+                                      ),
+                                      child: _batteryIcon(vehicle?.chargeState?.batteryLevel),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${vehicle?.chargeState?.batteryLevel ?? 'N/A'}%',
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
