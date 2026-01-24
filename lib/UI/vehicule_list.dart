@@ -167,6 +167,12 @@ class _VehiculeListState extends State<VehiculeList> {
                     final location = Api().getLocation(vin ?? '');
 
                     return Card(
+                      elevation: 4.0,
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      shadowColor: Colors.black54,
                       clipBehavior: Clip.hardEdge,
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
