@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:flussie/viewmodels/vehicle_list_vm.dart';
 import 'package:flussie/views/token_setter_view.dart';
+import 'package:flussie/views/vehicle_tab_view.dart';
 
 class VehiculeListView extends StatefulWidget {
   const VehiculeListView({super.key});
@@ -138,9 +139,11 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                   itemCount: vehicleListViewModel.vehicles.length,
                   itemBuilder: (context, index) {
                     final vehicle = vehicleListViewModel.vehicles[index].vehicle;
-                    final vin = vehicle?.vin;
+                    final vin = vehicle?.vin ?? '';
+                    final name = vehicle?.displayName ?? 'Unknown Vehicle';
+                    final batteryLevel = vehicle?.chargeState?.batteryLevel;
 
-                    vehicleListViewModel.refreshVehicle(vin ?? '');
+                    vehicleListViewModel.refreshVehicle(vin);
 
                     return Card(
                       elevation: 4.0,
@@ -153,8 +156,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
-                          // TODO: Go to vehicle details page
-                          debugPrint('Card tapped.');
+                          Get.to(() => VehicleTabView(vin: vin, name: name));
                         },
                         child: 
                           Padding(
@@ -174,7 +176,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        vehicle?.displayName ?? 'Unknown Vehicle',
+                                        name,
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -197,11 +199,11 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                                       transform: Matrix4.rotationZ(
                                         90 * pi / 180,
                                       ),
-                                      child: _batteryIcon(vehicle?.chargeState?.batteryLevel),
+                                      child: _batteryIcon(batteryLevel),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      '${vehicle?.chargeState?.batteryLevel ?? 'N/A'}%',
+                                      '${batteryLevel ?? 'N/A'}%',
                                     ),
                                   ],
                                 ),
