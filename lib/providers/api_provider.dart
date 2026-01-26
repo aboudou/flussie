@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/location.dart';
 import 'package:flussie/models/vehicles.dart';
-import 'package:flussie/network/network_provider.dart';
+import 'package:flussie/providers/network_provider.dart';
 
 class Api {
 

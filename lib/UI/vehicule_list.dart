@@ -2,12 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
-import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/location.dart';
 import 'package:flussie/models/vehicles.dart';
-import 'package:flussie/network/api.dart';
+import 'package:flussie/providers/api_provider.dart';
+import 'package:flussie/providers/storage_provider.dart';
 import 'package:flussie/ui/token_setter.dart';
 
 class VehiculeList extends StatefulWidget {
@@ -19,7 +18,7 @@ class VehiculeList extends StatefulWidget {
 
 class _VehiculeListState extends State<VehiculeList> {
   String _token = '';
-  final GetStorage box = GetStorage();
+  final StorageProvider storageProvider = StorageProvider();
   Function? disposeListen;
 
   late Future<List<VehicleResult>?> _vehicles;
@@ -33,7 +32,7 @@ class _VehiculeListState extends State<VehiculeList> {
 
   void _checkForToken() {
     setState(() {
-      _token = box.read(Constants.tokenStorageKey) ?? '';
+      _token = storageProvider.getToken() ?? '';
 
       if (_token.isNotEmpty) {
         _vehicles = Api().getVehicles();
@@ -42,7 +41,7 @@ class _VehiculeListState extends State<VehiculeList> {
   }
 
   Future<void> _deleteToken() async {
-    await box.remove(Constants.tokenStorageKey);
+    await storageProvider.deleteToken();
     setState(() {
       _token = '';
     });
@@ -52,8 +51,8 @@ class _VehiculeListState extends State<VehiculeList> {
   Widget build(BuildContext context) {
 
     // Token listener
-    disposeListen = box.listen((){ });
-    box.listenKey(Constants.tokenStorageKey, (value){
+    disposeListen = storageProvider.addListener((){ });
+    storageProvider.listenToken((value){
       _checkForToken(); 
     });
 
