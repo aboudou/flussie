@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:flussie/providers/storage_provider.dart';
+import 'package:flussie/viewmodels/token_setter_vm.dart';
 
 class TokenSetter extends StatelessWidget {
   const TokenSetter({super.key});
@@ -27,10 +27,10 @@ class TokenSetterSfw extends StatefulWidget {
 class _TokenSetterSfwState extends State<TokenSetterSfw> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final tokenEditingCtrl = TextEditingController();
-  final StorageProvider storageProvider = StorageProvider();
+  final tokenSetterViewModel = TokenSetterViewModel();
 
   void saveToken() {
-    storageProvider.saveToken(tokenEditingCtrl.text);
+    tokenSetterViewModel.saveToken(tokenEditingCtrl.text);
   }
 
   @override

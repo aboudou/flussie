@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'package:flussie/ui/vehicule_list.dart';
+import 'package:flussie/views/vehicle_list.dart';
 
 // Tessie API documentation: https://developer.tessie.com/reference/about
 

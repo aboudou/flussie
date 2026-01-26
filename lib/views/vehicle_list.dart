@@ -3,11 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:flussie/models/location.dart';
-import 'package:flussie/models/vehicles.dart';
-import 'package:flussie/providers/api_provider.dart';
-import 'package:flussie/providers/storage_provider.dart';
-import 'package:flussie/ui/token_setter.dart';
+import 'package:flussie/viewmodels/vehicle_list_vm.dart';
+import 'package:flussie/views/token_setter.dart';
 
 class VehiculeList extends StatefulWidget {
   const VehiculeList({super.key});
@@ -17,11 +14,9 @@ class VehiculeList extends StatefulWidget {
 }
 
 class _VehiculeListState extends State<VehiculeList> {
-  String _token = '';
-  final StorageProvider storageProvider = StorageProvider();
+  // String _token = '';
+  final VehiculeListViewModel vehicleListViewModel = VehiculeListViewModel();
   Function? disposeListen;
-
-  late Future<List<VehicleResult>?> _vehicles;
 
   @override
   void dispose() {
@@ -30,81 +25,67 @@ class _VehiculeListState extends State<VehiculeList> {
     super.dispose();
   }
 
-  void _checkForToken() {
+  void _refreshToken() {
     setState(() {
-      _token = storageProvider.getToken() ?? '';
-
-      if (_token.isNotEmpty) {
-        _vehicles = Api().getVehicles();
-      }
-    });
-  }
-
-  Future<void> _deleteToken() async {
-    await storageProvider.deleteToken();
-    setState(() {
-      _token = '';
+      vehicleListViewModel.getToken();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     // Token listener
-    disposeListen = storageProvider.addListener((){ });
-    storageProvider.listenToken((value){
-      _checkForToken(); 
+    disposeListen = vehicleListViewModel.addListener((){ });
+    vehicleListViewModel.listenToken((value){
+      _refreshToken(); 
     });
+    _refreshToken();
 
-    _checkForToken();
+    return Obx(() {
+      if (vehicleListViewModel.token.isEmpty) {
+        // No token found, show button to set token
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Your vehicules'),
+          ),
 
-    if (_token.isEmpty) {
-
-      // No token found, show button to set token
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Your vehicules'),
-        ),
-
-        body: Center(
-          child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              children: [
-                const Text('No Tessie API Token is set.'),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  child: const Text('Set API token'),
-                  onPressed: () {
-                    Get.to(() => const TokenSetter());
-                  },
-                ),
-              ],
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  const Text('No Tessie API Token is set.'),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    child: const Text('Set API token'),
+                    onPressed: () {
+                      Get.to(() => const TokenSetter());
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-
-    } else {
-
-      // Token found, show vehicule list (placeholder for now)
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Your vehicules'),
-          actions: [
-            _logoutIcon(context),
-          ],
-        ),
-
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: _vehiculeList(context),
+        );
+      } else {
+        // Token found, show vehicule list
+        vehicleListViewModel.refreshVehiclesList();
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Your vehicules'),
+            actions: [
+              _logoutIcon(context),
+            ],
           ),
-        ),
-      );
 
-    }
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: _vehiculeList(context),
+            ),
+          ),
+        );
+      }
+    });
   }
 
   // Logout icon button to clear the token
@@ -132,7 +113,7 @@ class _VehiculeListState extends State<VehiculeList> {
         );
         if (confirmed != true) return;
 
-        _deleteToken();
+        vehicleListViewModel.deleteToken();
 
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
@@ -148,24 +129,18 @@ class _VehiculeListState extends State<VehiculeList> {
 
     return Column(
       children: [
-        FutureBuilder<List<VehicleResult>?>(
-          future: _vehicles,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final vehicles = snapshot.data;
-
-              if (vehicles == null || vehicles.isEmpty) {
-                return const Text('No vehicules found.');
-              }
-
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: vehicles.length,
+        Obx(() => 
+          Expanded(
+            child: 
+              vehicleListViewModel.vehicles.isEmpty
+              ? const Text('No vehicule found.')
+              : ListView.builder(
+                  itemCount: vehicleListViewModel.vehicles.length,
                   itemBuilder: (context, index) {
-                    final vehicle = vehicles[index].vehicle;
+                    final vehicle = vehicleListViewModel.vehicles[index].vehicle;
                     final vin = vehicle?.vin;
 
-                    final location = Api().getLocation(vin ?? '');
+                    vehicleListViewModel.refreshVehicle(vin ?? '');
 
                     return Card(
                       elevation: 4.0,
@@ -190,7 +165,7 @@ class _VehiculeListState extends State<VehiculeList> {
                                 // Map image
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Api().getMapImage(vin ?? ''),
+                                  child: Obx(() => vehicleListViewModel.mapImage.value),
                                 ),
 
                                 // Name and details
@@ -206,16 +181,7 @@ class _VehiculeListState extends State<VehiculeList> {
                                         ),
                                       ),
                                       const SizedBox(height: 8),
-                                      FutureBuilder<Location>(
-                                        future: location,
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            return Text(snapshot.data?.address ?? 'No address available');
-                                          } else {
-                                            return Text('Loading address...');
-                                          }
-                                        }
-                                      ),                                      
+                                      Obx(() => Text("${vehicleListViewModel.location}")),
                                     ],
                                   ),
                                 ),
@@ -246,15 +212,8 @@ class _VehiculeListState extends State<VehiculeList> {
                     );
                   },
                 ),
-              );
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-
-            // By default, show a loading spinner.
-            return const CircularProgressIndicator();
-          },
-        ),
+          )
+        )
       ],
     );
   }
