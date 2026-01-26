@@ -16,10 +16,17 @@ class VehiculeListViewModel {
   var vehicles = <VehicleResult>[].obs;
   var location = 'Loading address…'.obs;
   var mapImage = Image.asset('').obs;
+  var errorMessage = ''.obs;
 
   // Vehicles management
   void refreshVehiclesList() async {
-    vehicles.value = await _api.getVehicles() ?? [];
+    try {
+      vehicles.value = await _api.getVehicles() ?? [];
+      errorMessage.value = '';
+    } catch (e) {
+      vehicles.clear();
+      errorMessage.value = 'Error loading vehicles: $e';
+    }
   }
 
   void refreshVehicle(String vin) {
@@ -49,6 +56,7 @@ class VehiculeListViewModel {
     await _storageProvider.deleteToken();
     vehicles.clear();
     token.value = '';
+    errorMessage.value = '';
   }
 
   Function? addListener(Function() callback) {

@@ -69,6 +69,7 @@ class _VehiculeListState extends State<VehiculeList> {
       } else {
         // Token found, show vehicule list
         vehicleListViewModel.refreshVehiclesList();
+        
         return Scaffold(
           appBar: AppBar(
             title: const Text('Your vehicules'),
@@ -126,14 +127,13 @@ class _VehiculeListState extends State<VehiculeList> {
 
   // Vehicule list
   Widget _vehiculeList(BuildContext context) {
-
     return Column(
       children: [
         Obx(() => 
           Expanded(
             child: 
               vehicleListViewModel.vehicles.isEmpty
-              ? const Text('No vehicule found.')
+              ? Text(vehicleListViewModel.errorMessage.isEmpty ? 'No vehicle found.' : vehicleListViewModel.errorMessage.value)
               : ListView.builder(
                   itemCount: vehicleListViewModel.vehicles.length,
                   itemBuilder: (context, index) {
