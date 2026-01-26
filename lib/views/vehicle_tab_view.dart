@@ -14,7 +14,7 @@ class VehicleTabView extends StatelessWidget {
 
     final detailsTab = Center(child: Text('Details view for vehicle ${vehicleTabViewModel.vin}'),);
     final chargesTab = Center(child: Text('Charges view for vehicle ${vehicleTabViewModel.vin}'),);
-    final tripsTab = Center(child: Text('Trips view for vehicle ${vehicleTabViewModel.vin}'),);
+    final drivesTab = Center(child: Text('Drives view for vehicle ${vehicleTabViewModel.vin}'),);
     
     return DefaultTabController(
       length: 3,
@@ -37,8 +37,8 @@ class VehicleTabView extends StatelessWidget {
                       // chargesTab.refresh();
                       break;
                     case 2:
-                      // TODO: Handle trips refresh
-                      // tripsTab.refresh();
+                      // TODO: Handle drives refresh
+                      // drivesTab.refresh();
                       break;
                   }
                 },
@@ -50,14 +50,14 @@ class VehicleTabView extends StatelessWidget {
           tabs: [
             Tab(icon: Icon(Icons.electric_car), text: 'Details'),
             Tab(icon: Icon(Icons.ev_station), text: 'Charges'),
-            Tab(icon: Icon(Icons.route), text: 'Trips'),
+            Tab(icon: Icon(Icons.route), text: 'Drives'),
           ],
         ),
         body: TabBarView(
           children: [
             detailsTab,
             chargesTab,
-            tripsTab,
+            drivesTab,
           ],
         )
       )
