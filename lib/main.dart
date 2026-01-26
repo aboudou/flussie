@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'package:flussie/views/vehicle_list.dart';
+import 'package:flussie/views/vehicle_list_view.dart';
 
 // Tessie API documentation: https://developer.tessie.com/reference/about
 
@@ -20,7 +20,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
       ),
-      home: VehiculeList(),
+      home: VehiculeListView(),
     );
   }
 }

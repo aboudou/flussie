@@ -3,28 +3,28 @@ import 'package:get/get.dart';
 
 import 'package:flussie/viewmodels/token_setter_vm.dart';
 
-class TokenSetter extends StatelessWidget {
-  const TokenSetter({super.key});
+class TokenSetterView extends StatelessWidget {
+  const TokenSetterView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Tessie API Token')),
       body: Center(
-        child: const TokenSetterSfw(),
+        child: const TokenSetterViewSfw(),
       )
     );
   }
 }
 
-class TokenSetterSfw extends StatefulWidget {
-  const TokenSetterSfw({super.key});
+class TokenSetterViewSfw extends StatefulWidget {
+  const TokenSetterViewSfw({super.key});
 
   @override
-  State<TokenSetterSfw> createState() => _TokenSetterSfwState();
+  State<TokenSetterViewSfw> createState() => _TokenSetterViewSfwState();
 }
 
-class _TokenSetterSfwState extends State<TokenSetterSfw> {
+class _TokenSetterViewSfwState extends State<TokenSetterViewSfw> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final tokenEditingCtrl = TextEditingController();
   final tokenSetterViewModel = TokenSetterViewModel();

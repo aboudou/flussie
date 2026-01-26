@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:flussie/viewmodels/vehicle_list_vm.dart';
-import 'package:flussie/views/token_setter.dart';
+import 'package:flussie/views/token_setter_view.dart';
 
-class VehiculeList extends StatefulWidget {
-  const VehiculeList({super.key});
+class VehiculeListView extends StatefulWidget {
+  const VehiculeListView({super.key});
 
   @override
-  State<VehiculeList> createState() => _VehiculeListState();
+  State<VehiculeListView> createState() => _VehiculeListViewState();
 }
 
-class _VehiculeListState extends State<VehiculeList> {
+class _VehiculeListViewState extends State<VehiculeListView> {
   // String _token = '';
   final VehiculeListViewModel vehicleListViewModel = VehiculeListViewModel();
   Function? disposeListen;
@@ -58,7 +58,7 @@ class _VehiculeListState extends State<VehiculeList> {
                   ElevatedButton(
                     child: const Text('Set API token'),
                     onPressed: () {
-                      Get.to(() => const TokenSetter());
+                      Get.to(() => const TokenSetterView());
                     },
                   ),
                 ],
@@ -69,7 +69,7 @@ class _VehiculeListState extends State<VehiculeList> {
       } else {
         // Token found, show vehicule list
         vehicleListViewModel.refreshVehiclesList();
-        
+
         return Scaffold(
           appBar: AppBar(
             title: const Text('Your vehicules'),
