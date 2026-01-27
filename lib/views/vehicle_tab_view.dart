@@ -3,24 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
 
 class VehicleTabView extends StatelessWidget {
-  const VehicleTabView({super.key, required this.vin, required this.name});
+  const VehicleTabView({super.key, required this.viewModel});
 
-  final String name;
-  final String vin;
+  final VehicleTabViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    VehicleTabViewModel vehicleTabViewModel = VehicleTabViewModel(vin: vin, name: name);
-
-    final detailsTab = Center(child: Text('Details view for vehicle ${vehicleTabViewModel.vin}'),);
-    final chargesTab = Center(child: Text('Charges view for vehicle ${vehicleTabViewModel.vin}'),);
-    final drivesTab = Center(child: Text('Drives view for vehicle ${vehicleTabViewModel.vin}'),);
+    final detailsTab = Center(child: Text('Details view for vehicle ${viewModel.vin}'),);
+    final chargesTab = Center(child: Text('Charges view for vehicle ${viewModel.vin}'),);
+    final drivesTab = Center(child: Text('Drives view for vehicle ${viewModel.vin}'),);
     
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(vehicleTabViewModel.name),
+          title: Text(viewModel.name),
           actions: [
             Builder(
               builder: (innerContext) => IconButton(

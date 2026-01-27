@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:flussie/viewmodels/vehicle_list_vm.dart';
+import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
 import 'package:flussie/views/token_setter_view.dart';
 import 'package:flussie/views/vehicle_tab_view.dart';
 
@@ -156,7 +157,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
-                          Get.to(() => VehicleTabView(vin: vin, name: name));
+                          Get.to(() => VehicleTabView(viewModel: VehicleTabViewModel(vin: vin, name: name)));
                         },
                         child: 
                           Padding(
