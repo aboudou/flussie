@@ -1,8 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:flussie/services/battery_service.dart';
+import 'package:flussie/services/image_service.dart';
 import 'package:flussie/viewmodels/vehicle_list_vm.dart';
 import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
 import 'package:flussie/views/token_setter_view.dart';
@@ -143,6 +143,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                     final vin = vehicle?.vin ?? '';
                     final name = vehicle?.displayName ?? 'Unknown Vehicle';
                     final batteryLevel = vehicle?.chargeState?.batteryLevel;
+                    final batteryData = BatteryService().getBatteryIcon(batteryLevel);
 
                     vehicleListViewModel.refreshVehicle(vin);
 
@@ -168,7 +169,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                                 // Map image
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Obx(() => vehicleListViewModel.mapImage.value),
+                                  child: vehicleListViewModel.mapImage.value,
                                 ),
 
                                 // Name and details
@@ -192,15 +193,9 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                                 // Battery level
                                 Column(
                                   children: [
-                                    Container(
-                                      width: 25,
-                                      height: 25,
-                                      color: Colors.transparent,
-                                      transformAlignment: Alignment.center,
-                                      transform: Matrix4.rotationZ(
-                                        90 * pi / 180,
-                                      ),
-                                      child: _batteryIcon(batteryLevel),
+                                    ImageService().rotatedIcon(
+                                      Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3),
+                                      90,
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
@@ -220,59 +215,4 @@ class _VehiculeListViewState extends State<VehiculeListView> {
       ],
     );
   }
-
-  Icon _batteryIcon(int? batteryLevel) {
-    if (batteryLevel == null) {
-      return const Icon(Icons.battery_unknown, size: 25, color: Colors.black);
-    }
-
-    // Treat clearly invalid values as alert (keep existing alert behavior)
-    if (batteryLevel < 0 || batteryLevel > 100) {
-      return const Icon(Icons.battery_alert, size: 25, color: Colors.red);
-    }
-
-    // Color by ranges: 0-5 red, 6-20 orange, 21-100 green
-    final Color color;
-    if (batteryLevel <= 5) {
-      color = Colors.red;
-    } else if (batteryLevel <= 20) {
-      color = Colors.orange;
-    } else {
-      color = Colors.green;
-    }
-
-    // Map percentage 0..100 to bar index 0..6
-    int bar = ((batteryLevel * 6) / 100).round();
-    if (bar < 0) bar = 0;
-    if (bar > 6) bar = 6;
-
-    IconData iconData;
-    switch (bar) {
-      case 0:
-        iconData = Icons.battery_0_bar;
-        break;
-      case 1:
-        iconData = Icons.battery_1_bar;
-        break;
-      case 2:
-        iconData = Icons.battery_2_bar;
-        break;
-      case 3:
-        iconData = Icons.battery_3_bar;
-        break;
-      case 4:
-        iconData = Icons.battery_4_bar;
-        break;
-      case 5:
-        iconData = Icons.battery_5_bar;
-        break;
-      case 6:
-      default:
-        iconData = Icons.battery_6_bar;
-        break;
-    }
-
-    return Icon(iconData, size: 25, color: color);
-  }
-
 }

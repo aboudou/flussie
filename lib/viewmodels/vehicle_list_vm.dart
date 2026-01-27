@@ -9,7 +9,7 @@ import 'package:flussie/providers/storage_provider.dart';
 
 class VehiculeListViewModel {
   final StorageProvider _storageProvider = StorageProvider();
-  final Api _api = Api();
+  final ApiProvider _api = ApiProvider();
 
   // Observables
   var token = ''.obs;

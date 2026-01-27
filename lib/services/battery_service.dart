@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+class BatteryService {
+
+  static final BatteryService _instance = BatteryService._internal();
+
+  BatteryService._internal();
+
+  factory BatteryService() {
+    return _instance;
+  }
+
+  (IconData, double, Color) getBatteryIcon(int? batteryLevel, {double size = 25.0}) {
+    if (batteryLevel == null) {
+      return (Icons.battery_unknown, size, Colors.black);
+    }
+
+    // Treat clearly invalid values as alert (keep existing alert behavior)
+    if (batteryLevel < 0 || batteryLevel > 100) {
+      return (Icons.battery_alert, size, Colors.red);
+    }
+
+    // Color by ranges: 0-5 red, 6-20 orange, 21-100 green
+    final Color color;
+    if (batteryLevel <= 5) {
+      color = Colors.red;
+    } else if (batteryLevel <= 20) {
+      color = Colors.orange;
+    } else {
+      color = Colors.green;
+    }
+
+    // Map percentage 0..100 to bar index 0..6
+    int bar = ((batteryLevel * 6) / 100).round();
+    if (bar < 0) bar = 0;
+    if (bar > 6) bar = 6;
+
+    IconData iconData;
+    switch (bar) {
+      case 0:
+        iconData = Icons.battery_0_bar;
+        break;
+      case 1:
+        iconData = Icons.battery_1_bar;
+        break;
+      case 2:
+        iconData = Icons.battery_2_bar;
+        break;
+      case 3:
+        iconData = Icons.battery_3_bar;
+        break;
+      case 4:
+        iconData = Icons.battery_4_bar;
+        break;
+      case 5:
+        iconData = Icons.battery_5_bar;
+        break;
+      case 6:
+      default:
+        iconData = Icons.battery_6_bar;
+        break;
+    }
+
+    return (iconData, size, color);
+  }
+}

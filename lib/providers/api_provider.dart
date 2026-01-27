@@ -3,16 +3,17 @@ import 'package:get_storage/get_storage.dart';
 
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/location.dart';
+import 'package:flussie/models/vehicle.dart';
 import 'package:flussie/models/vehicles.dart';
 import 'package:flussie/providers/network_provider.dart';
 
-class Api {
+class ApiProvider {
 
-  static final Api _instance = Api._internal();
+  static final ApiProvider _instance = ApiProvider._internal();
 
-  Api._internal();
+  ApiProvider._internal();
 
-  factory Api() {
+  factory ApiProvider() {
     return _instance;
   }
 
@@ -26,6 +27,16 @@ class Api {
     }
 
     return Vehicles.fromJson(response.body as Map<String, dynamic>).vehicles;
+  }
+
+  Future<Vehicle> getVehicle(String vin) async {
+    final response = await _networkProvider.fetchVehicle(vin);
+
+    if (response.status.hasError) {
+      throw Exception('Failed to load vehicle $vin: ${response.statusText}');
+    }
+
+    return Vehicle.fromJson(response.body as Map<String, dynamic>);
   }
   
   Future<Location> getLocation(String vin) async {
@@ -42,8 +53,7 @@ class Api {
     final token = GetStorage().read(Constants.tokenStorageKey) ?? '';
     return Image.network( 
       '${Constants.apiBaseUrl}/$vin/map?width=$width&height=$height&zoom=$zoom&marker_size=25&style=light',
-      width: width.toDouble(),
-      height: height.toDouble(),
+      fit: BoxFit.cover,
       headers: {
         'Authorization': 'Bearer $token',
       },

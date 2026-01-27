@@ -1,3 +1,5 @@
+import 'package:flussie/viewmodels/vehicle_details_vm.dart';
+import 'package:flussie/views/vehicle_details_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
@@ -9,9 +11,9 @@ class VehicleTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final detailsTab = Center(child: Text('Details view for vehicle ${viewModel.vin}'),);
-    final chargesTab = Center(child: Text('Charges view for vehicle ${viewModel.vin}'),);
-    final drivesTab = Center(child: Text('Drives view for vehicle ${viewModel.vin}'),);
+    final detailsTab = VehicleDetailsView(viewModel: VehicleDetailsViewModel(vin: viewModel.vin));
+    final chargesTab = Center(child: Text('Charges view for vehicle ${viewModel.vin}'));
+    final drivesTab = Center(child: Text('Drives view for vehicle ${viewModel.vin}'));
     
     return DefaultTabController(
       length: 3,

@@ -28,6 +28,10 @@ class NetworkProvider extends GetConnect {
     return get('/vehicles');
   }
 
+  Future<Response> fetchVehicle(String vin) {
+    return get('/$vin/state');
+  }
+
   Future<Response> fetchLocation(String vin) {
     return get('/$vin/location');
   }
