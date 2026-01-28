@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flussie/models/battery_health.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
@@ -20,9 +21,10 @@ class VehicleDetailsViewModel {
   late RxString chargePortState = ''.obs;
   late RxString location = ''.obs;
   late RxInt batteryLevel = 0.obs;
-  late RxDouble batteryRange = 0.0.obs;
-  late RxDouble batteryRangeIdeal = 0.0.obs;
+  late RxInt batteryRange = 0.obs;
   late RxDouble remainingEnergy = 0.0.obs;
+  late RxDouble batteryHealth = 0.0.obs;
+  late RxDouble batteryDegradation = 0.0.obs;
 
   void refresh() {
     ApiProvider().getVehicle(vin).then((value) {
@@ -57,10 +59,16 @@ class VehicleDetailsViewModel {
       });
 
       batteryLevel.value = vehicle.chargeState?.batteryLevel ?? 0;
-      batteryRange.value = vehicle.chargeState?.batteryRange ?? 0.0;
-      batteryRangeIdeal.value = vehicle.chargeState?.idealBatteryRange ?? 0.0;
+      batteryRange.value = ((vehicle.chargeState?.batteryRange ?? 0.0) * 1.60934).round();
       remainingEnergy.value = vehicle.chargeState?.energyRemaining ?? 0.0;
 
+      ApiProvider().getBatteryHealth().then((batteryHealthValue) {
+        final BatteryHealthResult? batteryHealthResult = batteryHealthValue.results?.firstWhere(
+          (element) => element.vin == vin,
+        );
+        batteryHealth.value = batteryHealthResult?.healthPercent ?? 0.0;
+        batteryDegradation.value = batteryHealthResult?.degradationPercent ?? 0.0;
+      });
     });
   }
 }

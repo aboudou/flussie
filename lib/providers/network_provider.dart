@@ -35,4 +35,8 @@ class NetworkProvider extends GetConnect {
   Future<Response> fetchLocation(String vin) {
     return get('/$vin/location');
   }
+
+  Future<Response> fetchBatteryHealth() {
+    return get('/battery_health?distance_format=km');
+  }
 }

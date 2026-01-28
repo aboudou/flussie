@@ -1,3 +1,4 @@
+import 'package:flussie/models/battery_health.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -47,6 +48,16 @@ class ApiProvider {
     }
 
     return Location.fromJson(response.body as Map<String, dynamic>);
+  }
+
+  Future<BatteryHealth> getBatteryHealth() async {
+    final response = await _networkProvider.fetchBatteryHealth();
+
+    if (response.status.hasError) {
+      throw Exception('Failed to load battery health: ${response.statusText}');
+    }
+
+    return BatteryHealth.fromJson(response.body as Map<String, dynamic>);
   }
 
   Image getMapImage(String vin, {int width = 100, int height = 100, int zoom = 13}) {

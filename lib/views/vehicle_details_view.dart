@@ -76,10 +76,11 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                       _infoRow(batteryIcon, 'Level', '${widget.viewModel.batteryLevel.value}%',),
                       _infoRow(batteryIcon, 'Energy', '${widget.viewModel.remainingEnergy.value} kWh'),
 
-                      _infoRow(Icon(Icons.add_road, size: _iconSize), 'Range (estimated)', '${widget.viewModel.batteryRangeIdeal.value} mi'),
-                      _infoRow(Icon(Icons.add_road, size: _iconSize), 'Range (real)', '${widget.viewModel.batteryRange.value} mi'),
+                      _infoRow(Icon(Icons.add_road, size: _iconSize), 'Range', '${widget.viewModel.batteryRange.value} km'),
+                      _infoRow(Container(), '', ''),
 
-                      // TODO: Battery health info when available
+                      _infoRow(Icon(Icons.monitor_heart, size: _iconSize), 'Battery health', '${widget.viewModel.batteryHealth.value}%',),
+                      _infoRow(Icon(Icons.monitor_heart, size: _iconSize), 'Degradation', '${widget.viewModel.batteryDegradation.value}%'),
                   ]),
                 ],
               ),
