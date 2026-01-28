@@ -28,8 +28,7 @@ class VehicleTabView extends StatelessWidget {
                   final int selectedIndex = DefaultTabController.of(innerContext).index;
                   switch (selectedIndex) {
                     case 0:
-                      // TODO: Handle details refresh
-                      // detailsTab.refresh();
+                      detailsTab.refresh();
                       break;
                     case 1:
                       // TODO: Handle charges refresh

@@ -10,6 +10,10 @@ class VehicleDetailsView extends StatefulWidget {
 
   final VehicleDetailsViewModel viewModel;
 
+  void refresh() {
+    viewModel.refresh();
+  }
+
   @override  State<VehicleDetailsView> createState() => _VehicleDetailsViewState();
 }
 
