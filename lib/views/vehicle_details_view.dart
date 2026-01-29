@@ -67,7 +67,11 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                     constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight + 20),
                     child: _infoRow(Icon(Icons.location_on, size: _iconSize), 'Location', widget.viewModel.location.value),
                   ),
-                  
+
+                  _gridBuilder([
+                    _infoRow(Icon(Icons.speed, size: _iconSize), 'Odometer', widget.viewModel.odometer.value),
+                  ]),
+
 
                   // Battery section
                   SizedBox(height: 8.0),
@@ -78,13 +82,13 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
 
                   _gridBuilder([
                       _infoRow(batteryIcon, 'Level', '${widget.viewModel.batteryLevel.value}%',),
-                      _infoRow(batteryIcon, 'Energy', '${widget.viewModel.remainingEnergy.value} kWh'),
+                      _infoRow(batteryIcon, 'Energy', widget.viewModel.remainingEnergy.value),
 
                       _infoRow(Icon(Icons.add_road, size: _iconSize), 'Range', '${widget.viewModel.batteryRange.value} km'),
                       _infoRow(Container(), '', ''),
 
-                      _infoRow(Icon(Icons.monitor_heart, size: _iconSize), 'Battery health', '${widget.viewModel.batteryHealth.value}%',),
-                      _infoRow(Icon(Icons.monitor_heart, size: _iconSize), 'Degradation', '${widget.viewModel.batteryDegradation.value}%'),
+                      _infoRow(Icon(Icons.monitor_heart, size: _iconSize), 'Battery health', widget.viewModel.batteryHealth.value,),
+                      _infoRow(Icon(Icons.monitor_heart, size: _iconSize), 'Degradation', widget.viewModel.batteryDegradation.value),
                   ]),
                 ],
               ),

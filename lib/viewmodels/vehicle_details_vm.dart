@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 
@@ -20,11 +21,12 @@ class VehicleDetailsViewModel {
   RxString state = ''.obs;
   RxString chargePortState = ''.obs;
   RxString location = ''.obs;
+  RxString odometer = ''.obs;
   RxInt batteryLevel = 0.obs;
   RxInt batteryRange = 0.obs;
-  RxDouble remainingEnergy = 0.0.obs;
-  RxDouble batteryHealth = 0.0.obs;
-  RxDouble batteryDegradation = 0.0.obs;
+  RxString remainingEnergy = ''.obs;
+  RxString batteryHealth = ''.obs;
+  RxString batteryDegradation = ''.obs;
 
   void refresh() {
     _api.getVehicle(vin).then((value) {
@@ -39,7 +41,6 @@ class VehicleDetailsViewModel {
         state.value = "Driving";
 
       } else {
-        
         switch (vehicle.state) {
           case 'asleep':
             state.value = 'Sleeping';
@@ -51,8 +52,12 @@ class VehicleDetailsViewModel {
             state.value = 'Unknown state';
         }
       }
+
+      final double odomInKm = (vehicle.vehicleState?.odometer ?? 0.0) * 1.60934;
+      final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
+      odometer.value = '${NumberFormat("#,##0.0", locale.toString()).format(odomInKm)} km';
       
-      chargePortState.value = vehicle.chargeState?.chargePortLatch == 'Engaged' ? 'Plugged' : 'Unplugged';
+      chargePortState.value = vehicle.chargeState?.chargePortDoorOpen == true ? 'Plugged' : 'Unplugged';
 
       ApiProvider().getLocation(vin).then((locValue) {
         location.value = locValue.address ?? 'Unknown location';
@@ -60,14 +65,14 @@ class VehicleDetailsViewModel {
 
       batteryLevel.value = vehicle.chargeState?.batteryLevel ?? 0;
       batteryRange.value = ((vehicle.chargeState?.batteryRange ?? 0.0) * 1.60934).round();
-      remainingEnergy.value = vehicle.chargeState?.energyRemaining ?? 0.0;
+      remainingEnergy.value = vehicle.chargeState?.energyRemaining != null ? '${NumberFormat("#,##0.00", locale.toString()).format(vehicle.chargeState?.energyRemaining)} kWh' : 'N/A';
 
       ApiProvider().getBatteryHealth().then((batteryHealthValue) {
         final BatteryHealth? batteryHealthResult = batteryHealthValue.results?.firstWhere(
           (element) => element.vin == vin,
         );
-        batteryHealth.value = batteryHealthResult?.healthPercent ?? 0.0;
-        batteryDegradation.value = batteryHealthResult?.degradationPercent ?? 0.0;
+        batteryHealth.value = batteryHealthResult?.healthPercent != null ? '${NumberFormat("#,##0.00", locale.toString()).format(batteryHealthResult?.healthPercent)}%' : 'N/A';
+        batteryDegradation.value = batteryHealthResult?.degradationPercent != null ? '${NumberFormat("#,##0.00", locale.toString()).format(batteryHealthResult?.degradationPercent)}%' : 'N/A';
       });
     });
   }

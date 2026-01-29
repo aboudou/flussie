@@ -25,7 +25,7 @@ class _VehicleChargeListViewState extends State<VehicleChargeListView> {
 
   String _formatDate(int epochSeconds) {
     final dt = DateTime.fromMillisecondsSinceEpoch(epochSeconds * 1000);
-    return DateFormat('yyyy-MM-dd').format(dt);
+    return DateFormat.yMd(Get.deviceLocale?.toString() ?? 'en_US').format(dt);
   }
 
   @override

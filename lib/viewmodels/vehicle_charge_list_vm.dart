@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/charge.dart';
@@ -10,14 +11,16 @@ import 'package:flussie/services/image_service.dart';
 
 class VehicleChargeListViewModel {
     VehicleChargeListViewModel({required this.vin}) {
+    initializeDateFormatting();
     refresh();
   }
 
   static const _dateFormatCurrentYear = 'EEE dd MMM, HH:mm';
   static const _dateFormatPreviousYear = 'dd MMM yyyy, HH:mm';
 
-    final ApiProvider _api = ApiProvider();
-    final String vin;
+  final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
+  final ApiProvider _api = ApiProvider();
+  final String vin;
 
   late Rx<ChargeList> chargeList = ChargeList(results: []).obs;
   RxString errorMessage = ''.obs;
@@ -52,11 +55,11 @@ class VehicleChargeListViewModel {
   }
   
   String getStartBatteryLevel(Charge charge) {
-    return '${charge.startingBattery ?? 0} %';
+    return '${charge.startingBattery ?? 0}%';
   }
 
   String getEndBatteryLevel(Charge charge) {
-    return '${charge.endingBattery ?? 0} %';
+    return '${charge.endingBattery ?? 0}%';
   }
 
   Container getStartBatteryIcon(Charge charge, double size) {
@@ -76,23 +79,23 @@ class VehicleChargeListViewModel {
   String getStartDate(Charge charge) {
     final startDate = DateTime.fromMillisecondsSinceEpoch((charge.startedAt ?? 0) * 1000);
     if (startDate.year == DateTime.now().year) {
-      return DateFormat(_dateFormatCurrentYear).format(startDate);
+      return DateFormat(_dateFormatCurrentYear, locale.toString()).format(startDate);
     } else {
-      return DateFormat(_dateFormatPreviousYear).format(startDate);
+      return DateFormat(_dateFormatPreviousYear, locale.toString()).format(startDate);
     }
   }
 
   String getEndDate(Charge charge) {
     final endDate = DateTime.fromMillisecondsSinceEpoch((charge.endedAt ?? 0) * 1000);
     if (endDate.year == DateTime.now().year) {
-      return DateFormat(_dateFormatCurrentYear).format(endDate);
+      return DateFormat(_dateFormatCurrentYear, locale.toString()).format(endDate);
     } else {
-      return DateFormat(_dateFormatPreviousYear).format(endDate);
+      return DateFormat(_dateFormatPreviousYear, locale.toString()).format(endDate);
     }
   }
 
   String getCost(Charge charge) {
-    return charge.cost != null ? '${charge.cost?.toStringAsFixed(2)} €' : 'N/A';
+    return charge.cost != null ? '${NumberFormat("#,##0.00", locale.toString()).format(charge.cost)} €' : 'N/A';
   }
 
   String getEnergyAdded(Charge charge) {
