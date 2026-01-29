@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/viewmodels/vehicle_charge_list_vm.dart';
@@ -22,6 +23,11 @@ class _VehicleChargeListViewState extends State<VehicleChargeListView> {
   static const _iconSizeRegular = 25.0;
   static const _iconSizeSmall = 16.0;
 
+  String _formatDate(int epochSeconds) {
+    final dt = DateTime.fromMillisecondsSinceEpoch(epochSeconds * 1000);
+    return DateFormat('yyyy-MM-dd').format(dt);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -30,12 +36,25 @@ class _VehicleChargeListViewState extends State<VehicleChargeListView> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: 
             widget.viewModel.chargeList.value.results.isEmpty
-            ? Text(widget.viewModel.errorMessage.isEmpty ? 'No charge found.' : widget.viewModel.errorMessage.value)
+            ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 8.0,
+              children: [
+                _filtersPanel(),
+                Text(widget.viewModel.errorMessage.isEmpty ? 'No charge found.' : widget.viewModel.errorMessage.value),
+                Spacer(),
+              ],
+            ) 
             : ListView.builder(
-                itemCount: widget.viewModel.chargeList.value.results.length,
+                itemCount: widget.viewModel.chargeList.value.results.length + 1,
                 itemBuilder: (context, index) {
-                  final charge = widget.viewModel.chargeList.value.results[index];
+                  if (index == 0) {
+                      // return the header
+                      return _filtersPanel();
+                  }
+                  index -= 1;
 
+                  final charge = widget.viewModel.chargeList.value.results[index];
                   return Card(
                     elevation: 4.0,
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -145,6 +164,120 @@ class _VehicleChargeListViewState extends State<VehicleChargeListView> {
               ),
         ),
       );
+    });
+  }
+
+  Widget _filtersPanel() {
+    return Obx(() {
+      if (!widget.viewModel.showFilters.value) {
+
+        return TextButton(
+          onPressed: () {
+            widget.viewModel.showFilters.value = true;
+          },
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            spacing: 4.0,
+            children: [
+              Icon(Icons.filter_list_alt, color: Constants.darkGreyColor, size: 16,),
+              Text('Filters', style: TextStyle(color: Constants.darkGreyColor),),
+            ],
+          ),
+        );
+
+      } else {
+
+        return Column(
+          spacing: 0.0,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('From'),
+                TextButton(
+                  onPressed: () async {
+                    final initial = DateTime.fromMillisecondsSinceEpoch(widget.viewModel.startDate * 1000);
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: initial,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      setState(() {
+                        widget.viewModel.startDate = picked.millisecondsSinceEpoch ~/ 1000;
+                      });
+                    }
+                  },
+                  child: Text(_formatDate(widget.viewModel.startDate)),
+                ),
+              ],
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('To'),
+                TextButton(
+                  onPressed: () async {
+                    final initial = DateTime.fromMillisecondsSinceEpoch(  widget.viewModel.endDate * 1000);
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: initial,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      setState(() {
+                        widget.viewModel.endDate = picked.millisecondsSinceEpoch ~/ 1000;
+                      });
+                    }
+                  },
+                  child: Text(_formatDate(widget.viewModel.endDate)),
+                ),
+              ],
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Superchargers only'),
+                Checkbox(
+                  value: widget.viewModel.superchargersOnly,
+                  onChanged: (value) {
+                    setState(() {
+                      widget.viewModel.superchargersOnly = value!;
+                    });
+                  },
+                ),
+              ],
+            ),
+
+            TextButton(
+              onPressed: () {
+                widget.viewModel.refresh();
+                widget.viewModel.showFilters.value = false;
+              },
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                spacing: 4.0,
+                children: [
+                  Icon(Icons.done, color: Constants.darkGreyColor, size: 16,),
+                  Text('Apply', style: TextStyle(color: Constants.darkGreyColor),),
+                ],
+              ),
+            )
+          ],
+        );
+        
+
+      }
     });
   }
 }

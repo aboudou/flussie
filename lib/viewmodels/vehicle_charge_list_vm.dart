@@ -25,6 +25,8 @@ class VehicleChargeListViewModel {
   int startDate = (DateTime.now().subtract(Duration(days: 365)).millisecondsSinceEpoch) ~/ 1000;
   int endDate = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
+  RxBool showFilters = false.obs;
+
   void refresh() {
     errorMessage.value = '';
 
