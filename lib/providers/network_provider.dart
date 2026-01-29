@@ -39,4 +39,8 @@ class NetworkProvider extends GetConnect {
   Future<Response> fetchBatteryHealth() {
     return get('/battery_health?distance_format=km');
   }
+
+  Future<Response> fetchCharges(String vin, bool superchargersOnly, int startDate, int endDate) {
+    return get('/$vin/charges?distance_format=km&format=json&timezone=UTC&superchargers_only=$superchargersOnly&from=${startDate.toString()}&to=${endDate.toString()}');
+  }
 }

@@ -1,28 +1,28 @@
-class BatteryHealth {
-  final List<BatteryHealthResult>? results;
+class BatteryHealthList {
+  final List<BatteryHealth>? results;
 
-  const BatteryHealth({this.results});
+  const BatteryHealthList({this.results});
 
-  factory BatteryHealth.fromJson(Map<String, dynamic> json) {
+  factory BatteryHealthList.fromJson(Map<String, dynamic> json) {
     final raw = json['results'];
 
     if (raw == null) {
-      return BatteryHealth(results: null);
+      return BatteryHealthList(results: null);
     }
 
     final list = raw as List;
 
-    return BatteryHealth(
+    return BatteryHealthList(
       results: list
           .whereType<Map<String, dynamic>>()
-          .map((e) => BatteryHealthResult.fromJson(e))
+          .map((e) => BatteryHealth.fromJson(e))
           .toList(),
     );
   }
 }
 
-class BatteryHealthResult {
-  BatteryHealthResult({
+class BatteryHealth {
+  BatteryHealth({
     required this.vin,
     required this.plate,
     required this.odometer,
@@ -44,8 +44,8 @@ class BatteryHealthResult {
   final double? degradationPercent;
   final double? healthPercent;
 
-  factory BatteryHealthResult.fromJson(Map<String, dynamic> json) {
-    return BatteryHealthResult(
+  factory BatteryHealth.fromJson(Map<String, dynamic> json) {
+    return BatteryHealth(
       vin: json['vin'],
       plate: json['plate'],
       odometer: (json['odometer'] as num?)?.toDouble(),

@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/location.dart';
+import 'package:flussie/models/charge.dart';
 import 'package:flussie/models/vehicle.dart';
 import 'package:flussie/models/vehicles.dart';
 import 'package:flussie/providers/network_provider.dart';
@@ -20,14 +21,14 @@ class ApiProvider {
 
   final NetworkProvider _networkProvider = NetworkProvider();
 
-  Future<List<VehicleResult>?> getVehicles() async {
+  Future<List<VehicleListItem>?> getVehicles() async {
     final response = await _networkProvider.fetchVehicles();
 
     if (response.status.hasError) {
       throw Exception('Failed to load vehicles: ${response.statusText}');
     }
 
-    return Vehicles.fromJson(response.body as Map<String, dynamic>).vehicles;
+    return VehicleList.fromJson(response.body as Map<String, dynamic>).vehicles;
   }
 
   Future<Vehicle> getVehicle(String vin) async {
@@ -50,14 +51,24 @@ class ApiProvider {
     return Location.fromJson(response.body as Map<String, dynamic>);
   }
 
-  Future<BatteryHealth> getBatteryHealth() async {
+  Future<BatteryHealthList> getBatteryHealth() async {
     final response = await _networkProvider.fetchBatteryHealth();
 
     if (response.status.hasError) {
       throw Exception('Failed to load battery health: ${response.statusText}');
     }
 
-    return BatteryHealth.fromJson(response.body as Map<String, dynamic>);
+    return BatteryHealthList.fromJson(response.body as Map<String, dynamic>);
+  }
+
+  Future<ChargeList> getCharges(String vin, bool superchargersOnly, int startDate, int endDate) async {
+    final response = await _networkProvider.fetchCharges(vin, superchargersOnly, startDate, endDate);
+
+    if (response.status.hasError) {
+      throw Exception('Failed to load charges for $vin: ${response.statusText}');
+    }
+
+    return ChargeList.fromJson(response.body as Map<String, dynamic>);
   }
 
   Image getMapImage(String vin, {int width = 100, int height = 100, int zoom = 13}) {

@@ -12,11 +12,11 @@ class VehiculeListViewModel {
   final ApiProvider _api = ApiProvider();
 
   // Observables
-  var token = ''.obs;
-  var vehicles = <VehicleResult>[].obs;
-  var location = 'Loading address…'.obs;
-  var mapImage = Image.asset('').obs;
-  var errorMessage = ''.obs;
+  RxString token = ''.obs;
+  RxList<VehicleListItem> vehicles = <VehicleListItem>[].obs;
+  RxString location = 'Loading address…'.obs;
+  Rx<Image> mapImage = Image.asset('').obs;
+  RxString errorMessage = ''.obs;
 
   // Vehicles management
   void refreshVehiclesList() async {

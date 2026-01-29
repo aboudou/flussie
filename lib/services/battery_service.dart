@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flussie/misc/constants.dart';
+
 class BatteryService {
 
   static final BatteryService _instance = BatteryService._internal();
@@ -17,17 +19,17 @@ class BatteryService {
 
     // Treat clearly invalid values as alert (keep existing alert behavior)
     if (batteryLevel < 0 || batteryLevel > 100) {
-      return (Icons.battery_alert, size, Colors.red);
+      return (Icons.battery_alert, size, Constants.batteryCriticalColor);
     }
 
     // Color by ranges: 0-5 red, 6-20 orange, 21-100 green
     final Color color;
     if (batteryLevel <= 5) {
-      color = Colors.red;
+      color = Constants.batteryCriticalColor;
     } else if (batteryLevel <= 20) {
-      color = Colors.orange;
+      color = Constants.batteryWarningColor;
     } else {
-      color = Colors.green;
+      color = Constants.batteryGoodColor;
     }
 
     // Map percentage 0..100 to bar index 0..6
