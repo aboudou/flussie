@@ -37,7 +37,7 @@ class BatteryHealth {
   final String? vin;
   final String? plate;
   final double? odometer;
-  final int? maxRange;
+  final double? maxRange;
   final double? maxIdealRange;
   final double? capacity;
   final double? originalCapacity;
@@ -49,7 +49,7 @@ class BatteryHealth {
       vin: json['vin'],
       plate: json['plate'],
       odometer: (json['odometer'] as num?)?.toDouble(),
-      maxRange: json['max_range'],
+      maxRange: (json['max_range'] as num?)?.toDouble(),
       maxIdealRange: (json['max_ideal_range'] as num?)?.toDouble(),
       capacity: (json['capacity'] as num?)?.toDouble(),
       originalCapacity: (json['original_capacity'] as num?)?.toDouble(),
