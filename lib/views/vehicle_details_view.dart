@@ -40,7 +40,20 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 200,
-                child: widget.viewModel.mapImage.value,
+                child: Image.memory(
+                  widget.viewModel.mapImageBytes.value,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.transparent,
+                      child: const Icon(Icons.location_off, size: 50, color: Colors.red),
+                    );
+                  },
+                ),
               ),
             ),
 

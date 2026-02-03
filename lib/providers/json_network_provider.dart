@@ -3,14 +3,14 @@ import 'package:get_storage/get_storage.dart';
 
 import 'package:flussie/misc/constants.dart';
 
-class NetworkProvider extends GetConnect {
-  static final NetworkProvider _instance = NetworkProvider._internal();
+class JsonNetworkProvider extends GetConnect {
+  static final JsonNetworkProvider _instance = JsonNetworkProvider._internal();
 
-  NetworkProvider._internal() {
+  JsonNetworkProvider._internal() {
     _clientSetup();
   }
 
-  factory NetworkProvider() {
+  factory JsonNetworkProvider() {
     return _instance;
   }
 

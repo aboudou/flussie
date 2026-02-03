@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +17,7 @@ class VehicleDetailsViewModel {
   final ApiProvider _api = ApiProvider();
   final String vin;
 
-  Rx<Image> mapImage = Image.memory(Base64Codec().decode("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")).obs; // Blank image placeholder
+  Rx<Uint8List> mapImageBytes = Uint8List(0).obs;
   RxString state = ''.obs;
   RxString chargePortState = ''.obs;
   RxString location = ''.obs;
@@ -28,11 +28,11 @@ class VehicleDetailsViewModel {
   RxString batteryHealth = ''.obs;
   RxString batteryDegradation = ''.obs;
 
-  void refresh() {
-    _api.getVehicle(vin).then((value) {
+  void refresh() async {
+    _api.getVehicle(vin).then((value) async {
       Vehicle vehicle = value;
 
-      mapImage.value = _api.getMapImage(vin, width: 500, height: 200, zoom: 16);
+      mapImageBytes.value = await _api.getMapImage(vin, width: 500, height: 200, zoom: 16);
       
       if (vehicle.chargeState?.chargerActualCurrent != null && vehicle.chargeState?.chargerActualCurrent != 0) {
         state.value = "Charging";

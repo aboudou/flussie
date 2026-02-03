@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
 
 import 'package:get/get.dart';
 
@@ -15,7 +15,7 @@ class VehiculeListViewModel {
   RxString token = ''.obs;
   RxList<VehicleListItem> vehicles = <VehicleListItem>[].obs;
   RxString location = 'Loading address…'.obs;
-  Rx<Image> mapImage = Image.asset('').obs;
+  Rx<Uint8List> mapImageBytes = Uint8List(0).obs;
   RxString errorMessage = ''.obs;
 
   // Vehicles management
@@ -43,8 +43,8 @@ class VehiculeListViewModel {
     }
   }
 
-  void refreshMapImage(String vin) {
-    mapImage.value = _api.getMapImage(vin);
+  void refreshMapImage(String vin) async {
+    mapImageBytes.value = await _api.getMapImage(vin);
   }
 
   // Token management

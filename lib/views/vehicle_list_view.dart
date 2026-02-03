@@ -167,9 +167,24 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                               spacing: 8.0,
                               children: [
                                 // Map image
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: vehicleListViewModel.mapImage.value,
+                                Obx(() => 
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.memory(
+                                      vehicleListViewModel.mapImageBytes.value,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Container(
+                                          width: 100,
+                                          height: 100,
+                                          color: Colors.transparent,
+                                          child: const Icon(Icons.location_off, size: 50, color: Colors.red),
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ),
 
                                 // Name and details
