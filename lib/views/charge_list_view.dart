@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/services/battery_ui_service.dart';
 import 'package:flussie/services/image_ui_service.dart';
+import 'package:flussie/viewmodels/charge_details_vm.dart';
 import 'package:flussie/viewmodels/charge_list_vm.dart';
+import 'package:flussie/views/charge_details_view.dart';
 
 class ChargeListView extends StatefulWidget {
   const ChargeListView({super.key, required this.viewModel});
@@ -68,8 +70,7 @@ class _ChargeListViewState extends State<ChargeListView> {
                     child: InkWell(
                       splashColor: Colors.blue.withAlpha(30),
                       onTap: () {
-                        // Get.to(() => VehicleTabView(viewModel: VehicleTabViewModel(vin: vin, name: name)));
-                        // TODO: Navigate to charge details view
+                        Get.to(() => ChargeDetailsView(viewModel: ChargeDetailsViewModel(charge: charge)));
                       },
                       child: 
                         Padding(
