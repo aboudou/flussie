@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class ImageService {
+class ImageUIService {
 
-  static final ImageService _instance = ImageService._internal();
+  static final ImageUIService _instance = ImageUIService._internal();
 
-  ImageService._internal();
+  ImageUIService._internal();
 
-  factory ImageService() {
+  factory ImageUIService() {
     return _instance;
   }
 

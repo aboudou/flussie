@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:flussie/services/battery_service.dart';
-import 'package:flussie/services/image_service.dart';
+import 'package:flussie/services/battery_ui_service.dart';
+import 'package:flussie/services/image_ui_service.dart';
 import 'package:flussie/viewmodels/vehicle_list_vm.dart';
 import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
 import 'package:flussie/views/token_setter_view.dart';
@@ -143,7 +143,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                     final vin = vehicle?.vin ?? '';
                     final name = vehicle?.displayName ?? 'Unknown Vehicle';
                     final batteryLevel = vehicle?.chargeState?.batteryLevel;
-                    final batteryData = BatteryService().getBatteryIcon(batteryLevel);
+                    final batteryData = BatteryUIService().getBatteryIcon(batteryLevel);
 
                     vehicleListViewModel.refreshVehicle(vin);
 
@@ -208,7 +208,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                                 // Battery level
                                 Column(
                                   children: [
-                                    ImageService().rotatedIcon(
+                                    ImageUIService().rotatedIcon(
                                       Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3),
                                       90,
                                     ),

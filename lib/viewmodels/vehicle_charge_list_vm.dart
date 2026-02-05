@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -6,8 +7,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/charge.dart';
 import 'package:flussie/providers/api_provider.dart';
-import 'package:flussie/services/battery_service.dart';
-import 'package:flussie/services/image_service.dart';
 
 class VehicleChargeListViewModel {
     VehicleChargeListViewModel({required this.vin}) {
@@ -60,20 +59,6 @@ class VehicleChargeListViewModel {
 
   String getEndBatteryLevel(Charge charge) {
     return '${charge.endingBattery ?? 0}%';
-  }
-
-  Container getStartBatteryIcon(Charge charge, double size) {
-    final batteryLevel = charge.startingBattery ?? 0;
-    final batteryData = BatteryService().getBatteryIcon(batteryLevel, size: size);
-    final icon = Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3);
-    return ImageService().rotatedIcon(icon, 90, size: size);
-  }
-
-  Container getEndBatteryIcon(Charge charge, double size) {
-    final batteryLevel = charge.endingBattery ?? 0;
-    final batteryData = BatteryService().getBatteryIcon(batteryLevel, size: size);
-    final icon = Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3);
-    return ImageService().rotatedIcon(icon, 90, size: size);
   }
 
   String getStartDate(Charge charge) {

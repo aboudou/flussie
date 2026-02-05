@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:flussie/services/battery_service.dart';
-import 'package:flussie/services/image_service.dart';
+import 'package:flussie/services/battery_ui_service.dart';
+import 'package:flussie/services/image_ui_service.dart';
 import 'package:flussie/viewmodels/vehicle_details_vm.dart';
 
 class VehicleDetailsView extends StatefulWidget {
@@ -24,8 +24,8 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final batteryData = BatteryService().getBatteryIcon(widget.viewModel.batteryLevel.value, size: _iconSize);
-      final batteryIcon = ImageService().rotatedIcon(Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3), 90, size: _iconSize);
+      final batteryData = BatteryUIService().getBatteryIcon(widget.viewModel.batteryLevel.value, size: _iconSize);
+      final batteryIcon = ImageUIService().rotatedIcon(Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3), 90, size: _iconSize);
 
       return SingleChildScrollView(
         scrollDirection: Axis.vertical,

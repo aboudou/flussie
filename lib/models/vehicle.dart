@@ -198,8 +198,8 @@ class ChargeState {
   final bool? superchargerSessionTripPlanner;
   final double? packCurrent;
   final double? packVoltage;
-  final int? moduleTempMin;
-  final int? moduleTempMax;
+  final double? moduleTempMin;
+  final double? moduleTempMax;
   final double? energyRemaining;
   final double? lifetimeEnergyUsed;
 
@@ -326,8 +326,8 @@ class ChargeState {
       superchargerSessionTripPlanner: json['supercharger_session_trip_planner'] as bool?,
       packCurrent: (json['pack_current'] as num?)?.toDouble(),
       packVoltage: (json['pack_voltage'] as num?)?.toDouble(),
-      moduleTempMin: (json['module_temp_min'] as num?)?.toInt(),
-      moduleTempMax: (json['module_temp_max'] as num?)?.toInt(),
+      moduleTempMin: (json['module_temp_min'] as num?)?.toDouble(),
+      moduleTempMax: (json['module_temp_max'] as num?)?.toDouble(),
       energyRemaining: (json['energy_remaining'] as num?)?.toDouble(),
       lifetimeEnergyUsed: (json['lifetime_energy_used'] as num?)?.toDouble(),
     );
@@ -604,10 +604,10 @@ class VehicleState {
       isUserPresent: json['is_user_present'] as bool?,
       softwareUpdate: json['software_update'] == null ? null : SoftwareUpdate.fromJson(json['software_update'] as Map<String, dynamic>),
       speedLimitMode: json['speed_limit_mode'] == null ? null : SpeedLimitMode.fromJson(json['speed_limit_mode'] as Map<String, dynamic>),
-      tpmsPressureFl: json['tpms_pressure_fl'] as double?,
-      tpmsPressureFr: json['tpms_pressure_fr'] as double?,
-      tpmsPressureRl: json['tpms_pressure_rl'] as double?,
-      tpmsPressureRr: json['tpms_pressure_rr'] as double?,
+      tpmsPressureFl: (json['tpms_pressure_fl'] as num?)?.toDouble(),
+      tpmsPressureFr: (json['tpms_pressure_fr'] as num?)?.toDouble(),
+      tpmsPressureRl: (json['tpms_pressure_rl'] as num?)?.toDouble(),
+      tpmsPressureRr: (json['tpms_pressure_rr'] as num?)?.toDouble(),
       autoparkStateV2: json['autopark_state_v2'] as String?,
       calendarSupported: json['calendar_supported'] as bool?,
       lastAutoparkError: json['last_autopark_error'] as String?,

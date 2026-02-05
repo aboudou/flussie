@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:flussie/misc/constants.dart';
 
-class BatteryService {
+class BatteryUIService {
 
-  static final BatteryService _instance = BatteryService._internal();
+  static final BatteryUIService _instance = BatteryUIService._internal();
 
-  BatteryService._internal();
+  BatteryUIService._internal();
 
-  factory BatteryService() {
+  factory BatteryUIService() {
     return _instance;
   }
 

@@ -1,9 +1,8 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-import 'package:flutter/material.dart';
 
 import 'package:flussie/models/battery_health.dart';
 import 'package:flussie/models/vehicle.dart';
