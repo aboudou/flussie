@@ -8,8 +8,8 @@ import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/charge.dart';
 import 'package:flussie/providers/api_provider.dart';
 
-class VehicleChargeListViewModel {
-    VehicleChargeListViewModel({required this.vin}) {
+class ChargeListViewModel {
+    ChargeListViewModel({required this.vin}) {
     initializeDateFormatting();
     refresh();
   }

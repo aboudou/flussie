@@ -5,22 +5,22 @@ import 'package:intl/intl.dart';
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/services/battery_ui_service.dart';
 import 'package:flussie/services/image_ui_service.dart';
-import 'package:flussie/viewmodels/vehicle_charge_list_vm.dart';
+import 'package:flussie/viewmodels/charge_list_vm.dart';
 
-class VehicleChargeListView extends StatefulWidget {
-  const VehicleChargeListView({super.key, required this.viewModel});
+class ChargeListView extends StatefulWidget {
+  const ChargeListView({super.key, required this.viewModel});
 
-  final VehicleChargeListViewModel viewModel;
+  final ChargeListViewModel viewModel;
 
   void refresh() {
     viewModel.refresh();
   }
 
   @override
-  State<VehicleChargeListView> createState() => _VehicleChargeListViewState();
+  State<ChargeListView> createState() => _ChargeListViewState();
 }
 
-class _VehicleChargeListViewState extends State<VehicleChargeListView> {
+class _ChargeListViewState extends State<ChargeListView> {
 
   static const _iconSizeRegular = 25.0;
   static const _iconSizeSmall = 16.0;
