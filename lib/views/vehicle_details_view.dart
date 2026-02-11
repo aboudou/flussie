@@ -4,9 +4,11 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:flussie/services/image_ui_service.dart';
+import 'package:flussie/services/ui_service.dart';
 import 'package:flussie/viewmodels/vehicle_details_vm.dart';
 import 'package:flussie/widgets/battery.dart';
+import 'package:flussie/widgets/grid_builder.dart';
+import 'package:flussie/widgets/info_row.dart';
 
 class VehicleDetailsView extends StatefulWidget {
   const VehicleDetailsView({super.key, required this.viewModel});
@@ -66,7 +68,7 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                           point: widget.viewModel.coordinates.value,
                           width: 80,
                           height: 80,
-                          child: ImageUIService().rotatedIcon(
+                          child: UIService().rotatedIcon(
                             Icon(Icons.navigation, size: 30, color: Colors.blue),
                             widget.viewModel.heading.value,
                             size: 30,
@@ -93,19 +95,25 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                     style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
 
-                  _gridBuilder([
-                    _infoRow(Icon(Icons.drive_eta, size: _iconSize), 'State', widget.viewModel.state.value),
-                    _infoRow(Icon(Icons.outlet, size: _iconSize), 'Charge Port', widget.viewModel.chargePortState.value),
-                  ]),
+                  GridBuilder(
+                    rowHeight: _gridRowHeight,
+                    items: [
+                      InfoRow(icon: Icon(Icons.drive_eta, size: _iconSize), title: 'State', text: widget.viewModel.state.value),
+                      InfoRow(icon: Icon(Icons.outlet, size: _iconSize), title: 'Charge Port', text: widget.viewModel.chargePortState.value),
+                    ]
+                  ),
 
                   Container(
                     constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight + 20),
-                    child: _infoRow(Icon(Icons.location_on, size: _iconSize), 'Location', widget.viewModel.location.value),
+                    child: InfoRow(icon: Icon(Icons.location_on, size: _iconSize), title: 'Location', text: widget.viewModel.location.value),
                   ),
 
-                  _gridBuilder([
-                    _infoRow(Icon(Icons.speed, size: _iconSize), 'Odometer', widget.viewModel.odometer.value),
-                  ]),
+                  GridBuilder(
+                    rowHeight: _gridRowHeight,
+                    items: [
+                      InfoRow(icon: Icon(Icons.speed, size: _iconSize), title: 'Odometer', text: widget.viewModel.odometer.value),
+                    ]
+                  ),
 
 
                   // Battery section
@@ -115,15 +123,17 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                     style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
 
-                  _gridBuilder([
-                      _infoRow(Battery(level: widget.viewModel.batteryLevel.value), 'Level', '${widget.viewModel.batteryLevel.value}%',),
-                      _infoRow(Battery(level: widget.viewModel.batteryLevel.value), 'Energy', widget.viewModel.remainingEnergy.value),
+                  GridBuilder(
+                    rowHeight: _gridRowHeight,
+                    items: [
+                      InfoRow(icon: Battery(level: widget.viewModel.batteryLevel.value), title: 'Level', text: '${widget.viewModel.batteryLevel.value}%'),
+                      InfoRow(icon: Battery(level: widget.viewModel.batteryLevel.value), title: 'Energy', text: widget.viewModel.remainingEnergy.value),
 
-                      _infoRow(Icon(Icons.add_road, size: _iconSize), 'Range', '${widget.viewModel.batteryRange.value} km'),
-                      _infoRow(Container(), '', ''),
+                      InfoRow(icon: Icon(Icons.add_road, size: _iconSize), title: 'Range', text: '${widget.viewModel.batteryRange.value} km'),
+                      InfoRow(icon: Container(), title: '', text: ''),
 
-                      _infoRow(Icon(Icons.monitor_heart, size: _iconSize), 'Battery health', widget.viewModel.batteryHealth.value,),
-                      _infoRow(Icon(Icons.monitor_heart, size: _iconSize), 'Degradation', widget.viewModel.batteryDegradation.value),
+                      InfoRow(icon: Icon(Icons.monitor_heart, size: _iconSize), title: 'Battery health', text: widget.viewModel.batteryHealth.value,),
+                      InfoRow(icon: Icon(Icons.monitor_heart, size: _iconSize), title: 'Degradation', text: widget.viewModel.batteryDegradation.value),
                   ]),
                 ],
               ),
@@ -132,45 +142,5 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
         ),
       );
     });
-  }
-
-  Widget _infoRow(Widget icon, String title, String text) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 8.0,
-      children: [
-        icon,
-        Flexible( 
-          fit: FlexFit.loose,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 0.0,
-            children: [
-              Text(title, style: TextStyle(color: Colors.grey[700])),
-              Spacer(),
-              Text(text, softWrap: true, overflow: TextOverflow.fade,),
-            ],
-          ),
-        ),
-      ]
-    );
-  }
-
-  Widget _gridBuilder(List<Widget> items) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisExtent: _gridRowHeight,
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 16.0,
-      ),
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        return items[index];
-      },
-    );
   }
 }

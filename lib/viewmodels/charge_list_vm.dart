@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/charge.dart';
 import 'package:flussie/providers/api_provider.dart';
 
@@ -39,13 +38,13 @@ class ChargeListViewModel {
     });
   }
 
-  Color getChargeTypeColor(Charge charge) {
+  String getStationType(Charge charge) {
     if (charge.isSupercharger == true) {
-      return Constants.chargeTypeSuperchargerColor;
+      return 'supercharger';
     } else if (charge.isFastCharger == true) {
-      return Constants.chargeTypeFastChargerColor ;
+      return 'fastCharger';
     } else {
-      return Constants.chargeTypeStandardChargerColor;
+      return 'standardCharger';
     }
   }
 

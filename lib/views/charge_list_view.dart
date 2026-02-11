@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flussie/misc/constants.dart';
+import 'package:flussie/services/ui_service.dart';
 import 'package:flussie/viewmodels/charge_details_vm.dart';
 import 'package:flussie/viewmodels/charge_list_vm.dart';
 import 'package:flussie/views/charge_details_view.dart';
@@ -88,7 +89,7 @@ class _ChargeListViewState extends State<ChargeListView> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       spacing: 4.0,
                                       children: [
-                                        Icon(Icons.flash_on, color: widget.viewModel.getChargeTypeColor(charge), size: _iconSizeRegular),
+                                        Icon(Icons.flash_on, color: UIService().getChargeTypeColor(widget.viewModel.getStationType(charge)), size: _iconSizeRegular),
                                         Flexible( 
                                           fit: FlexFit.loose,
                                           child: Text(widget.viewModel.getChargeLocation(charge), style: TextStyle(fontWeight: FontWeight.bold),),

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:flussie/misc/constants.dart';
-import 'package:flussie/services/image_ui_service.dart';
+import 'package:flussie/services/ui_service.dart';
 
 class Battery extends StatelessWidget {
 
   const Battery(
-    { super.key,
-    this.level = 100,
-    this.size = 25.0
+    {
+      super.key,
+      this.level = 100,
+      this.size = 25.0
     }
   );
 
@@ -17,7 +18,7 @@ class Battery extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return ImageUIService().rotatedIcon(
+    return UIService().rotatedIcon(
       Icon(
         _getBatteryIcon(level, size: size).$1, 
         size: _getBatteryIcon(level, size: size).$2, 
