@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flussie/misc/constants.dart';
-import 'package:flussie/services/battery_ui_service.dart';
-import 'package:flussie/services/image_ui_service.dart';
 import 'package:flussie/viewmodels/charge_details_vm.dart';
 import 'package:flussie/viewmodels/charge_list_vm.dart';
 import 'package:flussie/views/charge_details_view.dart';
+import 'package:flussie/widgets/battery.dart';
 
 class ChargeListView extends StatefulWidget {
   const ChargeListView({super.key, required this.viewModel});
@@ -105,7 +105,7 @@ class _ChargeListViewState extends State<ChargeListView> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           spacing: 4.0,
                                           children: [
-                                            _getBatteryIcon(charge.startingBattery, _iconSizeRegular),
+                                            Battery(level: charge.startingBattery ?? 0, size: _iconSizeRegular),
                                             Text(widget.viewModel.getStartBatteryLevel(charge), style: TextStyle(color: Constants.darkGreyColor),),
                                             Text('•', style: TextStyle(color: Constants.darkGreyColor),),
                                             Text(widget.viewModel.getStartDate(charge), style: TextStyle(color: Constants.darkGreyColor),),
@@ -122,7 +122,7 @@ class _ChargeListViewState extends State<ChargeListView> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           spacing: 4.0,
                                           children: [
-                                            _getBatteryIcon(charge.endingBattery, _iconSizeRegular),
+                                            Battery(level: charge.endingBattery ?? 0, size: _iconSizeRegular),
                                             Text(widget.viewModel.getEndBatteryLevel(charge), style: TextStyle(color: Constants.darkGreyColor),),
                                             Text('•', style: TextStyle(color: Constants.darkGreyColor),),
                                             Text(widget.viewModel.getEndDate(charge), style: TextStyle(color: Constants.darkGreyColor),),
@@ -168,12 +168,6 @@ class _ChargeListViewState extends State<ChargeListView> {
         ),
       );
     });
-  }
-
-  Widget _getBatteryIcon(int? batteryLevel, double size) {
-    final batteryData = BatteryUIService().getBatteryIcon(batteryLevel ?? 0, size: size);
-    final icon = Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3);
-    return ImageUIService().rotatedIcon(icon, 90, size: size);
   }
 
   Widget _filtersPanel() {

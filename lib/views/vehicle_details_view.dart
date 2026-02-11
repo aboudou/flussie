@@ -4,9 +4,9 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:flussie/services/battery_ui_service.dart';
 import 'package:flussie/services/image_ui_service.dart';
 import 'package:flussie/viewmodels/vehicle_details_vm.dart';
+import 'package:flussie/widgets/battery.dart';
 
 class VehicleDetailsView extends StatefulWidget {
   const VehicleDetailsView({super.key, required this.viewModel});
@@ -27,9 +27,6 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final batteryData = BatteryUIService().getBatteryIcon(widget.viewModel.batteryLevel.value, size: _iconSize);
-      final batteryIcon = ImageUIService().rotatedIcon(Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3), 90, size: _iconSize);
-
       return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -119,8 +116,8 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                   ),
 
                   _gridBuilder([
-                      _infoRow(batteryIcon, 'Level', '${widget.viewModel.batteryLevel.value}%',),
-                      _infoRow(batteryIcon, 'Energy', widget.viewModel.remainingEnergy.value),
+                      _infoRow(Battery(level: widget.viewModel.batteryLevel.value), 'Level', '${widget.viewModel.batteryLevel.value}%',),
+                      _infoRow(Battery(level: widget.viewModel.batteryLevel.value), 'Energy', widget.viewModel.remainingEnergy.value),
 
                       _infoRow(Icon(Icons.add_road, size: _iconSize), 'Range', '${widget.viewModel.batteryRange.value} km'),
                       _infoRow(Container(), '', ''),

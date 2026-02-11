@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:flussie/services/battery_ui_service.dart';
-import 'package:flussie/services/image_ui_service.dart';
 import 'package:flussie/viewmodels/vehicle_list_vm.dart';
 import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
 import 'package:flussie/views/token_setter_view.dart';
 import 'package:flussie/views/vehicle_tab_view.dart';
+import 'package:flussie/widgets/battery.dart';
 
 class VehiculeListView extends StatefulWidget {
   const VehiculeListView({super.key});
@@ -143,7 +142,6 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                     final vin = vehicle?.vin ?? '';
                     final name = vehicle?.displayName ?? 'Unknown Vehicle';
                     final batteryLevel = vehicle?.chargeState?.batteryLevel;
-                    final batteryData = BatteryUIService().getBatteryIcon(batteryLevel);
 
                     vehicleListViewModel.refreshVehicle(vin);
 
@@ -208,10 +206,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                                 // Battery level
                                 Column(
                                   children: [
-                                    ImageUIService().rotatedIcon(
-                                      Icon(batteryData.$1, size: batteryData.$2, color: batteryData.$3),
-                                      90,
-                                    ),
+                                    Battery(level: batteryLevel ?? 0),
                                     const SizedBox(height: 4),
                                     Text(
                                       '${batteryLevel ?? 'N/A'}%',

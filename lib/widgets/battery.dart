@@ -1,39 +1,55 @@
 import 'package:flutter/material.dart';
 
 import 'package:flussie/misc/constants.dart';
+import 'package:flussie/services/image_ui_service.dart';
 
-class BatteryUIService {
+class Battery extends StatelessWidget {
 
-  static final BatteryUIService _instance = BatteryUIService._internal();
+  const Battery(
+    { super.key,
+    this.level = 100,
+    this.size = 25.0
+    }
+  );
 
-  BatteryUIService._internal();
-
-  factory BatteryUIService() {
-    return _instance;
+  final int level;
+  final double size;
+  
+  @override
+  Widget build(BuildContext context) {
+    return ImageUIService().rotatedIcon(
+      Icon(
+        _getBatteryIcon(level, size: size).$1, 
+        size: _getBatteryIcon(level, size: size).$2, 
+        color: _getBatteryIcon(level, size: size).$3
+      ),
+      90, 
+      size: size
+    );
   }
 
-  (IconData, double, Color) getBatteryIcon(int? batteryLevel, {double size = 25.0}) {
-    if (batteryLevel == null) {
+  (IconData, double, Color) _getBatteryIcon(int? level, {double size = 25.0}) {
+    if (level == null) {
       return (Icons.battery_unknown, size, Colors.black);
     }
 
     // Treat clearly invalid values as alert (keep existing alert behavior)
-    if (batteryLevel < 0 || batteryLevel > 100) {
+    if (level < 0 || level > 100) {
       return (Icons.battery_alert, size, Constants.batteryCriticalColor);
     }
 
     // Color by ranges: 0-5 red, 6-20 orange, 21-100 green
     final Color color;
-    if (batteryLevel <= 5) {
+    if (level <= 5) {
       color = Constants.batteryCriticalColor;
-    } else if (batteryLevel <= 20) {
+    } else if (level <= 20) {
       color = Constants.batteryWarningColor;
     } else {
       color = Constants.batteryGoodColor;
     }
 
     // Map percentage 0..100 to bar index 0..6
-    int bar = ((batteryLevel * 6) / 100).round();
+    int bar = ((level * 6) / 100).round();
     if (bar < 0) bar = 0;
     if (bar > 6) bar = 6;
 
