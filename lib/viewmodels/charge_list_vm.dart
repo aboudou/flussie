@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'package:flussie/enums/charge_type.dart';
 import 'package:flussie/models/charge.dart';
 import 'package:flussie/providers/api_provider.dart';
 
@@ -38,13 +39,13 @@ class ChargeListViewModel {
     });
   }
 
-  String getStationType(Charge charge) {
+  ChargeType getStationType(Charge charge) {
     if (charge.isSupercharger == true) {
-      return 'supercharger';
+      return ChargeType.supercharger;
     } else if (charge.isFastCharger == true) {
-      return 'fastCharger';
+      return ChargeType.fastCharger;
     } else {
-      return 'standardCharger';
+      return ChargeType.standardCharger;
     }
   }
 

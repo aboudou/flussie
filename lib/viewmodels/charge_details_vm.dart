@@ -1,5 +1,6 @@
 import 'package:latlong2/latlong.dart';
 
+import 'package:flussie/enums/charge_type.dart';
 import 'package:flussie/models/charge.dart';
 
 class ChargeDetailsViewModel {
@@ -10,7 +11,7 @@ class ChargeDetailsViewModel {
   final Charge charge;
 
   LatLng coordinates = LatLng(0, 0);
-  String stationType = 'standardCharger';
+  ChargeType stationType = ChargeType.standardCharger;
 
   void _initViewModel() async {
     if (charge.latitude != null && charge.longitude != null) {
@@ -18,11 +19,11 @@ class ChargeDetailsViewModel {
     }
 
     if (charge.isSupercharger == true) {
-      stationType = 'supercharger';
+      stationType = ChargeType.supercharger;
     } else if (charge.isFastCharger == true) {
-      stationType = 'fastCharger';
+      stationType = ChargeType.fastCharger;
     } else {
-      stationType = 'standardCharger';
+      stationType = ChargeType.standardCharger;
     }
   }
 }

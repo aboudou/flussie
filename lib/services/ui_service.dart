@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+import 'package:flussie/enums/charge_type.dart';
 import 'package:flussie/misc/constants.dart';
 
 class UIService {
@@ -26,10 +27,10 @@ class UIService {
     );
   }
 
-  Color getChargeTypeColor(String stationType) {
-    if (stationType == 'supercharger') {
+  Color getChargeTypeColor(ChargeType stationType) {
+    if (stationType == ChargeType.supercharger) {
       return Constants.chargeTypeSuperchargerColor;
-    } else if (stationType == 'fastCharger') {
+    } else if (stationType == ChargeType.fastCharger) {
       return Constants.chargeTypeFastChargerColor ;
     } else {
       return Constants.chargeTypeStandardChargerColor;
