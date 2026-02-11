@@ -1,13 +1,19 @@
-import 'package:flussie/services/ui_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:flussie/misc/constants.dart';
+import 'package:flussie/services/ui_service.dart';
 import 'package:flussie/viewmodels/charge_details_vm.dart';
+import 'package:flussie/widgets/battery.dart';
+import 'package:flussie/widgets/info_row.dart';
 
 class ChargeDetailsView extends StatelessWidget {
   const ChargeDetailsView({super.key, required this.viewModel});
+
+  static const _gridRowHeight = 45.0;
+  static const _iconSize = 25.0;
 
   final ChargeDetailsViewModel viewModel;
 
@@ -74,7 +80,40 @@ class ChargeDetailsView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 16.0,
                 children: [
-                  Text('Charge details will go here'),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    spacing: 4.0,
+                    children: [
+                      Icon(Icons.bolt, color: UIService().getChargeTypeColor(viewModel.stationType), size: _iconSize),
+                      Flexible( 
+                        fit: FlexFit.loose,
+                        child: Text(viewModel.location, style: TextStyle(fontWeight: FontWeight.bold),),
+                      ),
+                    ],
+                  ),
+
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 0.0,
+                    children: [
+                      Container(
+                        constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
+                        child: InfoRow(icon: Battery(level: viewModel.startingBattery, size: _iconSize), title: viewModel.startBatteryDate, text: viewModel.startBatteryLevel),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: (_iconSize - _iconSize) / 2),
+                        child: Icon(Icons.more_vert, size: _iconSize, color: Constants.darkGreyColor,),
+                      ),
+
+                      Container(
+                        constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
+                        child: InfoRow(icon: Battery(level: viewModel.endingBattery, size: _iconSize), title: viewModel.endBatteryDate, text: viewModel.endBatteryLevel),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
