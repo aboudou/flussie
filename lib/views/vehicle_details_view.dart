@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flussie/services/battery_ui_service.dart';
 import 'package:flussie/services/image_ui_service.dart';
@@ -40,20 +43,42 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 200,
-                child: Image.memory(
-                  widget.viewModel.mapImageBytes.value,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 100,
-                      height: 100,
-                      color: Colors.transparent,
-                      child: const Icon(Icons.location_off, size: 50, color: Colors.red),
-                    );
-                  },
-                ),
+                child: FlutterMap(
+                  mapController: MapController(),
+                  options: MapOptions(
+                    initialCenter: widget.viewModel.coordinates.value,
+                    initialZoom: 18.0,
+                  ),
+                  children: [
+                    TileLayer( // Bring your own tiles
+                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'flussie.app',
+                      // And many more recommended properties!
+                    ),
+                    RichAttributionWidget(
+                      attributions: [
+                        TextSourceAttribution(
+                          'OpenStreetMap contributors',
+                          onTap: () async => await launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                        ),
+                      ],
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          point: widget.viewModel.coordinates.value,
+                          width: 80,
+                          height: 80,
+                          child: ImageUIService().rotatedIcon(
+                            Icon(Icons.navigation, size: 30, color: Colors.blue),
+                            widget.viewModel.heading.value,
+                            size: 30,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),  
               ),
             ),
 

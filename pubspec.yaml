@@ -13,6 +13,9 @@ dependencies:
   get_storage: 
   http: 
   intl:
+  flutter_map:
+  latlong2:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:

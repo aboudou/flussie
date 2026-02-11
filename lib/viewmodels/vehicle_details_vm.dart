@@ -1,8 +1,8 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'package:flussie/models/battery_health.dart';
 import 'package:flussie/models/vehicle.dart';
@@ -16,7 +16,8 @@ class VehicleDetailsViewModel {
   final ApiProvider _api = ApiProvider();
   final String vin;
 
-  Rx<Uint8List> mapImageBytes = Uint8List(0).obs;
+  Rx<LatLng> coordinates = LatLng(0, 0).obs;
+  RxDouble heading = 0.0.obs;
   RxString state = ''.obs;
   RxString chargePortState = ''.obs;
   RxString location = ''.obs;
@@ -31,7 +32,8 @@ class VehicleDetailsViewModel {
     _api.getVehicle(vin).then((value) async {
       Vehicle vehicle = value;
 
-      mapImageBytes.value = await _api.getMapImage(vin, width: 500, height: 200, zoom: 16);
+      coordinates.value = LatLng(vehicle.driveState?.latitude ?? 0.0, vehicle.driveState?.longitude ?? 0.0);
+      heading.value = vehicle.driveState?.heading?.toDouble() ?? 0.0;
       
       if (vehicle.chargeState?.chargerActualCurrent != null && vehicle.chargeState?.chargerActualCurrent != 0) {
         state.value = "Charging";
