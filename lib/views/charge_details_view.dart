@@ -98,13 +98,18 @@ class ChargeDetailsView extends StatelessWidget {
         ),
 
         Container(
-          width: size - 10,
-          height: size - 10,
+          width: size - 5,
+          height: size - 5,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: color,
           ),
-        )
+        ),
+
+        Icon(
+          Icons.bolt, 
+          size: size - 10, 
+          color: Colors.white),
       ],
     );
   }
