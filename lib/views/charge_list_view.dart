@@ -89,7 +89,7 @@ class _ChargeListViewState extends State<ChargeListView> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       spacing: 4.0,
                                       children: [
-                                        Icon(Icons.flash_on, color: UIService().getChargeTypeColor(widget.viewModel.getStationType(charge)), size: _iconSizeRegular),
+                                        Icon(Icons.bolt, color: UIService().getChargeTypeColor(widget.viewModel.getStationType(charge)), size: _iconSizeRegular),
                                         Flexible( 
                                           fit: FlexFit.loose,
                                           child: Text(widget.viewModel.getChargeLocation(charge), style: TextStyle(fontWeight: FontWeight.bold),),
