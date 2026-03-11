@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flussie/viewmodels/charge_list_vm.dart';
+import 'package:flussie/viewmodels/drive_list_vm.dart';
 import 'package:flussie/viewmodels/vehicle_details_vm.dart';
 import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
 import 'package:flussie/views/charge_list_view.dart';
+import 'package:flussie/views/drive_list_view.dart';
 import 'package:flussie/views/vehicle_details_view.dart';
 
 class VehicleTabView extends StatelessWidget {
@@ -15,7 +17,7 @@ class VehicleTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     final detailsTab = VehicleDetailsView(viewModel: VehicleDetailsViewModel(vin: viewModel.vin));
     final chargesTab = ChargeListView(viewModel: ChargeListViewModel(vin: viewModel.vin));
-    final drivesTab = Center(child: Text('Drives view for vehicle ${viewModel.vin}'));
+    final drivesTab = DriveListView(viewModel: DriveListViewModel(vin: viewModel.vin));
     
     return DefaultTabController(
       length: 3,
@@ -36,8 +38,7 @@ class VehicleTabView extends StatelessWidget {
                       chargesTab.refresh();
                       break;
                     case 2:
-                      // TODO: Handle drives refresh
-                      // drivesTab.refresh();
+                      drivesTab.refresh();
                       break;
                   }
                 },

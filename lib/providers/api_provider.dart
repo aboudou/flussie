@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flussie/models/battery_health.dart';
 import 'package:flussie/models/charge.dart';
+import 'package:flussie/models/drive.dart';
 import 'package:flussie/models/location.dart';
 import 'package:flussie/models/vehicle.dart';
 import 'package:flussie/models/vehicles.dart';
@@ -74,4 +75,15 @@ class ApiProvider {
 
     return ChargeList.fromJson(response.body as Map<String, dynamic>);
   }
+
+  Future<DriveList> getDrives(String vin, int startDate, int endDate) async {
+    final response = await _jsonNetworkProvider.fetchDrives(vin, false, startDate, endDate);
+
+    if (response.status.hasError) {
+      throw Exception('Failed to load drives for $vin: ${response.statusText}');
+    }
+
+    return DriveList.fromJson(response.body as Map<String, dynamic>);
+  }
+
 }
