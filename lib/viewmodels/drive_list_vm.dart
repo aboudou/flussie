@@ -37,52 +37,54 @@ class DriveListViewModel {
     });
   }
 
-  // String getChargeLocation(Charge charge) {
-  //   return (charge.savedLocation?.isEmpty ?? true) ? (charge.location ?? "Unknown location") : charge.savedLocation ?? "Unknown location";
-  // }
+  String getDriveStartLocation(Drive drive) {
+    return (drive.startingSavedLocation?.isEmpty ?? true) ? (drive.startingLocation ?? "Unknown location") : drive.startingSavedLocation ?? "Unknown location";
+  }
   
-  // String getStartBatteryLevel(Charge charge) {
-  //   return '${charge.startingBattery ?? 0}%';
-  // }
+  String getStartBatteryLevel(Drive drive) {
+    return '${drive.startingBattery ?? 0}%';
+  }
 
-  // String getEndBatteryLevel(Charge charge) {
-  //   return '${charge.endingBattery ?? 0}%';
-  // }
+  String getDriveEndLocation(Drive drive) {
+    return (drive.endingSavedLocation?.isEmpty ?? true) ? (drive.endingLocation ?? "Unknown location") : drive.endingSavedLocation ?? "Unknown location";
+  }
 
-  // String getStartDate(Charge charge) {
-  //   final startDate = DateTime.fromMillisecondsSinceEpoch((charge.startedAt ?? 0) * 1000);
-  //   if (startDate.year == DateTime.now().year) {
-  //     return DateFormat(_dateFormatCurrentYear, locale.toString()).format(startDate);
-  //   } else {
-  //     return DateFormat(_dateFormatPreviousYear, locale.toString()).format(startDate);
-  //   }
-  // }
+  String getEndBatteryLevel(Drive drive) {
+    return '${drive.endingBattery ?? 0}%';
+  }
 
-  // String getEndDate(Charge charge) {
-  //   final endDate = DateTime.fromMillisecondsSinceEpoch((charge.endedAt ?? 0) * 1000);
-  //   if (endDate.year == DateTime.now().year) {
-  //     return DateFormat(_dateFormatCurrentYear, locale.toString()).format(endDate);
-  //   } else {
-  //     return DateFormat(_dateFormatPreviousYear, locale.toString()).format(endDate);
-  //   }
-  // }
+  String getStartDate(Drive drive) {
+    final startDate = DateTime.fromMillisecondsSinceEpoch((drive.startedAt ?? 0) * 1000);
+    if (startDate.year == DateTime.now().year) {
+      return DateFormat(_dateFormatCurrentYear, locale.toString()).format(startDate);
+    } else {
+      return DateFormat(_dateFormatPreviousYear, locale.toString()).format(startDate);
+    }
+  }
 
-  // String getCost(Charge charge) {
-  //   return charge.cost != null ? '${NumberFormat("#,##0.00", locale.toString()).format(charge.cost)} €' : 'N/A';
-  // }
+  String getEndDate(Drive drive) {
+    final endDate = DateTime.fromMillisecondsSinceEpoch((drive.endedAt ?? 0) * 1000);
+    if (endDate.year == DateTime.now().year) {
+      return DateFormat(_dateFormatCurrentYear, locale.toString()).format(endDate);
+    } else {
+      return DateFormat(_dateFormatPreviousYear, locale.toString()).format(endDate);
+    }
+  }
 
-  // String getEnergyAdded(Charge charge) {
-  //   return charge.energyAdded != null ? '${charge.energyAdded?.toStringAsFixed(0)} kWh' : 'N/A';
-  // }
+  String getDriveDuration(Drive drive) {
+    if (drive.startedAt != null && drive.endedAt != null) {
+      final duration = Duration(seconds: (drive.endedAt! - drive.startedAt!));
+      final hours = duration.inHours;
+      final minutes = duration.inMinutes.remainder(60);
+      return '${hours}h ${minutes}m';
+    }
+    return 'Unknown duration';
+  }
 
-  // String getDuration(Charge charge) {
-  //   final startDate = DateTime.fromMillisecondsSinceEpoch((charge.startedAt ?? 0) * 1000);
-  //   final endDate = DateTime.fromMillisecondsSinceEpoch((charge.endedAt ?? 0) * 1000);
-  //   final duration = Duration(seconds: endDate.difference(startDate).inSeconds);
-  //   return [
-  //     if (duration.inHours > 0) '${duration.inHours}h',
-  //     if (duration.inMinutes.remainder(60) > 0) '${duration.inMinutes.remainder(60)}m',
-  //   ].join(' ');
-  // }
-
+  String getDriveDistance(Drive drive) {
+    if (drive.odometerDistance != null) {
+      return '${NumberFormat("#,##0.00", locale.toString()).format(drive.odometerDistance!)} km';
+    }
+    return 'Unknown distance';
+  }
 }

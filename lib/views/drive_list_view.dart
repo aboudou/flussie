@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flussie/misc/constants.dart';
-import 'package:flussie/services/ui_service.dart';
 import 'package:flussie/viewmodels/drive_list_vm.dart';
 import 'package:flussie/widgets/battery.dart';
+import 'package:flussie/widgets/info_row.dart';
 
 class DriveListView extends StatefulWidget {
   const DriveListView({super.key, required this.viewModel});
@@ -82,78 +82,56 @@ class _DriveListViewState extends State<DriveListView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   spacing: 8.0,
                                   children: [
-                                    // Row(
-                                    //   mainAxisSize: MainAxisSize.min,
-                                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                                    //   spacing: 4.0,
-                                    //   children: [
-                                    //     Icon(Icons.bolt, color: UIService().getChargeTypeColor(widget.viewModel.getStationType(charge)), size: _iconSizeRegular),
-                                    //     Flexible( 
-                                    //       fit: FlexFit.loose,
-                                    //       child: Text(widget.viewModel.getChargeLocation(charge), style: TextStyle(fontWeight: FontWeight.bold),),
-                                    //     ),
-                                    //   ],
-                                    // ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      spacing: 0.0,
+                                      children: [
+                                        InfoRow(
+                                          icon: Battery(level: drive.startingBattery ?? 0, size: _iconSizeRegular), 
+                                          title: widget.viewModel.getDriveStartLocation(drive), 
+                                          text: '${widget.viewModel.getStartBatteryLevel(drive)} • ${widget.viewModel.getStartDate(drive)}',
+                                          titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                          textStyle: TextStyle(color: Constants.darkGreyColor),
+                                        ),
 
-                                    // Column(
-                                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                                    //   spacing: 0.0,
-                                    //   children: [
-                                    //     Row(
-                                    //       mainAxisSize: MainAxisSize.min,
-                                    //       crossAxisAlignment: CrossAxisAlignment.center,
-                                    //       spacing: 4.0,
-                                    //       children: [
-                                    //         Battery(level: charge.startingBattery ?? 0, size: _iconSizeRegular),
-                                    //         Text(widget.viewModel.getStartBatteryLevel(charge), style: TextStyle(color: Constants.darkGreyColor),),
-                                    //         Text('•', style: TextStyle(color: Constants.darkGreyColor),),
-                                    //         Text(widget.viewModel.getStartDate(charge), style: TextStyle(color: Constants.darkGreyColor),),
-                                    //       ],
-                                    //     ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: (_iconSizeRegular - _iconSizeSmall) / 2),
+                                          child: Icon(Icons.more_vert, size: _iconSizeSmall, color: Constants.darkGreyColor,),
+                                        ),
 
-                                    //     Padding(
-                                    //       padding: const EdgeInsets.symmetric(horizontal: (_iconSizeRegular - _iconSizeSmall) / 2),
-                                    //       child: Icon(Icons.more_vert, size: _iconSizeSmall, color: Constants.darkGreyColor,),
-                                    //     ),
+                                        InfoRow(
+                                          icon: Battery(level: drive.endingBattery ?? 0, size: _iconSizeRegular), 
+                                          title: widget.viewModel.getDriveEndLocation(drive), 
+                                          text: '${widget.viewModel.getEndBatteryLevel(drive)} • ${widget.viewModel.getEndDate(drive)}',
+                                          titleStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                          textStyle: TextStyle(color: Constants.darkGreyColor),
+                                        ),
+                                      ],
+                                    ),
 
-                                    //     Row(
-                                    //       mainAxisSize: MainAxisSize.min,
-                                    //       crossAxisAlignment: CrossAxisAlignment.center,
-                                    //       spacing: 4.0,
-                                    //       children: [
-                                    //         Battery(level: charge.endingBattery ?? 0, size: _iconSizeRegular),
-                                    //         Text(widget.viewModel.getEndBatteryLevel(charge), style: TextStyle(color: Constants.darkGreyColor),),
-                                    //         Text('•', style: TextStyle(color: Constants.darkGreyColor),),
-                                    //         Text(widget.viewModel.getEndDate(charge), style: TextStyle(color: Constants.darkGreyColor),),
-                                    //       ],
-                                    //     ),
-                                    //   ],
-                                    // ),
-
-                                    // Row(
-                                    //   mainAxisSize: MainAxisSize.min,
-                                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                                    //   spacing: 16.0,
-                                    //   children: [
-                                    //     Text(widget.viewModel.getCost(charge), style: TextStyle(color: Colors.blue),),
-                                    //     Row(
-                                    //       crossAxisAlignment: CrossAxisAlignment.center,
-                                    //       spacing: 4.0,
-                                    //       children: [
-                                    //         Icon(Icons.ev_station, color: Constants.darkGreyColor, size: _iconSizeSmall),
-                                    //         Text(widget.viewModel.getEnergyAdded(charge), style: TextStyle(color: Constants.darkGreyColor),),
-                                    //       ],
-                                    //     ),
-                                    //     Row(
-                                    //       crossAxisAlignment: CrossAxisAlignment.center,
-                                    //       spacing: 4.0,
-                                    //       children: [
-                                    //         Icon(Icons.schedule, color: Constants.darkGreyColor, size: _iconSizeSmall),
-                                    //         Text(widget.viewModel.getDuration(charge), style: TextStyle(color: Constants.darkGreyColor),),
-                                    //       ],
-                                    //     ),
-                                    //   ],
-                                    // ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      spacing: 16.0,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          spacing: 4.0,
+                                          children: [
+                                            Icon(Icons.add_road, color: Constants.darkGreyColor, size: _iconSizeSmall),
+                                            Text(widget.viewModel.getDriveDistance(drive), style: TextStyle(color: Constants.darkGreyColor),),
+                                          ],
+                                        ),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          spacing: 4.0,
+                                          children: [
+                                            Icon(Icons.schedule, color: Constants.darkGreyColor, size: _iconSizeSmall),
+                                            Text(widget.viewModel.getDriveDuration(drive), style: TextStyle(color: Constants.darkGreyColor),),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               )

@@ -26,6 +26,7 @@ class Drive {
   final int? startedAt;
   final int? endedAt;
   final String? startingLocation;
+  final String? startingSavedLocation;
   final double? startingLatitude;
   final double? startingLongitude;
   final double? startingOdometer;
@@ -51,6 +52,7 @@ class Drive {
     this.startedAt,
     this.endedAt,
     this.startingLocation,
+    this.startingSavedLocation,
     this.startingLatitude,
     this.startingLongitude,
     this.startingOdometer,
@@ -78,6 +80,7 @@ class Drive {
       startedAt: json['started_at'] as int?,
       endedAt: json['ended_at'] as int?,
       startingLocation: json['starting_location'] as String?,
+      startingSavedLocation: json['starting_saved_location'] as String?,
       startingLatitude: (json['starting_latitude'] as num?)?.toDouble(),
       startingLongitude: (json['starting_longitude'] as num?)?.toDouble(),
       startingOdometer: (json['starting_odometer'] as num?)?.toDouble(),
