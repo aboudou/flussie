@@ -7,6 +7,7 @@ import 'package:flussie/misc/constants.dart';
 import 'package:flussie/services/ui_service.dart';
 import 'package:flussie/viewmodels/charge_details_vm.dart';
 import 'package:flussie/widgets/battery.dart';
+import 'package:flussie/widgets/grid_builder.dart';
 import 'package:flussie/widgets/info_row.dart';
 
 class ChargeDetailsView extends StatelessWidget {
@@ -111,6 +112,36 @@ class ChargeDetailsView extends StatelessWidget {
                       Container(
                         constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
                         child: InfoRow(icon: Battery(level: viewModel.endingBattery, size: _iconSize), title: viewModel.endBatteryDate, text: viewModel.endBatteryLevel),
+                      ),
+
+                      SizedBox(height: 16.0),
+                      Container(
+                        constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
+                        child: InfoRow(icon: Icon(Icons.attach_money, size: _iconSize, color: Constants.darkGreyColor), title: "Cost", text: viewModel.cost),
+                      ),
+
+
+                      SizedBox(height: 16.0),
+                      GridBuilder(
+                        items: [
+                          InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: "Odometer", text: viewModel.odometer),
+                          InfoRow(icon: Icon(Icons.add_road, size: _iconSize, color: Constants.darkGreyColor), title: "Since last charge", text: viewModel.distanceSinceLastCharge),
+                        ],
+                        rowHeight: _gridRowHeight,
+                      ),
+
+                      SizedBox(height: 16.0),
+                      GridBuilder(
+                        items: [
+                          InfoRow(icon: Icon(Icons.ev_station, size: _iconSize, color: Constants.darkGreyColor), title: "Energy used", text: viewModel.energyUsed),
+                          InfoRow(icon: UIService().rotatedIcon(Icon(Icons.battery_6_bar, size: _iconSize, color: Constants.darkGreyColor), 90, size: _iconSize), title: "Energy added", text: viewModel.energyAdded),
+                        ],
+                        rowHeight: _gridRowHeight,
+                      ),
+
+                      Container(
+                        constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
+                        child: InfoRow(icon: Icon(Icons.energy_savings_leaf, size: _iconSize, color: Constants.darkGreyColor), title: "Efficiency", text: viewModel.efficiency),
                       ),
                     ],
                   ),

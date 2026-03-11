@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:flussie/models/battery_health.dart';
+import 'package:flussie/misc/converters.dart';
 import 'package:flussie/models/vehicle.dart';
 import 'package:flussie/providers/api_provider.dart';
 
@@ -54,7 +55,7 @@ class VehicleDetailsViewModel {
         }
       }
 
-      final double odomInKm = (vehicle.vehicleState?.odometer ?? 0.0) * 1.60934;
+      final double odomInKm = Converters.milesToKm(vehicle.vehicleState?.odometer);
       final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
       odometer.value = '${NumberFormat("#,##0.0", locale.toString()).format(odomInKm)} km';
       
@@ -65,7 +66,7 @@ class VehicleDetailsViewModel {
       });
 
       batteryLevel.value = vehicle.chargeState?.batteryLevel ?? 0;
-      batteryRange.value = ((vehicle.chargeState?.batteryRange ?? 0.0) * 1.60934).round();
+      batteryRange.value = Converters.milesToKm(vehicle.chargeState?.batteryRange).round();
       remainingEnergy.value = vehicle.chargeState?.energyRemaining != null ? '${NumberFormat("#,##0.00", locale.toString()).format(vehicle.chargeState?.energyRemaining)} kWh' : 'N/A';
 
       ApiProvider().getBatteryHealth().then((batteryHealthValue) {
