@@ -2,17 +2,20 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 
 import 'package:flussie/models/drive.dart';
-import 'package:intl/intl.dart';
 
 class DriveDetailsViewModel {
-  DriveDetailsViewModel({required this.drive}) {
+  DriveDetailsViewModel({required this.drive, required this.vin, required this.coordinates}) {
     initializeDateFormatting();
     _initViewModel();
   }
 
   final Drive drive;
+  final String vin;
+  final List<LatLng> coordinates;
   final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
 
   String startLocation = '';

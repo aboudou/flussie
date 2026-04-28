@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_map/flutter_map.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/services/ui_service.dart';
 import 'package:flussie/viewmodels/drive_details_vm.dart';
@@ -25,7 +28,68 @@ class DriveDetailsView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // TODO: Map with drive coordinates
+            // Top map image
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20.0),
+                bottomRight: Radius.circular(20.0),
+              ),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 200,
+                child: FlutterMap(
+                  mapController: MapController(),
+                  options: MapOptions(
+                    initialCameraFit: CameraFit.bounds(
+                      bounds: LatLngBounds.fromPoints(viewModel.coordinates),
+                      padding: EdgeInsets.all(20.0),
+                    ),
+                  ),
+                  children: [
+                    TileLayer( // Bring your own tiles
+                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'flussie.app',
+                      // And many more recommended properties!
+                    ),
+                    RichAttributionWidget(
+                      attributions: [
+                        TextSourceAttribution(
+                          'OpenStreetMap contributors',
+                          onTap: () async => await launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
+                        ),
+                      ],
+                    ),
+                    PolylineLayer(
+                      polylines: [
+                        Polyline(
+                          points: viewModel.coordinates,
+                          strokeWidth: 4.0,
+                          color: Colors.blue,
+                        ),
+                      ],
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          point: viewModel.coordinates.first,
+                          width: _iconSize,
+                          height: _iconSize,
+                          child: Icon(Icons.location_on, size: _iconSize, color: Constants.darkGreyColor),
+                          alignment: Alignment.topCenter,
+                        ),
+                        Marker(
+                          point: viewModel.coordinates.last,
+                          width: _iconSize,
+                          height: _iconSize,
+                          child: Icon(Icons.location_on, size: _iconSize, color: Colors.red),
+                          alignment: Alignment.topCenter,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),  
+              ),
+            ),
 
             Container(
               padding: EdgeInsets.all(16.0),
@@ -40,14 +104,14 @@ class DriveDetailsView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 0.0,
                     children: [
-                      InfoRow(icon: Icon(Icons.location_on), title: "${viewModel.startDriveDate} • ${viewModel.startBatteryLevel}", text: viewModel.startLocation),
+                      InfoRow(icon: Icon(Icons.location_on, size: _iconSize, color: Constants.darkGreyColor), title: "${viewModel.startDriveDate} • ${viewModel.startBatteryLevel}", text: viewModel.startLocation),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: (_iconSize - _iconSize) / 2),
                         child: Icon(Icons.more_vert, size: _iconSize, color: Constants.darkGreyColor,),
                       ),
 
-                      InfoRow(icon: Icon(Icons.location_on), title: "${viewModel.endDriveDate} • ${viewModel.endBatteryLevel}", text: viewModel.endLocation),
+                      InfoRow(icon: Icon(Icons.location_on, size: _iconSize, color: Colors.red), title: "${viewModel.endDriveDate} • ${viewModel.endBatteryLevel}", text: viewModel.endLocation),
 
                       SizedBox(height: 16.0),
                       GridBuilder(

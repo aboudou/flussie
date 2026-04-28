@@ -47,4 +47,8 @@ class JsonNetworkProvider extends GetConnect {
   Future<Response> fetchDrives(String vin, bool superchargersOnly, int startDate, int endDate) {
     return get('/$vin/drives?distance_format=km&format=json&timezone=UTC&from=${startDate.toString()}&to=${endDate.toString()}');
   }
+
+  Future<Response> fetchPath(String vin, int startDate, int endDate) {
+    return get('/$vin/path?from=${startDate.toString()}&to=${endDate.toString()}&simplify=true');
+  }
 }

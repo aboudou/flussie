@@ -6,6 +6,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flussie/models/drive.dart';
 import 'package:flussie/providers/api_provider.dart';
+import 'package:latlong2/latlong.dart';
 
 class DriveListViewModel {
     DriveListViewModel({required this.vin}) {
@@ -86,5 +87,29 @@ class DriveListViewModel {
       return '${NumberFormat("#,##0.00", locale.toString()).format(drive.odometerDistance!)} km';
     }
     return 'Unknown distance';
+  }
+
+  // List<LatLng> getDriveCoordinates(Drive drive) {
+  //   if (drive.startedAt != null && drive.endedAt != null) { 
+  //     ApiProvider().getPath(vin, drive.startedAt!, drive.endedAt!).then((path) {
+  //       return path.results;
+  //     } ).catchError((error) {
+  //       return <LatLng>[];
+  //     });
+
+  //   }
+  //   return [];
+  // }
+
+  Future<List<LatLng>> getDriveCoordinates(Drive drive) async {
+    if (drive.startedAt != null && drive.endedAt != null) { 
+      try {
+        final path = await _api.getPath(vin, drive.startedAt!, drive.endedAt!);
+        return path.results;
+      } catch (error) {
+        return <LatLng>[];
+      }
+    }
+    return [];
   }
 }

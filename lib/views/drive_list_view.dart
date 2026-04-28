@@ -70,8 +70,9 @@ class _DriveListViewState extends State<DriveListView> {
                     clipBehavior: Clip.hardEdge,
                     child: InkWell(
                       splashColor: Colors.blue.withAlpha(30),
-                      onTap: () {
-                        Get.to(() => DriveDetailsView(viewModel: DriveDetailsViewModel(drive: drive)));
+                      onTap: () async {
+                        final coordinates = await widget.viewModel.getDriveCoordinates(drive);
+                        Get.to(() => DriveDetailsView(viewModel: DriveDetailsViewModel(drive: drive, vin: widget.viewModel.vin, coordinates: coordinates)));
                       },
                       child: 
                         Padding(
