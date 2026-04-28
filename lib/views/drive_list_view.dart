@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flussie/misc/constants.dart';
+import 'package:flussie/viewmodels/drive_details_vm.dart';
 import 'package:flussie/viewmodels/drive_list_vm.dart';
+import 'package:flussie/views/drive_details_view.dart';
 import 'package:flussie/widgets/battery.dart';
 import 'package:flussie/widgets/info_row.dart';
 
@@ -69,7 +71,7 @@ class _DriveListViewState extends State<DriveListView> {
                     child: InkWell(
                       splashColor: Colors.blue.withAlpha(30),
                       onTap: () {
-                        // Get.to(() => DriveDetailsView(viewModel: DriveDetailsViewModel(drive: drive)));
+                        Get.to(() => DriveDetailsView(viewModel: DriveDetailsViewModel(drive: drive)));
                       },
                       child: 
                         Padding(

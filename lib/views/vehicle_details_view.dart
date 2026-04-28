@@ -103,10 +103,7 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                     ]
                   ),
 
-                  Container(
-                    constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight + 20),
-                    child: InfoRow(icon: Icon(Icons.location_on, size: _iconSize), title: 'Location', text: widget.viewModel.location.value),
-                  ),
+                  InfoRow(icon: Icon(Icons.location_on, size: _iconSize), title: 'Location', text: widget.viewModel.location.value),
 
                   GridBuilder(
                     rowHeight: _gridRowHeight,

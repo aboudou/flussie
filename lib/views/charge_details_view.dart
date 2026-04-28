@@ -99,27 +99,17 @@ class ChargeDetailsView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 0.0,
                     children: [
-                      Container(
-                        constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
-                        child: InfoRow(icon: Battery(level: viewModel.startingBattery, size: _iconSize), title: viewModel.startBatteryDate, text: viewModel.startBatteryLevel),
-                      ),
+                      InfoRow(icon: Battery(level: viewModel.startingBattery, size: _iconSize), title: viewModel.startBatteryDate, text: viewModel.startBatteryLevel),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: (_iconSize - _iconSize) / 2),
                         child: Icon(Icons.more_vert, size: _iconSize, color: Constants.darkGreyColor,),
                       ),
 
-                      Container(
-                        constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
-                        child: InfoRow(icon: Battery(level: viewModel.endingBattery, size: _iconSize), title: viewModel.endBatteryDate, text: viewModel.endBatteryLevel),
-                      ),
+                      InfoRow(icon: Battery(level: viewModel.endingBattery, size: _iconSize), title: viewModel.endBatteryDate, text: viewModel.endBatteryLevel),
 
                       SizedBox(height: 16.0),
-                      Container(
-                        constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
-                        child: InfoRow(icon: Icon(Icons.attach_money, size: _iconSize, color: Constants.darkGreyColor), title: "Cost", text: viewModel.cost),
-                      ),
-
+                      InfoRow(icon: Icon(Icons.attach_money, size: _iconSize, color: Constants.darkGreyColor), title: "Cost", text: viewModel.cost),
 
                       SizedBox(height: 16.0),
                       GridBuilder(
@@ -139,10 +129,7 @@ class ChargeDetailsView extends StatelessWidget {
                         rowHeight: _gridRowHeight,
                       ),
 
-                      Container(
-                        constraints: BoxConstraints(minHeight: _gridRowHeight, maxHeight: _gridRowHeight),
-                        child: InfoRow(icon: Icon(Icons.energy_savings_leaf, size: _iconSize, color: Constants.darkGreyColor), title: "Efficiency", text: viewModel.efficiency),
-                      ),
+                      InfoRow(icon: Icon(Icons.energy_savings_leaf, size: _iconSize, color: Constants.darkGreyColor), title: "Efficiency", text: viewModel.efficiency),
                     ],
                   ),
                 ],
