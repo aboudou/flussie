@@ -13,7 +13,6 @@ import 'package:flussie/widgets/info_row.dart';
 class DriveDetailsView extends StatelessWidget {
   const DriveDetailsView({super.key, required this.viewModel});
 
-  static const _gridRowHeight = 45.0;
   static const _iconSize = 25.0;
 
   final DriveDetailsViewModel viewModel;
@@ -120,7 +119,6 @@ class DriveDetailsView extends StatelessWidget {
                           InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_distance'.tr, text: viewModel.driveDistance),
                           InfoRow(icon: Icon(Icons.schedule, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_duration'.tr, text: viewModel.driveDuration),
                         ],
-                        rowHeight: _gridRowHeight,
                       ),
 
 
@@ -130,7 +128,6 @@ class DriveDetailsView extends StatelessWidget {
                           InfoRow(icon: UIService().rotatedIcon(Icon(Icons.battery_3_bar, size: _iconSize, color: Constants.darkGreyColor), 90), title: 'drive_energy_used'.tr, text: viewModel.energyUsed),
                           InfoRow(icon: Icon(Icons.eco_outlined, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_average_energy'.tr, text: viewModel.energyUsedPerKm),
                         ],
-                        rowHeight: _gridRowHeight,
                       ),
 
                       SizedBox(height: 16.0),
@@ -139,7 +136,6 @@ class DriveDetailsView extends StatelessWidget {
                           InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_average_speed'.tr, text: viewModel.averageSpeed),
                           InfoRow(icon: Icon(Icons.speed_outlined, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_max_speed'.tr, text: viewModel.maxSpeed),
                         ],
-                        rowHeight: _gridRowHeight,
                       ),
 
                     ],

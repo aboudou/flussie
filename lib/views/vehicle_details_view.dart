@@ -23,7 +23,6 @@ class VehicleDetailsView extends StatefulWidget {
 }
 
 class _VehicleDetailsViewState extends State<VehicleDetailsView> {
-  static const _gridRowHeight = 45.0;
   static const _iconSize = 25.0;
 
   @override
@@ -96,7 +95,6 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                   ),
 
                   GridBuilder(
-                    rowHeight: _gridRowHeight,
                     items: [
                       InfoRow(icon: Icon(Icons.drive_eta, size: _iconSize), title: 'vehicle_state_label'.tr, text: widget.viewModel.state.value),
                       InfoRow(icon: Icon(Icons.outlet, size: _iconSize), title: 'vehicle_charge_port_label'.tr, text: widget.viewModel.chargePortState.value),
@@ -106,7 +104,6 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                   InfoRow(icon: Icon(Icons.location_on, size: _iconSize), title: 'vehicle_location_label'.tr, text: widget.viewModel.location.value),
 
                   GridBuilder(
-                    rowHeight: _gridRowHeight,
                     items: [
                       InfoRow(icon: Icon(Icons.speed, size: _iconSize), title: 'vehicle_odometer_label'.tr, text: widget.viewModel.odometer.value),
                     ]
@@ -121,7 +118,6 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                   ),
 
                   GridBuilder(
-                    rowHeight: _gridRowHeight,
                     items: [
                       InfoRow(icon: Battery(level: widget.viewModel.batteryLevel.value), title: 'vehicle_battery_level'.tr, text: '${widget.viewModel.batteryLevel.value}%'),
                       InfoRow(icon: Battery(level: widget.viewModel.batteryLevel.value), title: 'vehicle_battery_energy'.tr, text: widget.viewModel.remainingEnergy.value),

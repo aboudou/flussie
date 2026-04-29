@@ -14,7 +14,6 @@ import 'package:flussie/widgets/info_row.dart';
 class ChargeDetailsView extends StatelessWidget {
   const ChargeDetailsView({super.key, required this.viewModel});
 
-  static const _gridRowHeight = 45.0;
   static const _iconSize = 25.0;
 
   final ChargeDetailsViewModel viewModel;
@@ -118,7 +117,6 @@ class ChargeDetailsView extends StatelessWidget {
                           InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_odometer'.tr, text: viewModel.odometer),
                           InfoRow(icon: Icon(Icons.add_road, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_since_last_charge'.tr, text: viewModel.distanceSinceLastCharge),
                         ],
-                        rowHeight: _gridRowHeight,
                       ),
 
                       SizedBox(height: 16.0),
@@ -127,7 +125,6 @@ class ChargeDetailsView extends StatelessWidget {
                           InfoRow(icon: Icon(Icons.ev_station, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_energy_used'.tr, text: viewModel.energyUsed),
                           InfoRow(icon: UIService().rotatedIcon(Icon(Icons.battery_6_bar, size: _iconSize, color: Constants.darkGreyColor), 90, size: _iconSize), title: 'charge_energy_added'.tr, text: viewModel.energyAdded),
                         ],
-                        rowHeight: _gridRowHeight,
                       ),
 
                       InfoRow(icon: Icon(Icons.energy_savings_leaf, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_efficiency'.tr, text: viewModel.efficiency),
