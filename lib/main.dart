@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import 'package:flussie/views/vehicle_list_view.dart';
 
 // Tessie API documentation: https://developer.tessie.com/reference/about
 
 void main() async {
-  await GetStorage.init();
   runApp(const MainApp());
 }
 

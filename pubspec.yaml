@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   get:
-  get_storage: 
+  flutter_keychain: 
   http: 
   intl:
   flutter_map:

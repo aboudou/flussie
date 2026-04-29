@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:flutter_keychain/flutter_keychain.dart';
 
 import 'package:flussie/misc/constants.dart';
 
@@ -17,8 +17,8 @@ class JsonNetworkProvider extends GetConnect {
   void _clientSetup() {
     httpClient.baseUrl = Constants.apiBaseUrl;
 
-    httpClient.addRequestModifier<Object?>((request) {
-      final token = GetStorage().read(Constants.tokenStorageKey) ?? '';
+    httpClient.addRequestModifier<Object?>((request) async {
+      final token = await FlutterKeychain.get(key: Constants.tokenStorageKey) ?? '';
       request.headers['Authorization'] = "Bearer $token";
       return request;
     });

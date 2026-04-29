@@ -35,14 +35,14 @@ class _VehiculeListViewState extends State<VehiculeListView> {
   @override
   Widget build(BuildContext context) {
     // Token listener
-    disposeListen = vehicleListViewModel.addListener((){ });
-    vehicleListViewModel.listenToken((value){
-      _refreshToken(); 
-    });
+    // disposeListen = vehicleListViewModel.addListener((){ });
+    // vehicleListViewModel.listenToken((value){
+    //   _refreshToken(); 
+    // });
     _refreshToken();
 
     return Obx(() {
-      if (vehicleListViewModel.token.isEmpty) {
+      if (!vehicleListViewModel.isLoggedIn.value) {
         // No token found, show button to set token
         return Scaffold(
           appBar: AppBar(
@@ -59,7 +59,8 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                   ElevatedButton(
                     child: const Text('Set API token'),
                     onPressed: () {
-                      Get.to(() => const TokenSetterView());
+                      Get.to(() => const TokenSetterView())
+                          ?.then((_) => vehicleListViewModel.getToken());
                     },
                   ),
                 ],
@@ -116,7 +117,6 @@ class _VehiculeListViewState extends State<VehiculeListView> {
         if (confirmed != true) return;
 
         vehicleListViewModel.deleteToken();
-
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('API token cleared')),

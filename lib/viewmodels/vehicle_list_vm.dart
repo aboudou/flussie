@@ -12,6 +12,7 @@ class VehiculeListViewModel {
   final ApiProvider _api = ApiProvider();
 
   // Observables
+  RxBool isLoggedIn = false.obs;
   RxString token = ''.obs;
   RxList<VehicleListItem> vehicles = <VehicleListItem>[].obs;
   RxString location = 'Loading address…'.obs;
@@ -48,23 +49,25 @@ class VehiculeListViewModel {
   }
 
   // Token management
-  void getToken() {
-    token.value = _storageProvider.getToken() ?? '';
+  void getToken() async {
+    token.value = await _storageProvider.getToken() ?? '';
+    isLoggedIn.value = token.value.isNotEmpty;
   }
 
   Future<void> deleteToken() async {
+    isLoggedIn.value = false;
     await _storageProvider.deleteToken();
     vehicles.clear();
     token.value = '';
     errorMessage.value = '';
   }
 
-  Function? addListener(Function() callback) {
-    return _storageProvider.addListener(callback);
-  }
+  // Function? addListener(Function() callback) {
+  //   return _storageProvider.addListener(callback);
+  // }
 
-  void listenToken(Function(dynamic) callback) {
-    _storageProvider.listenToken(callback);
-  }
+  // void listenToken(Function(dynamic) callback) {
+  //   _storageProvider.listenToken(callback);
+  // }
 
 }
