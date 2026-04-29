@@ -37,21 +37,21 @@ class VehicleDetailsViewModel {
       heading.value = vehicle.driveState?.heading?.toDouble() ?? 0.0;
       
       if (vehicle.chargeState?.chargerActualCurrent != null && vehicle.chargeState?.chargerActualCurrent != 0) {
-        state.value = "Charging";
+        state.value = 'vehicle_state_charging'.tr;
 
       } else if (vehicle.driveState?.shiftState != null && vehicle.driveState?.shiftState != "P") {
-        state.value = "Driving";
+        state.value = 'vehicle_state_driving'.tr;
 
       } else {
         switch (vehicle.state) {
           case 'asleep':
-            state.value = 'Sleeping';
+            state.value = 'vehicle_state_sleeping'.tr;
             break;
           case 'online':
-            state.value = 'Parked';
+            state.value = 'vehicle_state_parked'.tr;
             break;
           default:
-            state.value = 'Unknown state';
+            state.value = 'error_unknown_vehicle_state'.tr;
         }
       }
 
@@ -59,10 +59,10 @@ class VehicleDetailsViewModel {
       final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
       odometer.value = '${NumberFormat("#,##0.0", locale.toString()).format(odomInKm)} km';
       
-      chargePortState.value = vehicle.chargeState?.chargePortDoorOpen == true ? 'Plugged' : 'Unplugged';
+      chargePortState.value = vehicle.chargeState?.chargePortDoorOpen == true ? 'vehicle_charge_port_plugged'.tr : 'vehicle_charge_port_unplugged'.tr;
 
       ApiProvider().getLocation(vin).then((locValue) {
-        location.value = locValue.address ?? 'Unknown location';
+        location.value = locValue.address ?? 'error_unknown_location'.tr;
       });
 
       batteryLevel.value = vehicle.chargeState?.batteryLevel ?? 0;

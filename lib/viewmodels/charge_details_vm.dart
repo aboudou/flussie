@@ -53,7 +53,7 @@ class ChargeDetailsViewModel {
       stationType = ChargeType.standardCharger;
     }
 
-    location = (charge.savedLocation?.isEmpty ?? true) ? (charge.location ?? "Unknown location") : charge.savedLocation ?? "Unknown location";
+    location = (charge.savedLocation?.isEmpty ?? true) ? (charge.location ?? "error_unknown_location".tr) : charge.savedLocation ?? "error_unknown_location".tr;
 
     startingBattery = charge.startingBattery ?? 0;
     startBatteryLevel = '$startingBattery%';

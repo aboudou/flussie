@@ -46,7 +46,7 @@ class _DriveListViewState extends State<DriveListView> {
               spacing: 8.0,
               children: [
                 _filtersPanel(),
-                Text(widget.viewModel.errorMessage.isEmpty ? 'No drive found.' : widget.viewModel.errorMessage.value),
+                Text(widget.viewModel.errorMessage.isEmpty ? 'drive_list_empty'.tr : widget.viewModel.errorMessage.value),
                 Spacer(),
               ],
             ) 
@@ -166,7 +166,7 @@ class _DriveListViewState extends State<DriveListView> {
             spacing: 4.0,
             children: [
               Icon(Icons.filter_list_alt, color: Constants.darkGreyColor, size: 16,),
-              Text('Filters', style: TextStyle(color: Constants.darkGreyColor),),
+              Text('filters'.tr, style: TextStyle(color: Constants.darkGreyColor),),
             ],
           ),
         );
@@ -179,7 +179,7 @@ class _DriveListViewState extends State<DriveListView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('From'),
+                Text('filter_from'.tr),
                 TextButton(
                   onPressed: () async {
                     final initial = DateTime.fromMillisecondsSinceEpoch(widget.viewModel.startDate * 1000);
@@ -203,7 +203,7 @@ class _DriveListViewState extends State<DriveListView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('To'),
+                Text('filter_to'.tr),
                 TextButton(
                   onPressed: () async {
                     final initial = DateTime.fromMillisecondsSinceEpoch(  widget.viewModel.endDate * 1000);
@@ -237,7 +237,7 @@ class _DriveListViewState extends State<DriveListView> {
                 spacing: 4.0,
                 children: [
                   Icon(Icons.done, color: Constants.darkGreyColor, size: 16,),
-                  Text('Apply', style: TextStyle(color: Constants.darkGreyColor),),
+                  Text('filter_apply'.tr, style: TextStyle(color: Constants.darkGreyColor),),
                 ],
               ),
             )

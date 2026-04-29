@@ -91,24 +91,24 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                 children: [
                   // Status section
                   Text(
-                    'Status',
+                    'vehicle_status_section'.tr,
                     style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
 
                   GridBuilder(
                     rowHeight: _gridRowHeight,
                     items: [
-                      InfoRow(icon: Icon(Icons.drive_eta, size: _iconSize), title: 'State', text: widget.viewModel.state.value),
-                      InfoRow(icon: Icon(Icons.outlet, size: _iconSize), title: 'Charge Port', text: widget.viewModel.chargePortState.value),
+                      InfoRow(icon: Icon(Icons.drive_eta, size: _iconSize), title: 'vehicle_state_label'.tr, text: widget.viewModel.state.value),
+                      InfoRow(icon: Icon(Icons.outlet, size: _iconSize), title: 'vehicle_charge_port_label'.tr, text: widget.viewModel.chargePortState.value),
                     ]
                   ),
 
-                  InfoRow(icon: Icon(Icons.location_on, size: _iconSize), title: 'Location', text: widget.viewModel.location.value),
+                  InfoRow(icon: Icon(Icons.location_on, size: _iconSize), title: 'vehicle_location_label'.tr, text: widget.viewModel.location.value),
 
                   GridBuilder(
                     rowHeight: _gridRowHeight,
                     items: [
-                      InfoRow(icon: Icon(Icons.speed, size: _iconSize), title: 'Odometer', text: widget.viewModel.odometer.value),
+                      InfoRow(icon: Icon(Icons.speed, size: _iconSize), title: 'vehicle_odometer_label'.tr, text: widget.viewModel.odometer.value),
                     ]
                   ),
 
@@ -116,21 +116,21 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                   // Battery section
                   SizedBox(height: 8.0),
                   Text(
-                    'Battery',
+                    'vehicle_battery_section'.tr,
                     style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
 
                   GridBuilder(
                     rowHeight: _gridRowHeight,
                     items: [
-                      InfoRow(icon: Battery(level: widget.viewModel.batteryLevel.value), title: 'Level', text: '${widget.viewModel.batteryLevel.value}%'),
-                      InfoRow(icon: Battery(level: widget.viewModel.batteryLevel.value), title: 'Energy', text: widget.viewModel.remainingEnergy.value),
+                      InfoRow(icon: Battery(level: widget.viewModel.batteryLevel.value), title: 'vehicle_battery_level'.tr, text: '${widget.viewModel.batteryLevel.value}%'),
+                      InfoRow(icon: Battery(level: widget.viewModel.batteryLevel.value), title: 'vehicle_battery_energy'.tr, text: widget.viewModel.remainingEnergy.value),
 
-                      InfoRow(icon: Icon(Icons.add_road, size: _iconSize), title: 'Range', text: '${widget.viewModel.batteryRange.value} km'),
+                      InfoRow(icon: Icon(Icons.add_road, size: _iconSize), title: 'vehicle_battery_range'.tr, text: '${widget.viewModel.batteryRange.value} km'),
                       InfoRow(icon: Container(), title: '', text: ''),
 
-                      InfoRow(icon: Icon(Icons.monitor_heart, size: _iconSize), title: 'Battery health', text: widget.viewModel.batteryHealth.value,),
-                      InfoRow(icon: Icon(Icons.monitor_heart, size: _iconSize), title: 'Degradation', text: widget.viewModel.batteryDegradation.value),
+                      InfoRow(icon: Icon(Icons.monitor_heart, size: _iconSize), title: 'vehicle_battery_health'.tr, text: widget.viewModel.batteryHealth.value,),
+                      InfoRow(icon: Icon(Icons.monitor_heart, size: _iconSize), title: 'vehicle_battery_degradation'.tr, text: widget.viewModel.batteryDegradation.value),
                   ]),
                 ],
               ),

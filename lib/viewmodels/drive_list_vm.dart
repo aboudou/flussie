@@ -34,12 +34,12 @@ class DriveListViewModel {
     _api.getDrives(vin, startDate, endDate).then((value) {
       driveList.value = value;
     }).catchError((error) {
-      errorMessage.value = error.toString();
+      errorMessage.value = 'error_loading_drives'.trParams({'error': error.toString()});
     });
   }
 
   String getDriveStartLocation(Drive drive) {
-    return (drive.startingSavedLocation?.isEmpty ?? true) ? (drive.startingLocation ?? "Unknown location") : drive.startingSavedLocation ?? "Unknown location";
+    return (drive.startingSavedLocation?.isEmpty ?? true) ? (drive.startingLocation ?? 'error_unknown_location'.tr) : drive.startingSavedLocation ?? 'error_unknown_location'.tr;
   }
   
   String getStartBatteryLevel(Drive drive) {
@@ -47,7 +47,7 @@ class DriveListViewModel {
   }
 
   String getDriveEndLocation(Drive drive) {
-    return (drive.endingSavedLocation?.isEmpty ?? true) ? (drive.endingLocation ?? "Unknown location") : drive.endingSavedLocation ?? "Unknown location";
+    return (drive.endingSavedLocation?.isEmpty ?? true) ? (drive.endingLocation ?? 'error_unknown_location'.tr) : drive.endingSavedLocation ?? 'error_unknown_location'.tr;
   }
 
   String getEndBatteryLevel(Drive drive) {
@@ -79,27 +79,15 @@ class DriveListViewModel {
       final minutes = duration.inMinutes.remainder(60);
       return '${hours}h ${minutes}m';
     }
-    return 'Unknown duration';
+    return 'error_unknown_duration'.tr;
   }
 
   String getDriveDistance(Drive drive) {
     if (drive.odometerDistance != null) {
       return '${NumberFormat("#,##0.00", locale.toString()).format(drive.odometerDistance!)} km';
     }
-    return 'Unknown distance';
+    return 'error_unknown_distance'.tr;
   }
-
-  // List<LatLng> getDriveCoordinates(Drive drive) {
-  //   if (drive.startedAt != null && drive.endedAt != null) { 
-  //     ApiProvider().getPath(vin, drive.startedAt!, drive.endedAt!).then((path) {
-  //       return path.results;
-  //     } ).catchError((error) {
-  //       return <LatLng>[];
-  //     });
-
-  //   }
-  //   return [];
-  // }
 
   Future<List<LatLng>> getDriveCoordinates(Drive drive) async {
     if (drive.startedAt != null && drive.endedAt != null) { 

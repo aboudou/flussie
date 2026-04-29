@@ -35,7 +35,7 @@ class ChargeListViewModel {
     _api.getCharges(vin, superchargersOnly, startDate, endDate).then((value) {
       chargeList.value = value;
     }).catchError((error) {
-      errorMessage.value = error.toString();
+      errorMessage.value = 'error_loading_charges'.trParams({'error': error.toString()});
     });
   }
 
@@ -50,7 +50,7 @@ class ChargeListViewModel {
   }
 
   String getChargeLocation(Charge charge) {
-    return (charge.savedLocation?.isEmpty ?? true) ? (charge.location ?? "Unknown location") : charge.savedLocation ?? "Unknown location";
+    return (charge.savedLocation?.isEmpty ?? true) ? (charge.location ?? "error_unknown_location".tr) : charge.savedLocation ?? "error_unknown_location".tr;
   }
   
   String getStartBatteryLevel(Charge charge) {

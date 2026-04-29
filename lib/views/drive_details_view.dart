@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flussie/misc/constants.dart';
@@ -21,7 +22,7 @@ class DriveDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Drive details'),
+        title: Text('drive_details_title'.tr),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -116,8 +117,8 @@ class DriveDetailsView extends StatelessWidget {
                       SizedBox(height: 16.0),
                       GridBuilder(
                         items: [
-                          InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: "Drive distance", text: viewModel.driveDistance),
-                          InfoRow(icon: Icon(Icons.schedule, size: _iconSize, color: Constants.darkGreyColor), title: "Duration", text: viewModel.driveDuration),
+                          InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_distance'.tr, text: viewModel.driveDistance),
+                          InfoRow(icon: Icon(Icons.schedule, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_duration'.tr, text: viewModel.driveDuration),
                         ],
                         rowHeight: _gridRowHeight,
                       ),
@@ -126,8 +127,8 @@ class DriveDetailsView extends StatelessWidget {
                       SizedBox(height: 16.0),
                       GridBuilder(
                         items: [
-                          InfoRow(icon: UIService().rotatedIcon(Icon(Icons.battery_3_bar, size: _iconSize, color: Constants.darkGreyColor), 90), title: "Energy used", text: viewModel.energyUsed),
-                          InfoRow(icon: Icon(Icons.eco_outlined, size: _iconSize, color: Constants.darkGreyColor), title: "Average", text: viewModel.energyUsedPerKm),
+                          InfoRow(icon: UIService().rotatedIcon(Icon(Icons.battery_3_bar, size: _iconSize, color: Constants.darkGreyColor), 90), title: 'drive_energy_used'.tr, text: viewModel.energyUsed),
+                          InfoRow(icon: Icon(Icons.eco_outlined, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_average_energy'.tr, text: viewModel.energyUsedPerKm),
                         ],
                         rowHeight: _gridRowHeight,
                       ),
@@ -135,8 +136,8 @@ class DriveDetailsView extends StatelessWidget {
                       SizedBox(height: 16.0),
                       GridBuilder(
                         items: [
-                          InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: "Average speed", text: viewModel.averageSpeed),
-                          InfoRow(icon: Icon(Icons.speed_outlined, size: _iconSize, color: Constants.darkGreyColor), title: "Max speed", text: viewModel.maxSpeed),
+                          InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_average_speed'.tr, text: viewModel.averageSpeed),
+                          InfoRow(icon: Icon(Icons.speed_outlined, size: _iconSize, color: Constants.darkGreyColor), title: 'drive_max_speed'.tr, text: viewModel.maxSpeed),
                         ],
                         rowHeight: _gridRowHeight,
                       ),

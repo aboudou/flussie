@@ -9,7 +9,7 @@ class TokenSetterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Tessie API Token')),
+      appBar: AppBar(title: Text('token_setter_title'.tr)),
       body: Center(
         child: const TokenSetterViewSfw(),
       )
@@ -50,10 +50,10 @@ class _TokenSetterViewSfwState extends State<TokenSetterViewSfw> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             TextFormField(
-              decoration: const InputDecoration(hintText: 'Enter your API token'),
+              decoration: InputDecoration(hintText: 'token_setter_hint'.tr),
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
+                  return 'token_setter_validation'.tr;
                 }
                 return null;
               },
@@ -61,7 +61,7 @@ class _TokenSetterViewSfwState extends State<TokenSetterViewSfw> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text("Demo token for offline mode: 'demo'"),
+              child: Text('token_setter_demo_hint'.tr),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -72,7 +72,7 @@ class _TokenSetterViewSfwState extends State<TokenSetterViewSfw> {
                     Get.back();
                   }
                 },
-                child: const Text('Submit'),
+                child: Text('token_setter_submit'.tr),
               ),
             ),
           ],

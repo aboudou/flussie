@@ -46,7 +46,7 @@ class _ChargeListViewState extends State<ChargeListView> {
               spacing: 8.0,
               children: [
                 _filtersPanel(),
-                Text(widget.viewModel.errorMessage.isEmpty ? 'No charge found.' : widget.viewModel.errorMessage.value),
+                Text(widget.viewModel.errorMessage.isEmpty ? 'charge_list_empty'.tr : widget.viewModel.errorMessage.value),
                 Spacer(),
               ],
             ) 
@@ -187,7 +187,7 @@ class _ChargeListViewState extends State<ChargeListView> {
             spacing: 4.0,
             children: [
               Icon(Icons.filter_list_alt, color: Constants.darkGreyColor, size: 16,),
-              Text('Filters', style: TextStyle(color: Constants.darkGreyColor),),
+              Text('filters'.tr, style: TextStyle(color: Constants.darkGreyColor),),
             ],
           ),
         );
@@ -200,7 +200,7 @@ class _ChargeListViewState extends State<ChargeListView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('From'),
+                Text('filter_from'.tr),
                 TextButton(
                   onPressed: () async {
                     final initial = DateTime.fromMillisecondsSinceEpoch(widget.viewModel.startDate * 1000);
@@ -224,7 +224,7 @@ class _ChargeListViewState extends State<ChargeListView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('To'),
+                Text('filter_to'.tr),
                 TextButton(
                   onPressed: () async {
                     final initial = DateTime.fromMillisecondsSinceEpoch(  widget.viewModel.endDate * 1000);
@@ -248,7 +248,7 @@ class _ChargeListViewState extends State<ChargeListView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Superchargers only'),
+                Text('charge_filter_superchargers_only'.tr),
                 Checkbox(
                   value: widget.viewModel.superchargersOnly,
                   onChanged: (value) {
@@ -273,7 +273,7 @@ class _ChargeListViewState extends State<ChargeListView> {
                 spacing: 4.0,
                 children: [
                   Icon(Icons.done, color: Constants.darkGreyColor, size: 16,),
-                  Text('Apply', style: TextStyle(color: Constants.darkGreyColor),),
+                  Text('filter_apply'.tr, style: TextStyle(color: Constants.darkGreyColor),),
                 ],
               ),
             )

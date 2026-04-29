@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_keychain/flutter_keychain.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
  
 import 'package:flussie/misc/constants.dart';
@@ -22,7 +23,7 @@ class BinaryNetworkProvider {
     if (response.statusCode == 200) {
       return response.bodyBytes;
     } else {
-      throw('Failed to load map image for $vin: ${response.statusCode}');
+      throw Exception('provider_error_map'.trParams({'error': response.statusCode.toString()}));
     }
   }
 }

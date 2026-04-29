@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:get/get.dart';
+
 import 'package:flussie/viewmodels/charge_list_vm.dart';
 import 'package:flussie/viewmodels/drive_list_vm.dart';
 import 'package:flussie/viewmodels/vehicle_details_vm.dart';
@@ -48,9 +50,9 @@ class VehicleTabView extends StatelessWidget {
         ),
         bottomNavigationBar: TabBar(
           tabs: [
-            Tab(icon: Icon(Icons.electric_car), text: 'Details'),
-            Tab(icon: Icon(Icons.ev_station), text: 'Charges'),
-            Tab(icon: Icon(Icons.route), text: 'Drives'),
+            Tab(icon: Icon(Icons.electric_car), text: 'vehicle_tab_details'.tr),
+            Tab(icon: Icon(Icons.ev_station), text: 'vehicle_tab_charges'.tr),
+            Tab(icon: Icon(Icons.route), text: 'vehicle_tab_drives'.tr),
           ],
         ),
         body: TabBarView(

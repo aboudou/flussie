@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_keychain/flutter_keychain.dart';
+import 'package:get/get.dart';
 
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/models/battery_health.dart';
@@ -39,7 +40,7 @@ class ApiProvider {
     final response = await (await isDemo ? _jsonLocalProvider.fetchVehicles() : _jsonNetworkProvider.fetchVehicles());
 
     if (response.status.hasError) {
-      throw Exception('Failed to load vehicles: ${response.statusText}');
+      throw Exception('provider_error_vehicles'.trParams({'error': response.statusText ?? ''}));
     }
 
     return VehicleList.fromJson(response.body as Map<String, dynamic>).vehicles;
@@ -53,7 +54,7 @@ class ApiProvider {
     final response = await (await isDemo ? _jsonLocalProvider.fetchVehicle() : _jsonNetworkProvider.fetchVehicle(vin));
 
     if (response.status.hasError) {
-      throw Exception('Failed to load vehicle $vin: ${response.statusText}');
+      throw Exception('provider_error_vehicle'.trParams({'error': response.statusText ?? ''}));
     }
 
     return Vehicle.fromJson(response.body as Map<String, dynamic>);
@@ -63,7 +64,7 @@ class ApiProvider {
     final response = await (await isDemo ? _jsonLocalProvider.fetchLocation() : _jsonNetworkProvider.fetchLocation(vin));
 
     if (response.status.hasError) {
-      throw Exception('Failed to load location for $vin: ${response.statusText}');
+      throw Exception('provider_error_location'.trParams({'error': response.statusText ?? ''}));
     }
 
     return Location.fromJson(response.body as Map<String, dynamic>);
@@ -73,7 +74,7 @@ class ApiProvider {
     final response = await (await isDemo ? _jsonLocalProvider.fetchBatteryHealth() : _jsonNetworkProvider.fetchBatteryHealth());
 
     if (response.status.hasError) {
-      throw Exception('Failed to load battery health: ${response.statusText}');
+      throw Exception('provider_error_battery_health'.trParams({'error': response.statusText ?? ''}));
     }
 
     return BatteryHealthList.fromJson(response.body as Map<String, dynamic>);
@@ -83,7 +84,7 @@ class ApiProvider {
     final response = await (await isDemo ? _jsonLocalProvider.fetchCharges(superchargersOnly) : _jsonNetworkProvider.fetchCharges(vin, superchargersOnly, startDate, endDate));
 
     if (response.status.hasError) {
-      throw Exception('Failed to load charges for $vin: ${response.statusText}');
+      throw Exception('provider_error_charges'.trParams({'error': response.statusText ?? ''}));
     }
 
     return ChargeList.fromJson(response.body as Map<String, dynamic>);
@@ -93,7 +94,7 @@ class ApiProvider {
     final response = await (await isDemo ? _jsonLocalProvider.fetchDrives() : _jsonNetworkProvider.fetchDrives(vin, startDate, endDate));
 
     if (response.status.hasError) {
-      throw Exception('Failed to load drives for $vin: ${response.statusText}');
+      throw Exception('provider_error_drives'.trParams({'error': response.statusText ?? ''}));
     }
 
     return DriveList.fromJson(response.body as Map<String, dynamic>);
@@ -103,7 +104,7 @@ class ApiProvider {
     final response = await (await isDemo ? _jsonLocalProvider.fetchPath(startDate) : _jsonNetworkProvider.fetchPath(vin, startDate, endDate));
 
     if (response.status.hasError) {
-      throw Exception('Failed to load path for $vin: ${response.statusText}');
+      throw Exception('provider_error_path'.trParams({'error': response.statusText ?? ''}));
     }
 
     return Path.fromJson(response.body as Map<String, dynamic>);

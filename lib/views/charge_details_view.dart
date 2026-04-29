@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flussie/misc/constants.dart';
@@ -22,7 +23,7 @@ class ChargeDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Charge details'),
+        title: Text('charge_details_title'.tr),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -109,13 +110,13 @@ class ChargeDetailsView extends StatelessWidget {
                       InfoRow(icon: Battery(level: viewModel.endingBattery, size: _iconSize), title: viewModel.endBatteryDate, text: viewModel.endBatteryLevel),
 
                       SizedBox(height: 16.0),
-                      InfoRow(icon: Icon(Icons.attach_money, size: _iconSize, color: Constants.darkGreyColor), title: "Cost", text: viewModel.cost),
+                      InfoRow(icon: Icon(Icons.attach_money, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_cost'.tr, text: viewModel.cost),
 
                       SizedBox(height: 16.0),
                       GridBuilder(
                         items: [
-                          InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: "Odometer", text: viewModel.odometer),
-                          InfoRow(icon: Icon(Icons.add_road, size: _iconSize, color: Constants.darkGreyColor), title: "Since last charge", text: viewModel.distanceSinceLastCharge),
+                          InfoRow(icon: Icon(Icons.speed, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_odometer'.tr, text: viewModel.odometer),
+                          InfoRow(icon: Icon(Icons.add_road, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_since_last_charge'.tr, text: viewModel.distanceSinceLastCharge),
                         ],
                         rowHeight: _gridRowHeight,
                       ),
@@ -123,13 +124,13 @@ class ChargeDetailsView extends StatelessWidget {
                       SizedBox(height: 16.0),
                       GridBuilder(
                         items: [
-                          InfoRow(icon: Icon(Icons.ev_station, size: _iconSize, color: Constants.darkGreyColor), title: "Energy used", text: viewModel.energyUsed),
-                          InfoRow(icon: UIService().rotatedIcon(Icon(Icons.battery_6_bar, size: _iconSize, color: Constants.darkGreyColor), 90, size: _iconSize), title: "Energy added", text: viewModel.energyAdded),
+                          InfoRow(icon: Icon(Icons.ev_station, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_energy_used'.tr, text: viewModel.energyUsed),
+                          InfoRow(icon: UIService().rotatedIcon(Icon(Icons.battery_6_bar, size: _iconSize, color: Constants.darkGreyColor), 90, size: _iconSize), title: 'charge_energy_added'.tr, text: viewModel.energyAdded),
                         ],
                         rowHeight: _gridRowHeight,
                       ),
 
-                      InfoRow(icon: Icon(Icons.energy_savings_leaf, size: _iconSize, color: Constants.darkGreyColor), title: "Efficiency", text: viewModel.efficiency),
+                      InfoRow(icon: Icon(Icons.energy_savings_leaf, size: _iconSize, color: Constants.darkGreyColor), title: 'charge_efficiency'.tr, text: viewModel.efficiency),
                     ],
                   ),
                 ],

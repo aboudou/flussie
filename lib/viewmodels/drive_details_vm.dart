@@ -42,7 +42,7 @@ class DriveDetailsViewModel {
     } else if (drive.startingLocation != null && drive.startingLocation!.isNotEmpty) {
       startLocation = drive.startingLocation!;
     } else {
-      startLocation = "Unknown location";
+      startLocation = "error_unknown_location".tr;
     }
 
     if (drive.endingSavedLocation != null && drive.endingSavedLocation!.isNotEmpty) {
@@ -50,7 +50,7 @@ class DriveDetailsViewModel {
     } else if (drive.endingLocation != null && drive.endingLocation!.isNotEmpty) {
       endLocation = drive.endingLocation!;
     } else {
-      endLocation = "Unknown location";
+      endLocation = "error_unknown_location".tr;
     }
 
     if (drive.startedAt != null) {

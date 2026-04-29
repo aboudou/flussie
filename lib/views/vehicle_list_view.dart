@@ -46,7 +46,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
         // No token found, show button to set token
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Your vehicules'),
+            title: Text('vehicle_list_title'.tr),
           ),
 
           body: Center(
@@ -54,10 +54,10 @@ class _VehiculeListViewState extends State<VehiculeListView> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
-                  const Text('No Tessie API Token is set.'),
+                  Text('vehicle_list_no_token'.tr),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    child: const Text('Set API token'),
+                    child: Text('vehicle_list_set_token'.tr),
                     onPressed: () {
                       Get.to(() => const TokenSetterView())
                           ?.then((_) => vehicleListViewModel.getToken());
@@ -74,7 +74,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Your vehicules'),
+            title: Text('vehicle_list_title'.tr),
             actions: [
               _logoutIcon(context),
             ],
@@ -95,21 +95,21 @@ class _VehiculeListViewState extends State<VehiculeListView> {
   Widget _logoutIcon(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.logout),
-      tooltip: 'Clear API token',
+      tooltip: 'vehicle_list_clear_token_tooltip'.tr,
       onPressed: () async {
         final confirmed = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Confirm'),
-            content: const Text('Do you want to clear the API token?'),
+            title: Text('confirm'.tr),
+            content: Text('vehicle_list_clear_token_confirm'.tr),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('Cancel'),
+                child: Text('cancel'.tr),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Clear'),
+                child: Text('vehicle_list_clear_token'.tr),
               ),
             ],
           ),
@@ -119,7 +119,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
         vehicleListViewModel.deleteToken();
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('API token cleared')),
+          SnackBar(content: Text('vehicle_list_token_cleared'.tr)),
         );
         setState(() {});
       },
@@ -134,13 +134,13 @@ class _VehiculeListViewState extends State<VehiculeListView> {
           Expanded(
             child: 
               vehicleListViewModel.vehicles.isEmpty
-              ? Text(vehicleListViewModel.errorMessage.isEmpty ? 'No vehicle found.' : vehicleListViewModel.errorMessage.value)
+              ? Text(vehicleListViewModel.errorMessage.isEmpty ? 'vehicle_list_empty'.tr : vehicleListViewModel.errorMessage.value)
               : ListView.builder(
                   itemCount: vehicleListViewModel.vehicles.length,
                   itemBuilder: (context, index) {
                     final vehicle = vehicleListViewModel.vehicles[index].vehicle;
                     final vin = vehicle?.vin ?? '';
-                    final name = vehicle?.displayName ?? 'Unknown Vehicle';
+                    final name = vehicle?.displayName ?? 'vehicle_unknown'.tr;
                     final batteryLevel = vehicle?.chargeState?.batteryLevel;
 
                     vehicleListViewModel.refreshVehicle(vin);

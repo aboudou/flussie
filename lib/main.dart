@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:flussie/misc/messages.dart';
 import 'package:flussie/views/vehicle_list_view.dart';
 
 // Tessie API documentation: https://developer.tessie.com/reference/about
@@ -19,6 +20,9 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
       ),
       home: VehiculeListView(),
+      translations: Messages(),
+      locale: Get.deviceLocale,
+      fallbackLocale: Locale('en', 'US'),
     );
   }
 }

@@ -26,7 +26,7 @@ class VehiculeListViewModel {
       errorMessage.value = '';
     } catch (e) {
       vehicles.clear();
-      errorMessage.value = 'Error loading vehicles: $e';
+      errorMessage.value = 'error_loading_vehicles'.trParams({'error': e.toString()});
     }
   }
 
@@ -40,7 +40,7 @@ class VehiculeListViewModel {
     if (locationObj.address?.isNotEmpty ?? false) {
       location.value = locationObj.address!;
     } else {
-      location.value = 'No address found';
+      location.value = 'error_unknown_location'.tr;
     }
   }
 
@@ -61,13 +61,4 @@ class VehiculeListViewModel {
     token.value = '';
     errorMessage.value = '';
   }
-
-  // Function? addListener(Function() callback) {
-  //   return _storageProvider.addListener(callback);
-  // }
-
-  // void listenToken(Function(dynamic) callback) {
-  //   _storageProvider.listenToken(callback);
-  // }
-
 }
