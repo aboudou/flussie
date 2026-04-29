@@ -24,3 +24,17 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/json/battery_health.json
+    - assets/json/charges_all.json
+    - assets/json/charges_suc_only.json
+    - assets/json/drives.json
+    - assets/json/location.json
+    - assets/json/path_1753682464.json
+    - assets/json/path_1755152200.json
+    - assets/json/path_1755331023.json
+    - assets/json/path_1776870163.json
+    - assets/json/path_1776952931.json
+    - assets/json/vehicle.json
+    - assets/json/vehicles.json
+    - assets/images/map.png

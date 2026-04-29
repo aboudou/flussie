@@ -1,0 +1,15 @@
+{
+  "results": [
+    {
+      "vin": "ANONYMOUS_VIN",
+      "plate": null,
+      "odometer": 104158.32,
+      "max_range": 494.89,
+      "max_ideal_range": 614.78,
+      "capacity": 67.65,
+      "original_capacity": 75.9,
+      "degradation_percent": 10.9,
+      "health_percent": 89.1
+    }
+  ]
+}

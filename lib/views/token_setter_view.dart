@@ -60,6 +60,10 @@ class _TokenSetterViewSfwState extends State<TokenSetterViewSfw> {
               controller: tokenEditingCtrl,
             ),
             Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text("Demo token for offline mode: 'demo'"),
+            ),
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 onPressed: () {
