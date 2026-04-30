@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import 'package:flussie/providers/api/api_provider.dart';
 import 'package:flussie/viewmodels/charge_list_vm.dart';
 import 'package:flussie/viewmodels/drive_list_vm.dart';
 import 'package:flussie/viewmodels/vehicle_details_vm.dart';
@@ -11,16 +12,18 @@ import 'package:flussie/views/drive_list_view.dart';
 import 'package:flussie/views/vehicle_details_view.dart';
 
 class VehicleTabView extends StatelessWidget {
-  const VehicleTabView({super.key, required this.viewModel});
+  const VehicleTabView({super.key, required this.viewModel, required ApiProvider apiProvider})
+      : _apiProvider = apiProvider;
 
   final VehicleTabViewModel viewModel;
+  final ApiProvider _apiProvider;
 
   @override
   Widget build(BuildContext context) {
-    final detailsTab = VehicleDetailsView(viewModel: VehicleDetailsViewModel(vin: viewModel.vin));
-    final chargesTab = ChargeListView(viewModel: ChargeListViewModel(vin: viewModel.vin));
-    final drivesTab = DriveListView(viewModel: DriveListViewModel(vin: viewModel.vin));
-    
+    final detailsTab = VehicleDetailsView(viewModel: VehicleDetailsViewModel(vin: viewModel.vin, apiProvider: _apiProvider));
+    final chargesTab = ChargeListView(viewModel: ChargeListViewModel(vin: viewModel.vin, apiProvider: _apiProvider));
+    final drivesTab = DriveListView(viewModel: DriveListViewModel(vin: viewModel.vin, apiProvider: _apiProvider));
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(

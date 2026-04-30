@@ -7,14 +7,14 @@ import 'package:latlong2/latlong.dart';
 import 'package:flussie/models/battery_health.dart';
 import 'package:flussie/misc/converters.dart';
 import 'package:flussie/models/vehicle.dart';
-import 'package:flussie/providers/api_provider.dart';
+import 'package:flussie/providers/api/api_provider.dart';
 
 class VehicleDetailsViewModel {
-  VehicleDetailsViewModel({required this.vin}) {
+  VehicleDetailsViewModel({required this.vin, required ApiProvider apiProvider}) : _apiProvider = apiProvider {
     refresh();
   }
 
-  final ApiProvider _api = ApiProvider();
+  final ApiProvider _apiProvider;
   final String vin;
 
   Rx<LatLng> coordinates = LatLng(0, 0).obs;
@@ -30,7 +30,7 @@ class VehicleDetailsViewModel {
   RxString batteryDegradation = ''.obs;
 
   void refresh() async {
-    _api.getVehicle(vin).then((value) async {
+    _apiProvider.getVehicle(vin).then((value) async {
       Vehicle vehicle = value;
 
       coordinates.value = LatLng(vehicle.driveState?.latitude ?? 0.0, vehicle.driveState?.longitude ?? 0.0);
@@ -61,7 +61,7 @@ class VehicleDetailsViewModel {
       
       chargePortState.value = vehicle.chargeState?.chargePortDoorOpen == true ? 'vehicle_charge_port_plugged'.tr : 'vehicle_charge_port_unplugged'.tr;
 
-      ApiProvider().getLocation(vin).then((locValue) {
+      _apiProvider.getLocation(vin).then((locValue) {
         location.value = locValue.address ?? 'error_unknown_location'.tr;
       });
 
@@ -69,7 +69,7 @@ class VehicleDetailsViewModel {
       batteryRange.value = Converters.milesToKm(vehicle.chargeState?.batteryRange).round();
       remainingEnergy.value = vehicle.chargeState?.energyRemaining != null ? '${NumberFormat("#,##0.00", locale.toString()).format(vehicle.chargeState?.energyRemaining)} kWh' : 'N/A';
 
-      ApiProvider().getBatteryHealth().then((batteryHealthValue) {
+      _apiProvider.getBatteryHealth().then((batteryHealthValue) {
         final BatteryHealth? batteryHealthResult = batteryHealthValue.results?.firstWhere(
           (element) => element.vin == vin,
         );

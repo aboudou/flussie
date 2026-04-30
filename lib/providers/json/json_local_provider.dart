@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:flussie/providers/json/json_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 
-class JsonLocalProvider extends GetConnect {
+class JsonLocalProvider implements JsonProvider {
   static final JsonLocalProvider _instance = JsonLocalProvider._internal();
 
   JsonLocalProvider._internal();
@@ -13,35 +14,40 @@ class JsonLocalProvider extends GetConnect {
     return _instance;
   }
 
+  @override
   Future<Response> fetchVehicles() async {
     return _response(await rootBundle.loadString('assets/json/vehicles.json'));
   }
 
-  Future<Response> fetchVehicle() async {
+  @override
+  Future<Response> fetchVehicle(String vin) async {
     return _response(await rootBundle.loadString('assets/json/vehicle.json'));
   }
-  //   return get('/$vin/state');
-  // }
 
-  Future<Response> fetchLocation() async {
+  @override
+  Future<Response> fetchLocation(String vin) async {
     return _response(await rootBundle.loadString('assets/json/location.json'));
   }
 
+  @override
   Future<Response> fetchBatteryHealth() async {
     return _response(await rootBundle.loadString('assets/json/battery_health.json'));
   }
 
-  Future<Response> fetchCharges(bool superchargersOnly) async {
+  @override
+  Future<Response> fetchCharges(String vin, bool superchargersOnly, int startDate, int endDate) async {
     return _response(await rootBundle.loadString(superchargersOnly
         ? 'assets/json/charges_suc_only.json'
         : 'assets/json/charges_all.json'));
   }
 
-  Future<Response> fetchDrives() async {
+  @override
+  Future<Response> fetchDrives(String vin, int startDate, int endDate) async {
     return _response(await rootBundle.loadString('assets/json/drives.json'));
   }
 
-  Future<Response> fetchPath(int startDate) async {
+  @override
+  Future<Response> fetchPath(String vin, int startDate, int endDate) async {
     return _response(await rootBundle.loadString('assets/json/path_$startDate.json'));
   }
 

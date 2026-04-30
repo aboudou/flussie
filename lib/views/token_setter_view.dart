@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:flussie/providers/storage/storage_provider.dart';
 import 'package:flussie/viewmodels/token_setter_vm.dart';
 
 class TokenSetterView extends StatelessWidget {
-  const TokenSetterView({super.key});
+  final StorageProvider _storageProvider;
+
+  const TokenSetterView({super.key, required StorageProvider storageProvider})
+      : _storageProvider = storageProvider;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('token_setter_title'.tr)),
       body: Center(
-        child: const TokenSetterViewSfw(),
+        child: TokenSetterViewSfw(storageProvider: _storageProvider),
       )
     );
   }
 }
 
 class TokenSetterViewSfw extends StatefulWidget {
-  const TokenSetterViewSfw({super.key});
+  final StorageProvider _storageProvider;
+
+  const TokenSetterViewSfw({super.key, required StorageProvider storageProvider})
+      : _storageProvider = storageProvider;
 
   @override
   State<TokenSetterViewSfw> createState() => _TokenSetterViewSfwState();
@@ -27,7 +34,15 @@ class TokenSetterViewSfw extends StatefulWidget {
 class _TokenSetterViewSfwState extends State<TokenSetterViewSfw> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final tokenEditingCtrl = TextEditingController();
-  final tokenSetterViewModel = TokenSetterViewModel();
+  late final StorageProvider _storageProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _storageProvider = widget._storageProvider;
+  }
+
+  late final tokenSetterViewModel = TokenSetterViewModel(storageProvider: _storageProvider);
 
   void saveToken() {
     tokenSetterViewModel.saveToken(tokenEditingCtrl.text);

@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flussie/models/drive.dart';
-import 'package:flussie/providers/api_provider.dart';
+import 'package:flussie/providers/api/api_provider.dart';
 import 'package:latlong2/latlong.dart';
 
 class DriveListViewModel {
-    DriveListViewModel({required this.vin}) {
+    DriveListViewModel({required this.vin, required ApiProvider apiProvider}) : _apiProvider = apiProvider {
     initializeDateFormatting();
     refresh();
   }
@@ -18,7 +18,7 @@ class DriveListViewModel {
   static const _dateFormatPreviousYear = 'dd MMM yyyy, HH:mm';
 
   final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
-  final ApiProvider _api = ApiProvider();
+  final ApiProvider _apiProvider;
   final String vin;
 
   late Rx<DriveList> driveList = DriveList(results: []).obs;
@@ -31,7 +31,7 @@ class DriveListViewModel {
   void refresh() {
     errorMessage.value = '';
 
-    _api.getDrives(vin, startDate, endDate).then((value) {
+    _apiProvider.getDrives(vin, startDate, endDate).then((value) {
       driveList.value = value;
     }).catchError((error) {
       errorMessage.value = 'error_loading_drives'.trParams({'error': error.toString()});
@@ -92,7 +92,7 @@ class DriveListViewModel {
   Future<List<LatLng>> getDriveCoordinates(Drive drive) async {
     if (drive.startedAt != null && drive.endedAt != null) { 
       try {
-        final path = await _api.getPath(vin, drive.startedAt!, drive.endedAt!);
+        final path = await _apiProvider.getPath(vin, drive.startedAt!, drive.endedAt!);
         return path.results;
       } catch (error) {
         return <LatLng>[];

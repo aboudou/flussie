@@ -6,10 +6,10 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flussie/enums/charge_type.dart';
 import 'package:flussie/models/charge.dart';
-import 'package:flussie/providers/api_provider.dart';
+import 'package:flussie/providers/api/api_provider.dart';
 
 class ChargeListViewModel {
-    ChargeListViewModel({required this.vin}) {
+    ChargeListViewModel({required this.vin, required ApiProvider apiProvider}) : _apiProvider = apiProvider {
     initializeDateFormatting();
     refresh();
   }
@@ -18,7 +18,7 @@ class ChargeListViewModel {
   static const _dateFormatPreviousYear = 'dd MMM yyyy, HH:mm';
 
   final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
-  final ApiProvider _api = ApiProvider();
+  final ApiProvider _apiProvider;
   final String vin;
 
   late Rx<ChargeList> chargeList = ChargeList(results: []).obs;
@@ -32,7 +32,7 @@ class ChargeListViewModel {
   void refresh() {
     errorMessage.value = '';
 
-    _api.getCharges(vin, superchargersOnly, startDate, endDate).then((value) {
+    _apiProvider.getCharges(vin, superchargersOnly, startDate, endDate).then((value) {
       chargeList.value = value;
     }).catchError((error) {
       errorMessage.value = 'error_loading_charges'.trParams({'error': error.toString()});

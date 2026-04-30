@@ -1,29 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:flussie/providers/api/api_provider.dart';
+import 'package:flussie/providers/storage/storage_provider.dart';
 import 'package:flussie/viewmodels/vehicle_list_vm.dart';
 import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
 import 'package:flussie/views/token_setter_view.dart';
 import 'package:flussie/views/vehicle_tab_view.dart';
 import 'package:flussie/widgets/battery.dart';
 
-class VehiculeListView extends StatefulWidget {
-  const VehiculeListView({super.key});
+class VehicleListView extends StatefulWidget {
+  final ApiProvider _apiProvider;
+  final StorageProvider _storageProvider;
+
+  const VehicleListView({
+    super.key,
+    required ApiProvider apiProvider,
+    required StorageProvider storageProvider,
+  }) : _apiProvider = apiProvider, _storageProvider = storageProvider;
 
   @override
-  State<VehiculeListView> createState() => _VehiculeListViewState();
+  State<VehicleListView> createState() => _VehicleListViewState();
 }
 
-class _VehiculeListViewState extends State<VehiculeListView> {
-  // String _token = '';
-  final VehiculeListViewModel vehicleListViewModel = VehiculeListViewModel();
-  Function? disposeListen;
+class _VehicleListViewState extends State<VehicleListView> {
+  late final ApiProvider _apiProvider;
+  late final StorageProvider _storageProvider;
+  
+  late final VehicleListViewModel vehicleListViewModel = VehicleListViewModel(storageProvider: _storageProvider, apiProvider: _apiProvider);
 
   @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    disposeListen?.call();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _apiProvider = widget._apiProvider;
+    _storageProvider = widget._storageProvider;
   }
 
   void _refreshToken() {
@@ -59,7 +69,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                   ElevatedButton(
                     child: Text('vehicle_list_set_token'.tr),
                     onPressed: () {
-                      Get.to(() => const TokenSetterView())
+                      Get.to(() => TokenSetterView(storageProvider: _storageProvider))
                           ?.then((_) => vehicleListViewModel.getToken());
                     },
                   ),
@@ -69,7 +79,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
           ),
         );
       } else {
-        // Token found, show vehicule list
+        // Token found, show vehicle list
         vehicleListViewModel.refreshVehiclesList();
 
         return Scaffold(
@@ -83,7 +93,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
           body: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: _vehiculeList(context),
+              child: _vehicleList(context),
             ),
           ),
         );
@@ -126,8 +136,8 @@ class _VehiculeListViewState extends State<VehiculeListView> {
     );    
   }
 
-  // Vehicule list
-  Widget _vehiculeList(BuildContext context) {
+  // Vehicle list
+  Widget _vehicleList(BuildContext context) {
     return Column(
       children: [
         Obx(() => 
@@ -156,7 +166,7 @@ class _VehiculeListViewState extends State<VehiculeListView> {
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
-                          Get.to(() => VehicleTabView(viewModel: VehicleTabViewModel(vin: vin, name: name)));
+                          Get.to(() => VehicleTabView(viewModel: VehicleTabViewModel(vin: vin, name: name), apiProvider: _apiProvider));
                         },
                         child: 
                           Padding(

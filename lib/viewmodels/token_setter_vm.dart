@@ -1,7 +1,9 @@
-import 'package:flussie/providers/storage_provider.dart';
+import 'package:flussie/providers/storage/storage_provider.dart';
 
 class TokenSetterViewModel {
-  final StorageProvider _storageProvider = StorageProvider();
+  TokenSetterViewModel({required StorageProvider storageProvider}) : _storageProvider = storageProvider;
+
+  final StorageProvider _storageProvider;
 
   Future<void> saveToken(String token) async {
     await _storageProvider.saveToken(token);

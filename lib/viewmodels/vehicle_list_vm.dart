@@ -4,12 +4,16 @@ import 'package:get/get.dart';
 
 import 'package:flussie/models/location.dart';
 import 'package:flussie/models/vehicles.dart';
-import 'package:flussie/providers/api_provider.dart';
-import 'package:flussie/providers/storage_provider.dart';
+import 'package:flussie/providers/api/api_provider.dart';
+import 'package:flussie/providers/storage/storage_provider.dart';
 
-class VehiculeListViewModel {
-  final StorageProvider _storageProvider = StorageProvider();
-  final ApiProvider _api = ApiProvider();
+class VehicleListViewModel {
+  VehicleListViewModel({required StorageProvider storageProvider, required ApiProvider apiProvider})
+      : _storageProvider = storageProvider,
+        _apiProvider = apiProvider;
+
+  final StorageProvider _storageProvider;
+  final ApiProvider _apiProvider;
 
   // Observables
   RxBool isLoggedIn = false.obs;
@@ -22,7 +26,7 @@ class VehiculeListViewModel {
   // Vehicles management
   void refreshVehiclesList() async {
     try {
-      vehicles.value = await _api.getVehicles() ?? [];
+      vehicles.value = await _apiProvider.getVehicles() ?? [];
       errorMessage.value = '';
     } catch (e) {
       vehicles.clear();
@@ -36,7 +40,7 @@ class VehiculeListViewModel {
   }
 
   void refreshLocation(String vin) async {
-    Location locationObj = await _api.getLocation(vin);
+    Location locationObj = await _apiProvider.getLocation(vin);
     if (locationObj.address?.isNotEmpty ?? false) {
       location.value = locationObj.address!;
     } else {
@@ -45,7 +49,7 @@ class VehiculeListViewModel {
   }
 
   void refreshMapImage(String vin) async {
-    mapImageBytes.value = await _api.getMapImage(vin);
+    mapImageBytes.value = await _apiProvider.getMapImage(vin);
   }
 
   // Token management
