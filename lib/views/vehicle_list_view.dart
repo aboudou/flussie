@@ -65,9 +65,9 @@ class _VehicleListViewState extends State<VehicleListView> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     child: Text('vehicle_list_set_token'.tr),
-                    onPressed: () {
-                      AppRouter.toTokenSetter(_storageProvider)
-                          ?.then((_) => vehicleListViewModel.getToken());
+                    onPressed: () async {
+                      await AppRouter.toTokenSetter(_storageProvider);
+                      await vehicleListViewModel.getToken();
                     },
                   ),
                 ],
