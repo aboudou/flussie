@@ -36,7 +36,7 @@ class DriveDetailsViewModel {
   String averageSpeed = '';
   String maxSpeed = '';
 
-  void _initViewModel() async {
+  void _initViewModel() {
     if (drive.startingSavedLocation != null && drive.startingSavedLocation!.isNotEmpty) {
       startLocation = drive.startingSavedLocation!;
     } else if (drive.startingLocation != null && drive.startingLocation!.isNotEmpty) {

@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:get/get.dart';
 
-import 'package:flussie/models/location.dart';
 import 'package:flussie/models/vehicles.dart';
 import 'package:flussie/providers/api/api_provider.dart';
 import 'package:flussie/providers/storage/storage_provider.dart';
@@ -24,7 +23,7 @@ class VehicleListViewModel {
   RxString errorMessage = ''.obs;
 
   // Vehicles management
-  void refreshVehiclesList() async {
+  Future<void> refreshVehiclesList() async {
     try {
       vehicles.value = await _apiProvider.getVehicles() ?? [];
       errorMessage.value = '';
@@ -34,13 +33,15 @@ class VehicleListViewModel {
     }
   }
 
-  void refreshVehicle(String vin) {
-    refreshLocation(vin);
-    refreshMapImage(vin);
+  Future<void> refreshVehicle(String vin) {
+    return Future.wait([
+      refreshLocation(vin),
+      refreshMapImage(vin),
+    ]);
   }
 
-  void refreshLocation(String vin) async {
-    Location locationObj = await _apiProvider.getLocation(vin);
+  Future<void> refreshLocation(String vin) async {
+    final locationObj = await _apiProvider.getLocation(vin);
     if (locationObj.address?.isNotEmpty ?? false) {
       location.value = locationObj.address!;
     } else {
@@ -48,12 +49,12 @@ class VehicleListViewModel {
     }
   }
 
-  void refreshMapImage(String vin) async {
+  Future<void> refreshMapImage(String vin) async {
     mapImageBytes.value = await _apiProvider.getMapImage(vin);
   }
 
   // Token management
-  void getToken() async {
+  Future<void> getToken() async {
     token.value = await _storageProvider.getToken() ?? '';
     isLoggedIn.value = token.value.isNotEmpty;
   }

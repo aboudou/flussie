@@ -28,14 +28,13 @@ class DriveListViewModel {
 
   RxBool showFilters = false.obs;
 
-  void refresh() {
+  Future<void> refresh() async {
     errorMessage.value = '';
-
-    _apiProvider.getDrives(vin, startDate, endDate).then((value) {
-      driveList.value = value;
-    }).catchError((error) {
+    try {
+      driveList.value = await _apiProvider.getDrives(vin, startDate, endDate);
+    } catch (error) {
       errorMessage.value = 'error_loading_drives'.trParams({'error': error.toString()});
-    });
+    }
   }
 
   String getDriveStartLocation(Drive drive) {

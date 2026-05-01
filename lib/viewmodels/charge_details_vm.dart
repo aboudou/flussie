@@ -40,7 +40,7 @@ class ChargeDetailsViewModel {
 
   String cost = '';
 
-  void _initViewModel() async {
+  void _initViewModel() {
     if (charge.latitude != null && charge.longitude != null) {
       coordinates = LatLng(charge.latitude!, charge.longitude!);
     }

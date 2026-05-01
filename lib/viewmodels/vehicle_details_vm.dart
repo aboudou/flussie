@@ -6,7 +6,6 @@ import 'package:latlong2/latlong.dart';
 
 import 'package:flussie/models/battery_health.dart';
 import 'package:flussie/misc/converters.dart';
-import 'package:flussie/models/vehicle.dart';
 import 'package:flussie/providers/api/api_provider.dart';
 
 class VehicleDetailsViewModel {
@@ -29,19 +28,24 @@ class VehicleDetailsViewModel {
   RxString batteryHealth = ''.obs;
   RxString batteryDegradation = ''.obs;
 
-  void refresh() async {
-    _apiProvider.getVehicle(vin).then((value) async {
-      Vehicle vehicle = value;
+  Future<void> refresh() async {
+    try {
+      final locale = Get.deviceLocale ?? Locale('en', 'US');
+
+      // All three calls are independent — start them in parallel
+      final vehicleFuture = _apiProvider.getVehicle(vin);
+      final locationFuture = _apiProvider.getLocation(vin);
+      final batteryHealthFuture = _apiProvider.getBatteryHealth();
+
+      final vehicle = await vehicleFuture;
 
       coordinates.value = LatLng(vehicle.driveState?.latitude ?? 0.0, vehicle.driveState?.longitude ?? 0.0);
       heading.value = vehicle.driveState?.heading?.toDouble() ?? 0.0;
-      
+
       if (vehicle.chargeState?.chargerActualCurrent != null && vehicle.chargeState?.chargerActualCurrent != 0) {
         state.value = 'vehicle_state_charging'.tr;
-
       } else if (vehicle.driveState?.shiftState != null && vehicle.driveState?.shiftState != "P") {
         state.value = 'vehicle_state_driving'.tr;
-
       } else {
         switch (vehicle.state) {
           case 'asleep':
@@ -55,28 +59,30 @@ class VehicleDetailsViewModel {
         }
       }
 
-      final double odomInKm = Converters.milesToKm(vehicle.vehicleState?.odometer);
-      final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
-      odometer.value = '${NumberFormat("#,##0.0", locale.toString()).format(odomInKm)} km';
-      
-      chargePortState.value = vehicle.chargeState?.chargePortDoorOpen == true ? 'vehicle_charge_port_plugged'.tr : 'vehicle_charge_port_unplugged'.tr;
-
-      _apiProvider.getLocation(vin).then((locValue) {
-        location.value = locValue.address ?? 'error_unknown_location'.tr;
-      });
-
+      odometer.value = '${NumberFormat("#,##0.0", locale.toString()).format(Converters.milesToKm(vehicle.vehicleState?.odometer))} km';
+      chargePortState.value = vehicle.chargeState?.chargePortDoorOpen == true
+          ? 'vehicle_charge_port_plugged'.tr
+          : 'vehicle_charge_port_unplugged'.tr;
       batteryLevel.value = vehicle.chargeState?.batteryLevel ?? 0;
       batteryRange.value = Converters.milesToKm(vehicle.chargeState?.batteryRange).round();
-      remainingEnergy.value = vehicle.chargeState?.energyRemaining != null ? '${NumberFormat("#,##0.00", locale.toString()).format(vehicle.chargeState?.energyRemaining)} kWh' : 'N/A';
+      remainingEnergy.value = vehicle.chargeState?.energyRemaining != null
+          ? '${NumberFormat("#,##0.00", locale.toString()).format(vehicle.chargeState?.energyRemaining)} kWh'
+          : 'N/A';
 
-      _apiProvider.getBatteryHealth().then((batteryHealthValue) {
-        final BatteryHealth? batteryHealthResult = batteryHealthValue.results?.firstWhere(
-          (element) => element.vin == vin,
-        );
-        batteryHealth.value = batteryHealthResult?.healthPercent != null ? '${NumberFormat("#,##0.00", locale.toString()).format(batteryHealthResult?.healthPercent)}%' : 'N/A';
-        batteryDegradation.value = batteryHealthResult?.degradationPercent != null ? '${NumberFormat("#,##0.00", locale.toString()).format(batteryHealthResult?.degradationPercent)}%' : 'N/A';
-      });
-    });
+      final locValue = await locationFuture;
+      location.value = locValue.address ?? 'error_unknown_location'.tr;
+
+      final batteryHealthValue = await batteryHealthFuture;
+      final BatteryHealth? batteryHealthResult = batteryHealthValue.results?.firstWhere(
+        (element) => element.vin == vin,
+      );
+      batteryHealth.value = batteryHealthResult?.healthPercent != null
+          ? '${NumberFormat("#,##0.00", locale.toString()).format(batteryHealthResult?.healthPercent)}%'
+          : 'N/A';
+      batteryDegradation.value = batteryHealthResult?.degradationPercent != null
+          ? '${NumberFormat("#,##0.00", locale.toString()).format(batteryHealthResult?.degradationPercent)}%'
+          : 'N/A';
+    } catch (_) {}
   }
 
   void dispose() {

@@ -29,14 +29,13 @@ class ChargeListViewModel {
 
   RxBool showFilters = false.obs;
 
-  void refresh() {
+  Future<void> refresh() async {
     errorMessage.value = '';
-
-    _apiProvider.getCharges(vin, superchargersOnly, startDate, endDate).then((value) {
-      chargeList.value = value;
-    }).catchError((error) {
+    try {
+      chargeList.value = await _apiProvider.getCharges(vin, superchargersOnly, startDate, endDate);
+    } catch (error) {
       errorMessage.value = 'error_loading_charges'.trParams({'error': error.toString()});
-    });
+    }
   }
 
   ChargeType getStationType(Charge charge) {
