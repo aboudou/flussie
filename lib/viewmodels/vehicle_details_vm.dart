@@ -78,4 +78,18 @@ class VehicleDetailsViewModel {
       });
     });
   }
+
+  void dispose() {
+    coordinates.close();
+    heading.close();
+    state.close();
+    chargePortState.close();
+    location.close();
+    odometer.close();
+    batteryLevel.close();
+    batteryRange.close();
+    remainingEnergy.close();
+    batteryHealth.close();
+    batteryDegradation.close();
+  }
 }

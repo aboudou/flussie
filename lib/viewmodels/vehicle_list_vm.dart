@@ -65,4 +65,13 @@ class VehicleListViewModel {
     token.value = '';
     errorMessage.value = '';
   }
+
+  void dispose() {
+    isLoggedIn.close();
+    token.close();
+    vehicles.close();
+    location.close();
+    mapImageBytes.close();
+    errorMessage.close();
+  }
 }

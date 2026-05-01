@@ -11,7 +11,7 @@ import 'package:flussie/views/charge_list_view.dart';
 import 'package:flussie/views/drive_list_view.dart';
 import 'package:flussie/views/vehicle_details_view.dart';
 
-class VehicleTabView extends StatelessWidget {
+class VehicleTabView extends StatefulWidget {
   const VehicleTabView({super.key, required this.viewModel, required ApiProvider apiProvider})
       : _apiProvider = apiProvider;
 
@@ -19,16 +19,37 @@ class VehicleTabView extends StatelessWidget {
   final ApiProvider _apiProvider;
 
   @override
-  Widget build(BuildContext context) {
-    final detailsTab = VehicleDetailsView(viewModel: VehicleDetailsViewModel(vin: viewModel.vin, apiProvider: _apiProvider));
-    final chargesTab = ChargeListView(viewModel: ChargeListViewModel(vin: viewModel.vin, apiProvider: _apiProvider));
-    final drivesTab = DriveListView(viewModel: DriveListViewModel(vin: viewModel.vin, apiProvider: _apiProvider));
+  State<VehicleTabView> createState() => _VehicleTabViewState();
+}
 
+class _VehicleTabViewState extends State<VehicleTabView> {
+  late final VehicleDetailsViewModel _detailsViewModel;
+  late final ChargeListViewModel _chargesViewModel;
+  late final DriveListViewModel _drivesViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _detailsViewModel = VehicleDetailsViewModel(vin: widget.viewModel.vin, apiProvider: widget._apiProvider);
+    _chargesViewModel = ChargeListViewModel(vin: widget.viewModel.vin, apiProvider: widget._apiProvider);
+    _drivesViewModel = DriveListViewModel(vin: widget.viewModel.vin, apiProvider: widget._apiProvider);
+  }
+
+  @override
+  void dispose() {
+    _detailsViewModel.dispose();
+    _chargesViewModel.dispose();
+    _drivesViewModel.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(viewModel.name),
+          title: Text(widget.viewModel.name),
           actions: [
             Builder(
               builder: (innerContext) => IconButton(
@@ -37,13 +58,13 @@ class VehicleTabView extends StatelessWidget {
                   final int selectedIndex = DefaultTabController.of(innerContext).index;
                   switch (selectedIndex) {
                     case 0:
-                      detailsTab.refresh();
+                      _detailsViewModel.refresh();
                       break;
                     case 1:
-                      chargesTab.refresh();
+                      _chargesViewModel.refresh();
                       break;
                     case 2:
-                      drivesTab.refresh();
+                      _drivesViewModel.refresh();
                       break;
                   }
                 },
@@ -60,9 +81,9 @@ class VehicleTabView extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            detailsTab,
-            chargesTab,
-            drivesTab,
+            VehicleDetailsView(viewModel: _detailsViewModel),
+            ChargeListView(viewModel: _chargesViewModel),
+            DriveListView(viewModel: _drivesViewModel),
           ],
         )
       )

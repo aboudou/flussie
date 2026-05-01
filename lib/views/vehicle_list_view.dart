@@ -44,6 +44,12 @@ class _VehicleListViewState extends State<VehicleListView> {
   }
 
   @override
+  void dispose() {
+    vehicleListViewModel.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Obx(() {
       if (!vehicleListViewModel.isLoggedIn.value) {

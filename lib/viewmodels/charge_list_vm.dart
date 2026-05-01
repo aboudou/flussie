@@ -97,4 +97,9 @@ class ChargeListViewModel {
     ].join(' ');
   }
 
+  void dispose() {
+    chargeList.close();
+    errorMessage.close();
+    showFilters.close();
+  }
 }

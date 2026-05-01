@@ -90,7 +90,7 @@ class DriveListViewModel {
   }
 
   Future<List<LatLng>> getDriveCoordinates(Drive drive) async {
-    if (drive.startedAt != null && drive.endedAt != null) { 
+    if (drive.startedAt != null && drive.endedAt != null) {
       try {
         final path = await _apiProvider.getPath(vin, drive.startedAt!, drive.endedAt!);
         return path.results;
@@ -99,5 +99,11 @@ class DriveListViewModel {
       }
     }
     return [];
+  }
+
+  void dispose() {
+    driveList.close();
+    errorMessage.close();
+    showFilters.close();
   }
 }
