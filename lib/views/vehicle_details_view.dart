@@ -39,7 +39,6 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            // Top map image
             ClipRRect(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20.0),
@@ -55,10 +54,9 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                     initialZoom: 18.0,
                   ),
                   children: [
-                    TileLayer( // Bring your own tiles
+                    TileLayer(
                       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'flussie.app',
-                      // And many more recommended properties!
                     ),
                     RichAttributionWidget(
                       attributions: [
@@ -95,7 +93,6 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 16.0,
                 children: [
-                  // Status section
                   Text(
                     'vehicle_status_section'.tr,
                     style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -117,7 +114,6 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
                   ),
 
 
-                  // Battery section
                   SizedBox(height: 8.0),
                   Text(
                     'vehicle_battery_section'.tr,

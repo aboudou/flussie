@@ -48,7 +48,6 @@ class _ChargeListViewState extends State<ChargeListView> {
                 itemCount: widget.viewModel.chargeList.value.results.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                      // return the header
                       return _filtersPanel();
                   }
                   index -= 1;

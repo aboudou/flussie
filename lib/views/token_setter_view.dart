@@ -51,7 +51,6 @@ class _TokenSetterViewSfwState extends State<TokenSetterViewSfw> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     tokenEditingCtrl.dispose();
     super.dispose();
   }

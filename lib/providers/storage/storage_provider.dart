@@ -23,15 +23,4 @@ class StorageProvider {
     await FlutterKeychain.remove(key: Constants.tokenStorageKey);
   }
 
-  // VoidCallback addListener(Function() callback) {
-  //   return box.listen(() {
-  //     callback();
-  //   });
-  // }
-
-  // void listenToken(Function(dynamic) callback) {
-  //   box.listenKey(Constants.tokenStorageKey, (value) {
-  //     callback(value);
-  //   });
-  // }
 }

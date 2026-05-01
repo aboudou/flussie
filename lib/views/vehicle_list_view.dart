@@ -50,7 +50,6 @@ class _VehicleListViewState extends State<VehicleListView> {
   Widget build(BuildContext context) {
     return Obx(() {
       if (!vehicleListViewModel.isLoggedIn.value) {
-        // No token found, show button to set token
         return Scaffold(
           appBar: AppBar(
             title: Text('vehicle_list_title'.tr),
@@ -95,7 +94,6 @@ class _VehicleListViewState extends State<VehicleListView> {
     });
   }
 
-  // Logout icon button to clear the token
   Widget _logoutIcon(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.logout),
@@ -130,7 +128,6 @@ class _VehicleListViewState extends State<VehicleListView> {
     );    
   }
 
-  // Vehicle list
   Widget _vehicleList(BuildContext context) {
     return Column(
       children: [
@@ -166,8 +163,7 @@ class _VehicleListViewState extends State<VehicleListView> {
                             child: Row(
                               spacing: 8.0,
                               children: [
-                                // Map image
-                                Obx(() => 
+                                Obx(() =>
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.memory(
@@ -187,7 +183,6 @@ class _VehicleListViewState extends State<VehicleListView> {
                                   ),
                                 ),
 
-                                // Name and details
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,7 +200,6 @@ class _VehicleListViewState extends State<VehicleListView> {
                                   ),
                                 ),
 
-                                // Battery level
                                 Column(
                                   children: [
                                     Battery(level: batteryLevel ?? 0),

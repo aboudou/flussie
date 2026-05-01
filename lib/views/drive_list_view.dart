@@ -48,7 +48,6 @@ class _DriveListViewState extends State<DriveListView> {
                 itemCount: widget.viewModel.driveList.value.results.length + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                      // return the header
                       return _filtersPanel();
                   }
                   index -= 1;

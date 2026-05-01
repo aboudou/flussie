@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  // API related constants
   static const String apiBaseUrl = 'https://api.tessie.com';
   static const String tokenStorageKey = 'token';
 
-  // UI related constants
   static const Color batteryGoodColor = Colors.green;
   static const Color batteryWarningColor = Colors.orange;
   static const Color batteryCriticalColor = Colors.red;

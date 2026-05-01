@@ -29,7 +29,6 @@ class ChargeDetailsView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Top map image
             ClipRRect(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20.0),
@@ -45,10 +44,9 @@ class ChargeDetailsView extends StatelessWidget {
                     initialZoom: 18.0,
                   ),
                   children: [
-                    TileLayer( // Bring your own tiles
+                    TileLayer(
                       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'flussie.app',
-                      // And many more recommended properties!
                     ),
                     RichAttributionWidget(
                       attributions: [
