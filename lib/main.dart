@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flussie/misc/messages.dart';
 import 'package:flussie/providers/providers.dart';
@@ -8,6 +9,8 @@ import 'package:flussie/views/vehicle_list_view.dart';
 // Tessie API documentation: https://developer.tessie.com/reference/about
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting();
   runApp(const MainApp());
 }
 

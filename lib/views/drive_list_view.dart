@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import 'package:flussie/misc/app_router.dart';
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/viewmodels/drive_list_vm.dart';
 import 'package:flussie/widgets/battery.dart';
+import 'package:flussie/widgets/filters_panel.dart';
 import 'package:flussie/widgets/info_row.dart';
 
 class DriveListView extends StatefulWidget {
@@ -26,11 +26,6 @@ class _DriveListViewState extends State<DriveListView> {
 
   static const _iconSizeRegular = 25.0;
   static const _iconSizeSmall = 16.0;
-
-  String _formatDate(int epochSeconds) {
-    final dt = DateTime.fromMillisecondsSinceEpoch(epochSeconds * 1000);
-    return DateFormat.yMd(Get.deviceLocale?.toString() ?? 'en_US').format(dt);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,99 +145,13 @@ class _DriveListViewState extends State<DriveListView> {
   }
 
   Widget _filtersPanel() {
-    return Obx(() {
-      if (!widget.viewModel.showFilters.value) {
-
-        return TextButton(
-          onPressed: () {
-            widget.viewModel.showFilters.value = true;
-          },
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            spacing: 4.0,
-            children: [
-              Icon(Icons.filter_list_alt, color: Constants.darkGreyColor, size: 16,),
-              Text('filters'.tr, style: TextStyle(color: Constants.darkGreyColor),),
-            ],
-          ),
-        );
-
-      } else {
-
-        return Column(
-          spacing: 0.0,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('filter_from'.tr),
-                TextButton(
-                  onPressed: () async {
-                    final initial = DateTime.fromMillisecondsSinceEpoch(widget.viewModel.startDate * 1000);
-                    final picked = await showDatePicker(
-                      context: context,
-                      initialDate: initial,
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime.now(),
-                    );
-                    if (picked != null) {
-                      setState(() {
-                        widget.viewModel.startDate = picked.millisecondsSinceEpoch ~/ 1000;
-                      });
-                    }
-                  },
-                  child: Text(_formatDate(widget.viewModel.startDate)),
-                ),
-              ],
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('filter_to'.tr),
-                TextButton(
-                  onPressed: () async {
-                    final initial = DateTime.fromMillisecondsSinceEpoch(  widget.viewModel.endDate * 1000);
-                    final picked = await showDatePicker(
-                      context: context,
-                      initialDate: initial,
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime.now(),
-                    );
-                    if (picked != null) {
-                      setState(() {
-                        widget.viewModel.endDate = picked.millisecondsSinceEpoch ~/ 1000;
-                      });
-                    }
-                  },
-                  child: Text(_formatDate(widget.viewModel.endDate)),
-                ),
-              ],
-            ),
-
-            TextButton(
-              onPressed: () {
-                widget.viewModel.refresh();
-                widget.viewModel.showFilters.value = false;
-              },
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: 4.0,
-                children: [
-                  Icon(Icons.done, color: Constants.darkGreyColor, size: 16,),
-                  Text('filter_apply'.tr, style: TextStyle(color: Constants.darkGreyColor),),
-                ],
-              ),
-            )
-          ],
-        );
-      }
-    });
+    return FiltersPanel(
+      showFilters: widget.viewModel.showFilters,
+      startDate: widget.viewModel.startDate,
+      endDate: widget.viewModel.endDate,
+      onStartDateChanged: (v) => setState(() => widget.viewModel.startDate = v),
+      onEndDateChanged: (v) => setState(() => widget.viewModel.endDate = v),
+      onApply: widget.viewModel.refresh,
+    );
   }
 }

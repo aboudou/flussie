@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flussie/misc/converters.dart';
 import 'package:flussie/models/drive.dart';
@@ -10,13 +9,9 @@ import 'package:flussie/providers/api/api_provider.dart';
 import 'package:latlong2/latlong.dart';
 
 class DriveListViewModel {
-    DriveListViewModel({required this.vin, required ApiProvider apiProvider}) : _apiProvider = apiProvider {
-    initializeDateFormatting();
+  DriveListViewModel({required this.vin, required ApiProvider apiProvider}) : _apiProvider = apiProvider {
     refresh();
   }
-
-  static const _dateFormatCurrentYear = 'EEE dd MMM, HH:mm';
-  static const _dateFormatPreviousYear = 'dd MMM yyyy, HH:mm';
 
   final Locale locale = Converters.deviceLocale;
   final ApiProvider _apiProvider;
@@ -55,21 +50,17 @@ class DriveListViewModel {
   }
 
   String getStartDate(Drive drive) {
-    final startDate = DateTime.fromMillisecondsSinceEpoch((drive.startedAt ?? 0) * 1000);
-    if (startDate.year == DateTime.now().year) {
-      return DateFormat(_dateFormatCurrentYear, locale.toString()).format(startDate);
-    } else {
-      return DateFormat(_dateFormatPreviousYear, locale.toString()).format(startDate);
-    }
+    return Converters.formatDate(
+      DateTime.fromMillisecondsSinceEpoch((drive.startedAt ?? 0) * 1000),
+      locale,
+    );
   }
 
   String getEndDate(Drive drive) {
-    final endDate = DateTime.fromMillisecondsSinceEpoch((drive.endedAt ?? 0) * 1000);
-    if (endDate.year == DateTime.now().year) {
-      return DateFormat(_dateFormatCurrentYear, locale.toString()).format(endDate);
-    } else {
-      return DateFormat(_dateFormatPreviousYear, locale.toString()).format(endDate);
-    }
+    return Converters.formatDate(
+      DateTime.fromMillisecondsSinceEpoch((drive.endedAt ?? 0) * 1000),
+      locale,
+    );
   }
 
   String getDriveDuration(Drive drive) {

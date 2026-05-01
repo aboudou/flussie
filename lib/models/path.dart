@@ -18,9 +18,15 @@ class Path {
       results: list
           .whereType<String>()
           .map((e) {
-            final parts = e.split(',');
-            return LatLng(double.parse(parts[0]), double.parse(parts[1]));
+            try {
+              final parts = e.split(',');
+              if (parts.length < 2) return null;
+              return LatLng(double.parse(parts[0].trim()), double.parse(parts[1].trim()));
+            } catch (_) {
+              return null;
+            }
           })
+          .whereType<LatLng>()
           .toList(),
     );
   }

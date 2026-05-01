@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:get/get.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -11,7 +10,6 @@ import 'package:flussie/models/charge.dart';
 
 class ChargeDetailsViewModel {
   ChargeDetailsViewModel({required this.charge}) {
-    initializeDateFormatting();
     _initViewModel();
   }
 
@@ -59,17 +57,19 @@ class ChargeDetailsViewModel {
     startingBattery = charge.startingBattery ?? 0;
     startBatteryLevel = '$startingBattery%';
     if (charge.startedAt != null) {
-      final DateTime startDateTime = DateTime.fromMillisecondsSinceEpoch(charge.startedAt! * 1000);
-      final String dateFormat = startDateTime.year == DateTime.now().year ? 'EEE dd MMM, HH:mm' : 'dd MMM yyyy, HH:mm';
-      startBatteryDate = DateFormat(dateFormat, locale.toString()).format(startDateTime);
+      startBatteryDate = Converters.formatDate(
+        DateTime.fromMillisecondsSinceEpoch(charge.startedAt! * 1000),
+        locale,
+      );
     }
 
     endingBattery = charge.endingBattery ?? 0;
     endBatteryLevel = '$endingBattery%';
     if (charge.endedAt != null) {
-      final DateTime endDateTime = DateTime.fromMillisecondsSinceEpoch(charge.endedAt! * 1000);
-      final String dateFormat = endDateTime.year == DateTime.now().year ? 'EEE dd MMM, HH:mm' : 'dd MMM yyyy, HH:mm';
-      endBatteryDate = DateFormat(dateFormat, locale.toString()).format(endDateTime);
+      endBatteryDate = Converters.formatDate(
+        DateTime.fromMillisecondsSinceEpoch(charge.endedAt! * 1000),
+        locale,
+      );
     }
 
     odometer = _distanceFormatter(charge.odometer);

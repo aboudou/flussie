@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:flussie/misc/converters.dart';
@@ -8,7 +6,6 @@ import 'package:flussie/models/drive.dart';
 
 class DriveDetailsViewModel {
   DriveDetailsViewModel({required this.drive, required this.vin, required this.coordinates}) {
-    initializeDateFormatting();
     _initViewModel();
   }
 
@@ -53,12 +50,16 @@ class DriveDetailsViewModel {
     }
 
     if (drive.startedAt != null) {
-      final startDate = DateTime.fromMillisecondsSinceEpoch(drive.startedAt! * 1000);
-      startDriveDate = DateFormat('EEE dd MMM yyyy, HH:mm', locale.toString()).format(startDate);
+      startDriveDate = Converters.formatFullDate(
+        DateTime.fromMillisecondsSinceEpoch(drive.startedAt! * 1000),
+        locale,
+      );
     }
     if (drive.endedAt != null) {
-      final endDate = DateTime.fromMillisecondsSinceEpoch(drive.endedAt! * 1000);
-      endDriveDate = DateFormat('EEE dd MMM yyyy, HH:mm', locale.toString()).format(endDate);
+      endDriveDate = Converters.formatFullDate(
+        DateTime.fromMillisecondsSinceEpoch(drive.endedAt! * 1000),
+        locale,
+      );
     }
 
     startBatteryLevel = '${drive.startingBattery ?? 0}%';
