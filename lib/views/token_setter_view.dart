@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:flussie/misc/app_router.dart';
 import 'package:flussie/providers/storage/storage_provider.dart';
 import 'package:flussie/viewmodels/token_setter_vm.dart';
 
@@ -84,7 +85,7 @@ class _TokenSetterViewSfwState extends State<TokenSetterViewSfw> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     saveToken();
-                    Get.back();
+                    AppRouter.back();
                   }
                 },
                 child: Text('token_setter_submit'.tr),

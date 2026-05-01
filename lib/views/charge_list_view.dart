@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import 'package:flussie/misc/app_router.dart';
 import 'package:flussie/misc/constants.dart';
 import 'package:flussie/services/ui_service.dart';
-import 'package:flussie/viewmodels/charge_details_vm.dart';
 import 'package:flussie/viewmodels/charge_list_vm.dart';
-import 'package:flussie/views/charge_details_view.dart';
 import 'package:flussie/widgets/battery.dart';
 
 class ChargeListView extends StatefulWidget {
@@ -71,7 +70,7 @@ class _ChargeListViewState extends State<ChargeListView> {
                     child: InkWell(
                       splashColor: Colors.blue.withAlpha(30),
                       onTap: () {
-                        Get.to(() => ChargeDetailsView(viewModel: ChargeDetailsViewModel(charge: charge)));
+                        AppRouter.toChargeDetails(charge);
                       },
                       child: 
                         Padding(

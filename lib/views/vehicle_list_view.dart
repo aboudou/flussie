@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:flussie/misc/app_router.dart';
 import 'package:flussie/providers/api/api_provider.dart';
 import 'package:flussie/providers/storage/storage_provider.dart';
 import 'package:flussie/viewmodels/vehicle_list_vm.dart';
-import 'package:flussie/viewmodels/vehicle_tab_view_vm.dart';
-import 'package:flussie/views/token_setter_view.dart';
-import 'package:flussie/views/vehicle_tab_view.dart';
 import 'package:flussie/widgets/battery.dart';
 
 class VehicleListView extends StatefulWidget {
@@ -69,7 +67,7 @@ class _VehicleListViewState extends State<VehicleListView> {
                   ElevatedButton(
                     child: Text('vehicle_list_set_token'.tr),
                     onPressed: () {
-                      Get.to(() => TokenSetterView(storageProvider: _storageProvider))
+                      AppRouter.toTokenSetter(_storageProvider)
                           ?.then((_) => vehicleListViewModel.getToken());
                     },
                   ),
@@ -166,7 +164,7 @@ class _VehicleListViewState extends State<VehicleListView> {
                       child: InkWell(
                         splashColor: Colors.blue.withAlpha(30),
                         onTap: () {
-                          Get.to(() => VehicleTabView(viewModel: VehicleTabViewModel(vin: vin, name: name), apiProvider: _apiProvider));
+                          AppRouter.toVehicleTab(vin: vin, name: name, apiProvider: _apiProvider);
                         },
                         child: 
                           Padding(
