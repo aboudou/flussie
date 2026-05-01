@@ -26,23 +26,22 @@ class _VehicleListViewState extends State<VehicleListView> {
   late final StorageProvider _storageProvider;
   
   late final VehicleListViewModel vehicleListViewModel = VehicleListViewModel(storageProvider: _storageProvider, apiProvider: _apiProvider);
+  late final Worker _loginWorker;
 
   @override
   void initState() {
     super.initState();
     _apiProvider = widget._apiProvider;
     _storageProvider = widget._storageProvider;
-    _refreshToken();
-  }
-
-  void _refreshToken() {
-    setState(() {
-      vehicleListViewModel.getToken();
+    _loginWorker = ever(vehicleListViewModel.isLoggedIn, (bool loggedIn) {
+      if (loggedIn) vehicleListViewModel.refreshVehiclesList();
     });
+    vehicleListViewModel.getToken();
   }
 
   @override
   void dispose() {
+    _loginWorker.dispose();
     vehicleListViewModel.dispose();
     super.dispose();
   }
@@ -77,9 +76,6 @@ class _VehicleListViewState extends State<VehicleListView> {
           ),
         );
       } else {
-        // Token found, show vehicle list
-        vehicleListViewModel.refreshVehiclesList();
-
         return Scaffold(
           appBar: AppBar(
             title: Text('vehicle_list_title'.tr),
