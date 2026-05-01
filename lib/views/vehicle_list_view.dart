@@ -34,6 +34,7 @@ class _VehicleListViewState extends State<VehicleListView> {
     super.initState();
     _apiProvider = widget._apiProvider;
     _storageProvider = widget._storageProvider;
+    _refreshToken();
   }
 
   void _refreshToken() {
@@ -44,13 +45,6 @@ class _VehicleListViewState extends State<VehicleListView> {
 
   @override
   Widget build(BuildContext context) {
-    // Token listener
-    // disposeListen = vehicleListViewModel.addListener((){ });
-    // vehicleListViewModel.listenToken((value){
-    //   _refreshToken(); 
-    // });
-    _refreshToken();
-
     return Obx(() {
       if (!vehicleListViewModel.isLoggedIn.value) {
         // No token found, show button to set token
