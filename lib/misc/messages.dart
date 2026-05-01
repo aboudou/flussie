@@ -7,6 +7,7 @@ class Messages extends Translations {
       'app_title': 'Flussie',
 
       'error_loading_vehicles': 'Error loading vehicles: @error',
+      'error_loading_vehicle': 'Error loading vehicle: @error',
       'error_loading_charges': 'Error loading charges: @error',
       'error_loading_drives': 'Error loading drives: @error',
 
@@ -95,6 +96,7 @@ class Messages extends Translations {
       'app_title': 'Flussie',
 
       'error_loading_vehicles': 'Erreur lors du chargement des véhicules : @error',
+      'error_loading_vehicle': 'Erreur lors du chargement du véhicule : @error',
       'error_loading_charges': 'Erreur lors du chargement des recharges : @error',
       'error_loading_drives': 'Erreur lors du chargement des trajets : @error',
 

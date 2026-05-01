@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
@@ -27,10 +25,12 @@ class VehicleDetailsViewModel {
   RxString remainingEnergy = ''.obs;
   RxString batteryHealth = ''.obs;
   RxString batteryDegradation = ''.obs;
+  RxString errorMessage = ''.obs;
 
   Future<void> refresh() async {
+    errorMessage.value = '';
     try {
-      final locale = Get.deviceLocale ?? Locale('en', 'US');
+      final locale = Converters.deviceLocale;
 
       // All three calls are independent — start them in parallel
       final vehicleFuture = _apiProvider.getVehicle(vin);
@@ -82,7 +82,9 @@ class VehicleDetailsViewModel {
       batteryDegradation.value = batteryHealthResult?.degradationPercent != null
           ? '${NumberFormat("#,##0.00", locale.toString()).format(batteryHealthResult?.degradationPercent)}%'
           : 'N/A';
-    } catch (_) {}
+    } catch (e) {
+      errorMessage.value = 'error_loading_vehicle'.trParams({'error': e.toString()});
+    }
   }
 
   void dispose() {
@@ -97,5 +99,6 @@ class VehicleDetailsViewModel {
     remainingEnergy.close();
     batteryHealth.close();
     batteryDegradation.close();
+    errorMessage.close();
   }
 }

@@ -28,6 +28,13 @@ class _VehicleDetailsViewState extends State<VehicleDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      if (widget.viewModel.errorMessage.value.isNotEmpty) {
+        return Center(child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(widget.viewModel.errorMessage.value),
+        ));
+      }
+
       return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(

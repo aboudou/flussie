@@ -27,6 +27,9 @@ class VehicleListViewModel {
     try {
       vehicles.value = await _apiProvider.getVehicles() ?? [];
       errorMessage.value = '';
+      for (final item in vehicles) {
+        if (item.vin != null) refreshVehicle(item.vin!);
+      }
     } catch (e) {
       vehicles.clear();
       errorMessage.value = 'error_loading_vehicles'.trParams({'error': e.toString()});

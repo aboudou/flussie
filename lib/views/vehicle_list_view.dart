@@ -147,8 +147,6 @@ class _VehicleListViewState extends State<VehicleListView> {
                     final name = vehicle?.displayName ?? 'vehicle_unknown'.tr;
                     final batteryLevel = vehicle?.chargeState?.batteryLevel;
 
-                    vehicleListViewModel.refreshVehicle(vin);
-
                     return Card(
                       elevation: 4.0,
                       margin: const EdgeInsets.symmetric(vertical: 8.0),

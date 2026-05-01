@@ -77,6 +77,8 @@ void main() {
         const VehicleListItem(vin: 'VIN2'),
       ];
       when(() => mockApi.getVehicles()).thenAnswer((_) async => items);
+      when(() => mockApi.getLocation(any())).thenAnswer((_) async => Location(address: 'Paris'));
+      when(() => mockApi.getMapImage(any())).thenAnswer((_) async => Uint8List(0));
 
       await vm.refreshVehiclesList();
 

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'package:flussie/misc/converters.dart';
 import 'package:flussie/models/drive.dart';
 import 'package:flussie/providers/api/api_provider.dart';
 import 'package:latlong2/latlong.dart';
@@ -17,7 +18,7 @@ class DriveListViewModel {
   static const _dateFormatCurrentYear = 'EEE dd MMM, HH:mm';
   static const _dateFormatPreviousYear = 'dd MMM yyyy, HH:mm';
 
-  final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
+  final Locale locale = Converters.deviceLocale;
   final ApiProvider _apiProvider;
   final String vin;
 

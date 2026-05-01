@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:flussie/enums/charge_type.dart';
+import 'package:flussie/misc/converters.dart';
 import 'package:flussie/models/charge.dart';
 
 class ChargeDetailsViewModel {
@@ -15,8 +16,8 @@ class ChargeDetailsViewModel {
   }
 
   final Charge charge;
-  
-  final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
+
+  final Locale locale = Converters.deviceLocale;
 
   LatLng coordinates = LatLng(0, 0);
   ChargeType stationType = ChargeType.standardCharger;
@@ -59,7 +60,6 @@ class ChargeDetailsViewModel {
     startBatteryLevel = '$startingBattery%';
     if (charge.startedAt != null) {
       final DateTime startDateTime = DateTime.fromMillisecondsSinceEpoch(charge.startedAt! * 1000);
-      final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
       final String dateFormat = startDateTime.year == DateTime.now().year ? 'EEE dd MMM, HH:mm' : 'dd MMM yyyy, HH:mm';
       startBatteryDate = DateFormat(dateFormat, locale.toString()).format(startDateTime);
     }
@@ -68,7 +68,6 @@ class ChargeDetailsViewModel {
     endBatteryLevel = '$endingBattery%';
     if (charge.endedAt != null) {
       final DateTime endDateTime = DateTime.fromMillisecondsSinceEpoch(charge.endedAt! * 1000);
-      final Locale locale = Get.deviceLocale ?? Locale('en', 'US');
       final String dateFormat = endDateTime.year == DateTime.now().year ? 'EEE dd MMM, HH:mm' : 'dd MMM yyyy, HH:mm';
       endBatteryDate = DateFormat(dateFormat, locale.toString()).format(endDateTime);
     }
